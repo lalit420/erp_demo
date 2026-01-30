@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <span class="nav-icon">📁</span>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="clients.html" class="nav-link">
+              <span class="nav-icon">👥</span>
+              <span>Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="vendors.html" class="nav-link">
+              <span class="nav-icon">🏪</span>
+              <span>Vendors</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="procurement.html" class="nav-link">
+              <span class="nav-icon">🛒</span>
+              <span>Procurement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inventory.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="labour.html" class="nav-link">
+              <span class="nav-icon">👷</span>
+              <span>Labour</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="equipment.html" class="nav-link">
+              <span class="nav-icon">🚜</span>
+              <span>Equipment</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="finance.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Finance</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <span class="nav-icon">📈</span>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link active">
+              <span class="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Settings</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Settings</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search settings...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">5</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JD</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <div class="grid grid-2" style="gap: 24px; align-items: start;">
+          <!-- Settings Menu -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Settings Menu</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; padding: 0 24px 24px;">
+              <button class="btn btn-secondary" onclick="showSettingsSection('company')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🏢</span> Company Settings
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('users')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>👥</span> User Management
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('roles')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🔐</span> Roles & Permissions
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('notifications')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🔔</span> Notification Preferences
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('integrations')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🔗</span> Integration Settings
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('security')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🛡️</span> Security Settings
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('backup')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>💾</span> Backup & Restore
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('customization')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>🎨</span> Customization
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('email')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>📧</span> Email Configuration
+              </button>
+              <button class="btn btn-secondary" onclick="showSettingsSection('tax')" style="justify-content: flex-start; width: 100%; text-align: left;">
+                <span>💰</span> Tax & GST Settings
+              </button>
+            </div>
+          </div>
+
+          <!-- Settings Content -->
+          <div>
+            <!-- Company Settings -->
+            <div id="company" class="settings-section card">
+              <div class="card-header">
+                <h3 class="card-title">Company Settings</h3>
+                <button class="btn btn-primary">Save Changes</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <div class="form-group">
+                  <label class="form-label">Company Name</label>
+                  <input type="text" class="form-input" value="BuildPro Construction Pvt Ltd" placeholder="Enter company name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Company Logo</label>
+                  <input type="file" class="form-input" accept="image/*">
+                  <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Recommended size: 200x200px, Max: 2MB</div>
+                </div>
+                <div class="grid grid-2" style="gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">GST Number</label>
+                    <input type="text" class="form-input" value="29ABCDE1234F1Z5" placeholder="Enter GST number">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">PAN Number</label>
+                    <input type="text" class="form-input" value="ABCDE1234F" placeholder="Enter PAN number">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Address</label>
+                  <textarea class="form-textarea" placeholder="Enter company address">Sector 62, Noida, Uttar Pradesh - 201301, India</textarea>
+                </div>
+                <div class="grid grid-2" style="gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-input" value="+91 9876543210" placeholder="Enter phone number">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" value="info@buildpro.com" placeholder="Enter email">
+                  </div>
+                </div>
+                <div class="grid grid-2" style="gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">Financial Year Start</label>
+                    <select class="form-select">
+                      <option>April</option>
+                      <option>January</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Currency</label>
+                    <select class="form-select">
+                      <option>INR (₹)</option>
+                      <option>USD ($)</option>
+                      <option>EUR (€)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- User Management -->
+            <div id="users" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">User Management</h3>
+                <button class="btn btn-primary">+ Add User</button>
+              </div>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Status</th>
+                      <th>Last Login</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #3b82f6; width: 36px; height: 36px;">JD</div>
+                          <strong>John Doe</strong>
+                        </div>
+                      </td>
+                      <td>john.doe@buildpro.com</td>
+                      <td><span class="badge badge-danger">Administrator</span></td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 30, 2026 10:30 AM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #10b981; width: 36px; height: 36px;">JS</div>
+                          <strong>Jane Smith</strong>
+                        </div>
+                      </td>
+                      <td>jane.smith@buildpro.com</td>
+                      <td><span class="badge badge-info">Project Manager</span></td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 30, 2026 9:15 AM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #f59e0b; width: 36px; height: 36px;">MJ</div>
+                          <strong>Mike Johnson</strong>
+                        </div>
+                      </td>
+                      <td>mike.johnson@buildpro.com</td>
+                      <td><span class="badge badge-warning">Procurement Manager</span></td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 29, 2026 5:45 PM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #8b5cf6; width: 36px; height: 36px;">SW</div>
+                          <strong>Sarah Williams</strong>
+                        </div>
+                      </td>
+                      <td>sarah.williams@buildpro.com</td>
+                      <td><span class="badge badge-success">Finance Manager</span></td>
+                      <td><span class="badge badge-warning">Inactive</span></td>
+                      <td>Jan 25, 2026 2:20 PM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🔓</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Roles & Permissions -->
+            <div id="roles" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Roles & Permissions</h3>
+                <button class="btn btn-primary">+ Create Role</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <div style="margin-bottom: 24px;">
+                  <h4 style="margin-bottom: 12px;">Administrator</h4>
+                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked disabled>
+                      <span>Full System Access</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked disabled>
+                      <span>User Management</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked disabled>
+                      <span>System Settings</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                  <h4 style="margin-bottom: 12px;">Project Manager</h4>
+                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>View Projects</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Create Projects</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Edit Projects</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>View Reports</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Manage Labour</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox">
+                      <span>Delete Projects</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                  <h4 style="margin-bottom: 12px;">Procurement Manager</h4>
+                  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>View Vendors</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Create RFQs</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Create POs</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Approve POs</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox" checked>
+                      <span>Manage Inventory</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px;">
+                      <input type="checkbox">
+                      <span>Financial Access</span>
+                    </label>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary">Save Permissions</button>
+              </div>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div id="notifications" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Notification Preferences</h3>
+                <button class="btn btn-primary">Save Preferences</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">Email Notifications</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Project Updates</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Receive notifications when project status changes</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Payment Reminders</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Get notified about pending payments and invoices</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>RFQ Responses</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Alert when vendors respond to RFQs</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Low Stock Alerts</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Notify when inventory falls below minimum levels</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Safety Incidents</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Immediate alerts for safety-related incidents</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">In-App Notifications</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Task Assignments</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">When you are assigned to a new task</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Approval Requests</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">When your approval is needed</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>System Updates</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Notifications about system maintenance and updates</div>
+                    </div>
+                    <input type="checkbox" style="width: 20px; height: 20px;">
+                  </label>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">SMS Notifications</h4>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <label style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                    <div>
+                      <strong>Critical Alerts Only</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Receive SMS for urgent matters only</div>
+                    </div>
+                    <input type="checkbox" checked style="width: 20px; height: 20px;">
+                  </label>
+                  <div class="form-group">
+                    <label class="form-label">SMS Phone Number</label>
+                    <input type="tel" class="form-input" value="+91 9876543210" placeholder="Enter phone number">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Integration Settings -->
+            <div id="integrations" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Integration Settings</h3>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                  <!-- Integration 1 -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <div style="width: 50px; height: 50px; background: #0078d4; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        📧
+                      </div>
+                      <div>
+                        <strong>Microsoft Outlook</strong>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Sync emails and calendar events</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                      <span class="badge badge-success">Connected</span>
+                      <button class="btn btn-secondary">Configure</button>
+                      <button class="btn btn-danger">Disconnect</button>
+                    </div>
+                  </div>
+
+                  <!-- Integration 2 -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <div style="width: 50px; height: 50px; background: #00a82d; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        📊
+                      </div>
+                      <div>
+                        <strong>QuickBooks</strong>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Accounting and financial integration</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                      <span class="badge badge-secondary">Not Connected</span>
+                      <button class="btn btn-primary">Connect</button>
+                    </div>
+                  </div>
+
+                  <!-- Integration 3 -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <div style="width: 50px; height: 50px; background: #ea4335; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        📅
+                      </div>
+                      <div>
+                        <strong>Google Calendar</strong>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Sync project schedules and meetings</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                      <span class="badge badge-success">Connected</span>
+                      <button class="btn btn-secondary">Configure</button>
+                      <button class="btn btn-danger">Disconnect</button>
+                    </div>
+                  </div>
+
+                  <!-- Integration 4 -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <div style="width: 50px; height: 50px; background: #5865f2; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        💬
+                      </div>
+                      <div>
+                        <strong>Slack</strong>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Team communication and notifications</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                      <span class="badge badge-secondary">Not Connected</span>
+                      <button class="btn btn-primary">Connect</button>
+                    </div>
+                  </div>
+
+                  <!-- Integration 5 -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <div style="width: 50px; height: 50px; background: #000000; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+                        💳
+                      </div>
+                      <div>
+                        <strong>Payment Gateway</strong>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Razorpay, Stripe integration for payments</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                      <span class="badge badge-success">Connected</span>
+                      <button class="btn btn-secondary">Configure</button>
+                      <button class="btn btn-danger">Disconnect</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div id="security" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Security Settings</h3>
+                <button class="btn btn-primary">Save Changes</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">Password Policy</h4>
+                <div style="margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Require minimum 8 characters</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Require at least one uppercase letter</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Require at least one number</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox">
+                    <span>Require at least one special character</span>
+                  </label>
+                  <div class="form-group">
+                    <label class="form-label">Password Expiry (days)</label>
+                    <input type="number" class="form-input" value="90" placeholder="Enter days">
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Two-Factor Authentication</h4>
+                <div style="margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Enable 2FA for all users</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox">
+                    <span>Require 2FA for administrators only</span>
+                  </label>
+                  <div class="form-group">
+                    <label class="form-label">2FA Method</label>
+                    <select class="form-select">
+                      <option>SMS</option>
+                      <option>Email</option>
+                      <option>Authenticator App</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Session Management</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="form-group">
+                    <label class="form-label">Session Timeout (minutes)</label>
+                    <input type="number" class="form-input" value="30" placeholder="Enter minutes">
+                  </div>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Logout on browser close</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox">
+                    <span>Allow multiple concurrent sessions</span>
+                  </label>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">IP Whitelisting</h4>
+                <div>
+                  <div class="form-group">
+                    <label class="form-label">Allowed IP Addresses</label>
+                    <textarea class="form-textarea" placeholder="Enter IP addresses (one per line)">192.168.1.1
+10.0.0.1</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Backup & Restore -->
+            <div id="backup" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Backup & Restore</h3>
+                <button class="btn btn-primary">Create Backup Now</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">Automatic Backup Settings</h4>
+                <div style="margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Enable automatic backups</span>
+                  </label>
+                  <div class="grid grid-2" style="gap: 16px;">
+                    <div class="form-group">
+                      <label class="form-label">Backup Frequency</label>
+                      <select class="form-select">
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Backup Time</label>
+                      <input type="time" class="form-input" value="02:00">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Retention Period (days)</label>
+                    <input type="number" class="form-input" value="30" placeholder="Enter days">
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Recent Backups</h4>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Backup Date</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Jan 30, 2026 02:00 AM</td>
+                        <td><span class="badge badge-info">Automatic</span></td>
+                        <td>2.5 GB</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                        <td>
+                          <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Restore</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Jan 29, 2026 02:00 AM</td>
+                        <td><span class="badge badge-info">Automatic</span></td>
+                        <td>2.4 GB</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                        <td>
+                          <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Restore</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Jan 28, 2026 02:00 AM</td>
+                        <td><span class="badge badge-info">Automatic</span></td>
+                        <td>2.3 GB</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                        <td>
+                          <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Restore</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Customization -->
+            <div id="customization" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Customization</h3>
+                <button class="btn btn-primary">Save Changes</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">Theme Settings</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="form-group">
+                    <label class="form-label">Theme</label>
+                    <select class="form-select">
+                      <option>Light Mode</option>
+                      <option>Dark Mode</option>
+                      <option>Auto (System)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Color</label>
+                    <input type="color" class="form-input" value="#2563eb" style="height: 50px;">
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Date & Time Format</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="grid grid-2" style="gap: 16px;">
+                    <div class="form-group">
+                      <label class="form-label">Date Format</label>
+                      <select class="form-select">
+                        <option>DD/MM/YYYY</option>
+                        <option>MM/DD/YYYY</option>
+                        <option>YYYY-MM-DD</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Time Format</label>
+                      <select class="form-select">
+                        <option>12 Hour (AM/PM)</option>
+                        <option>24 Hour</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Timezone</label>
+                    <select class="form-select">
+                      <option>Asia/Kolkata (IST)</option>
+                      <option>America/New_York (EST)</option>
+                      <option>Europe/London (GMT)</option>
+                      <option>Asia/Dubai (GST)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Language & Localization</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select class="form-select">
+                      <option>English</option>
+                      <option>Hindi</option>
+                      <option>Spanish</option>
+                      <option>French</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Number Format</label>
+                    <select class="form-select">
+                      <option>1,234,567.89 (Indian)</option>
+                      <option>1.234.567,89 (European)</option>
+                      <option>1 234 567.89 (French)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Dashboard Layout</h4>
+                <div>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Show quick stats on dashboard</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Show recent activities</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Show charts and graphs</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Email Configuration -->
+            <div id="email" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Email Configuration</h3>
+                <button class="btn btn-primary">Save & Test</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">SMTP Settings</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="form-group">
+                    <label class="form-label">SMTP Host</label>
+                    <input type="text" class="form-input" value="smtp.gmail.com" placeholder="e.g., smtp.gmail.com">
+                  </div>
+                  <div class="grid grid-2" style="gap: 16px;">
+                    <div class="form-group">
+                      <label class="form-label">SMTP Port</label>
+                      <input type="number" class="form-input" value="587" placeholder="e.g., 587">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Encryption</label>
+                      <select class="form-select">
+                        <option>TLS</option>
+                        <option>SSL</option>
+                        <option>None</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" value="noreply@buildpro.com" placeholder="SMTP username">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" value="••••••••" placeholder="SMTP password">
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Email Templates</h4>
+                <div style="margin-bottom: 24px;">
+                  <div class="form-group">
+                    <label class="form-label">From Name</label>
+                    <input type="text" class="form-input" value="BuildPro Construction" placeholder="Sender name">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">From Email</label>
+                    <input type="email" class="form-input" value="noreply@buildpro.com" placeholder="Sender email">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Reply-To Email</label>
+                    <input type="email" class="form-input" value="support@buildpro.com" placeholder="Reply email">
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Email Signature</h4>
+                <div>
+                  <textarea class="form-textarea" rows="6" placeholder="Enter email signature">---
+BuildPro Construction Pvt Ltd
+Sector 62, Noida, UP - 201301
+Phone: +91 9876543210
+Email: info@buildpro.com
+Website: www.buildpro.com</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tax & GST Settings -->
+            <div id="tax" class="settings-section card" style="display: none;">
+              <div class="card-header">
+                <h3 class="card-title">Tax & GST Settings</h3>
+                <button class="btn btn-primary">Save Changes</button>
+              </div>
+              <div style="padding: 0 24px 24px;">
+                <h4 style="margin-bottom: 16px;">GST Configuration</h4>
+                <div style="margin-bottom: 24px;">
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Enable GST for invoices</span>
+                  </label>
+                  <div class="form-group">
+                    <label class="form-label">Company GSTIN</label>
+                    <input type="text" class="form-input" value="29ABCDE1234F1Z5" placeholder="Enter GSTIN">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">State</label>
+                    <select class="form-select">
+                      <option>Uttar Pradesh (29)</option>
+                      <option>Delhi (07)</option>
+                      <option>Maharashtra (27)</option>
+                      <option>Karnataka (29)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Tax Rates</h4>
+                <div class="table-container" style="margin-bottom: 24px;">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Tax Type</th>
+                        <th>Rate (%)</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>CGST</strong></td>
+                        <td>9%</td>
+                        <td>Central Goods & Services Tax</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                          <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><strong>SGST</strong></td>
+                        <td>9%</td>
+                        <td>State Goods & Services Tax</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                          <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><strong>IGST</strong></td>
+                        <td>18%</td>
+                        <td>Integrated Goods & Services Tax</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>
+                          <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h4 style="margin-bottom: 16px;">Tax Compliance</h4>
+                <div>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Auto-calculate tax on invoices</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox" checked>
+                    <span>Show tax breakdown on invoices</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <input type="checkbox">
+                    <span>Enable reverse charge mechanism</span>
+                  </label>
+                  <div class="form-group">
+                    <label class="form-label">HSN/SAC Code Prefix</label>
+                    <input type="text" class="form-input" value="9954" placeholder="Enter HSN code">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function showSettingsSection(sectionId) {
+      // Hide all sections
+      const sections = document.querySelectorAll('.settings-section');
+      sections.forEach(section => {
+        section.style.display = 'none';
+      });
+
+      // Show selected section
+      const selectedSection = document.getElementById(sectionId);
+      if (selectedSection) {
+        selectedSection.style.display = 'block';
+      }
+    }
+
+    // Show company settings by default
+    document.addEventListener('DOMContentLoaded', function() {
+      showSettingsSection('company');
+    });
+  </script>
+  <script src="logout.js"></script>
+  <script src="notifications.js"></script>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <span class="nav-icon">📁</span>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="clients.html" class="nav-link">
+              <span class="nav-icon">👥</span>
+              <span>Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="vendors.html" class="nav-link">
+              <span class="nav-icon">🏪</span>
+              <span>Vendors</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="procurement.html" class="nav-link">
+              <span class="nav-icon">🛒</span>
+              <span>Procurement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inventory.html" class="nav-link active">
+              <span class="nav-icon">📦</span>
+              <span>Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="labour.html" class="nav-link">
+              <span class="nav-icon">👷</span>
+              <span>Labour</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="equipment.html" class="nav-link">
+              <span class="nav-icon">🚜</span>
+              <span>Equipment</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="finance.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Finance</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <span class="nav-icon">📈</span>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Inventory Management</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Inventory</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search materials...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">5</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JD</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Stats -->
+        <div class="grid grid-4">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Total Items</div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-change positive">Across 8 warehouses</div>
+              </div>
+              <div class="stat-icon blue">📦</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Stock Value</div>
+                <div class="stat-value">₹42.5M</div>
+                <div class="stat-change positive">↑ 8% this month</div>
+              </div>
+              <div class="stat-icon green">💰</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Low Stock Items</div>
+                <div class="stat-value">23</div>
+                <div class="stat-change negative">Requires attention</div>
+              </div>
+              <div class="stat-icon orange">⚠️</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Out of Stock</div>
+                <div class="stat-value">5</div>
+                <div class="stat-change negative">Order immediately</div>
+              </div>
+              <div class="stat-icon red">🚨</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="card mt-3">
+          <div class="tabs">
+            <button class="tab active" onclick="switchInventoryTab(event, 'stockOverview')">Stock Overview</button>
+            <button class="tab" onclick="switchInventoryTab(event, 'warehouses')">Warehouses</button>
+            <button class="tab" onclick="switchInventoryTab(event, 'stockMovement')">Stock Movement</button>
+            <button class="tab" onclick="switchInventoryTab(event, 'consumption')">Consumption Reports</button>
+          </div>
+
+          <!-- Stock Overview Tab -->
+          <div id="stockOverview" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Categories</option>
+                  <option>Building Materials</option>
+                  <option>Steel & Metal</option>
+                  <option>Cement & Concrete</option>
+                  <option>Electrical</option>
+                  <option>Plumbing</option>
+                  <option>Hardware</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Warehouses</option>
+                  <option>Main Warehouse - Noida</option>
+                  <option>Site Storage - Apollo</option>
+                  <option>Site Storage - Metro</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>In Stock</option>
+                  <option>Low Stock</option>
+                  <option>Out of Stock</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary">Export</button>
+                <button class="btn btn-primary">+ Add Item</button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Material Name</th>
+                    <th>Category</th>
+                    <th>Current Stock</th>
+                    <th>Unit</th>
+                    <th>Min. Stock</th>
+                    <th>Value</th>
+                    <th>Warehouse</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>MAT-001</strong></td>
+                    <td>TMT Steel Rods (12mm)</td>
+                    <td><span class="badge badge-info">Steel</span></td>
+                    <td><strong>45.5</strong></td>
+                    <td>Tons</td>
+                    <td>20</td>
+                    <td>₹21.8 L</td>
+                    <td>Main Warehouse</td>
+                    <td><span class="badge badge-success">In Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MAT-002</strong></td>
+                    <td>OPC 53 Grade Cement</td>
+                    <td><span class="badge badge-info">Cement</span></td>
+                    <td><strong>850</strong></td>
+                    <td>Bags</td>
+                    <td>500</td>
+                    <td>₹3.8 L</td>
+                    <td>Site - Apollo</td>
+                    <td><span class="badge badge-success">In Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MAT-003</strong></td>
+                    <td>River Sand (Fine)</td>
+                    <td><span class="badge badge-info">Aggregates</span></td>
+                    <td><strong>12.5</strong></td>
+                    <td>Tons</td>
+                    <td>15</td>
+                    <td>₹1.2 L</td>
+                    <td>Site - Metro</td>
+                    <td><span class="badge badge-warning">Low Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-warning" style="padding: 6px 12px; font-size: 12px;">Reorder</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MAT-004</strong></td>
+                    <td>Bricks (Red Clay)</td>
+                    <td><span class="badge badge-info">Masonry</span></td>
+                    <td><strong>15,000</strong></td>
+                    <td>Nos</td>
+                    <td>10,000</td>
+                    <td>₹0.9 L</td>
+                    <td>Site - Apollo</td>
+                    <td><span class="badge badge-success">In Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MAT-005</strong></td>
+                    <td>Electrical Cables (2.5mm)</td>
+                    <td><span class="badge badge-warning">Electrical</span></td>
+                    <td><strong>250</strong></td>
+                    <td>Meters</td>
+                    <td>500</td>
+                    <td>₹0.25 L</td>
+                    <td>Main Warehouse</td>
+                    <td><span class="badge badge-warning">Low Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-warning" style="padding: 6px 12px; font-size: 12px;">Reorder</button>
+                    </td>
+                  </tr>
+                  <tr style="background: rgba(239, 68, 68, 0.05);">
+                    <td><strong>MAT-006</strong></td>
+                    <td>PVC Pipes (4 inch)</td>
+                    <td><span class="badge badge-success">Plumbing</span></td>
+                    <td><strong>0</strong></td>
+                    <td>Meters</td>
+                    <td>200</td>
+                    <td>₹0</td>
+                    <td>Main Warehouse</td>
+                    <td><span class="badge badge-danger">Out of Stock</span></td>
+                    <td>
+                      <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Order Now</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MAT-007</strong></td>
+                    <td>Paint (White Emulsion)</td>
+                    <td><span class="badge badge-secondary">Finishing</span></td>
+                    <td><strong>145</strong></td>
+                    <td>Liters</td>
+                    <td>100</td>
+                    <td>₹0.58 L</td>
+                    <td>Main Warehouse</td>
+                    <td><span class="badge badge-success">In Stock</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Warehouses Tab -->
+          <div id="warehouses" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <h3>Warehouse Locations</h3>
+              <button class="btn btn-primary">+ Add Warehouse</button>
+            </div>
+
+            <div class="grid grid-3" style="gap: 24px;">
+              <div class="card" style="margin: 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                  <h3 style="font-size: 18px;">Main Warehouse - Noida</h3>
+                  <span class="badge badge-success">Active</span>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Location</div>
+                  <div style="font-weight: 500;">Sector 62, Noida, UP</div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Capacity</div>
+                  <div style="font-weight: 500;">5,000 sq ft</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Items</div>
+                    <div style="font-size: 20px; font-weight: 700;">485</div>
+                  </div>
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Value</div>
+                    <div style="font-size: 20px; font-weight: 700;">₹28.5M</div>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">View Details</button>
+              </div>
+
+              <div class="card" style="margin: 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                  <h3 style="font-size: 18px;">Site Storage - Apollo</h3>
+                  <span class="badge badge-success">Active</span>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Location</div>
+                  <div style="font-weight: 500;">Apollo Towers Site, Noida</div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Capacity</div>
+                  <div style="font-weight: 500;">1,500 sq ft</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Items</div>
+                    <div style="font-size: 20px; font-weight: 700;">342</div>
+                  </div>
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Value</div>
+                    <div style="font-size: 20px; font-weight: 700;">₹8.2M</div>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">View Details</button>
+              </div>
+
+              <div class="card" style="margin: 0;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                  <h3 style="font-size: 18px;">Site Storage - Metro</h3>
+                  <span class="badge badge-success">Active</span>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Location</div>
+                  <div style="font-weight: 500;">Metro Plaza Site, Gurgaon</div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Capacity</div>
+                  <div style="font-weight: 500;">1,200 sq ft</div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Items</div>
+                    <div style="font-size: 20px; font-weight: 700;">421</div>
+                  </div>
+                  <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Value</div>
+                    <div style="font-size: 20px; font-weight: 700;">₹5.8M</div>
+                  </div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;">View Details</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Movement Tab -->
+          <div id="stockMovement" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Movements</option>
+                  <option>Stock In</option>
+                  <option>Stock Out</option>
+                  <option>Transfer</option>
+                  <option>Adjustment</option>
+                </select>
+                <input type="date" class="form-input" style="width: auto;" value="2026-01-01">
+                <span style="padding: 10px;">to</span>
+                <input type="date" class="form-input" style="width: auto;" value="2026-01-30">
+              </div>
+              <button class="btn btn-primary">+ Record Movement</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Material</th>
+                    <th>Quantity</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Reference</th>
+                    <th>Recorded By</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Jan 28, 2026</td>
+                    <td><span class="badge badge-success">Stock In</span></td>
+                    <td>TMT Steel Rods</td>
+                    <td><strong>+15 Tons</strong></td>
+                    <td>ABC Supplies</td>
+                    <td>Main Warehouse</td>
+                    <td>PO-2026-0234</td>
+                    <td>
+                      <div class="avatar" style="background: #3b82f6; width: 32px; height: 32px; font-size: 12px;">RS</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jan 27, 2026</td>
+                    <td><span class="badge badge-danger">Stock Out</span></td>
+                    <td>Cement Bags</td>
+                    <td><strong>-200 Bags</strong></td>
+                    <td>Main Warehouse</td>
+                    <td>Apollo Site</td>
+                    <td>MR-2026-0145</td>
+                    <td>
+                      <div class="avatar" style="background: #10b981; width: 32px; height: 32px; font-size: 12px;">AK</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jan 26, 2026</td>
+                    <td><span class="badge badge-info">Transfer</span></td>
+                    <td>Electrical Cables</td>
+                    <td><strong>500 Meters</strong></td>
+                    <td>Main Warehouse</td>
+                    <td>Metro Site</td>
+                    <td>TR-2026-089</td>
+                    <td>
+                      <div class="avatar" style="background: #f59e0b; width: 32px; height: 32px; font-size: 12px;">MK</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jan 25, 2026</td>
+                    <td><span class="badge badge-success">Stock In</span></td>
+                    <td>Bricks</td>
+                    <td><strong>+10,000 Nos</strong></td>
+                    <td>Local Supplier</td>
+                    <td>Apollo Site</td>
+                    <td>PO-2026-0225</td>
+                    <td>
+                      <div class="avatar" style="background: #8b5cf6; width: 32px; height: 32px; font-size: 12px;">VJ</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jan 24, 2026</td>
+                    <td><span class="badge badge-warning">Adjustment</span></td>
+                    <td>River Sand</td>
+                    <td><strong>-2.5 Tons</strong></td>
+                    <td>-</td>
+                    <td>Metro Site</td>
+                    <td>ADJ-2026-012</td>
+                    <td>
+                      <div class="avatar" style="background: #ef4444; width: 32px; height: 32px; font-size: 12px;">PK</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Consumption Reports Tab -->
+          <div id="consumption" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Material Consumption by Project</h3>
+              <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <select class="form-select" style="width: auto;">
+                  <option>Last 30 Days</option>
+                  <option>Last 90 Days</option>
+                  <option>This Year</option>
+                  <option>Custom Range</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Projects</option>
+                  <option>Apollo Towers</option>
+                  <option>Metro Plaza</option>
+                  <option>Green Valley</option>
+                </select>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Material</th>
+                      <th>Apollo Towers</th>
+                      <th>Metro Plaza</th>
+                      <th>Green Valley</th>
+                      <th>Total Consumption</th>
+                      <th>Avg. Daily</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Cement (Bags)</strong></td>
+                      <td>1,850</td>
+                      <td>1,240</td>
+                      <td>680</td>
+                      <td><strong>3,770</strong></td>
+                      <td>125.7 / day</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Steel Rods (Tons)</strong></td>
+                      <td>28.5</td>
+                      <td>18.2</td>
+                      <td>12.5</td>
+                      <td><strong>59.2</strong></td>
+                      <td>1.97 / day</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Bricks (Nos)</strong></td>
+                      <td>45,000</td>
+                      <td>32,000</td>
+                      <td>18,500</td>
+                      <td><strong>95,500</strong></td>
+                      <td>3,183 / day</td>
+                    </tr>
+                    <tr>
+                      <td><strong>River Sand (Tons)</strong></td>
+                      <td>42.5</td>
+                      <td>28.8</td>
+                      <td>15.2</td>
+                      <td><strong>86.5</strong></td>
+                      <td>2.88 / day</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Gravel (Tons)</strong></td>
+                      <td>38.2</td>
+                      <td>25.5</td>
+                      <td>14.8</td>
+                      <td><strong>78.5</strong></td>
+                      <td>2.62 / day</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="margin-top: 32px;">
+                <h3 style="margin-bottom: 16px;">Low Stock Alerts</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div style="padding: 16px; background: rgba(239, 68, 68, 0.05); border-radius: 8px; border-left: 4px solid var(--danger-color); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <strong>🚨 PVC Pipes (4 inch)</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                        Current: 0 Meters | Minimum Required: 200 Meters
+                      </div>
+                    </div>
+                    <button class="btn btn-danger">Order Now</button>
+                  </div>
+                  <div style="padding: 16px; background: rgba(245, 158, 11, 0.05); border-radius: 8px; border-left: 4px solid var(--warning-color); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <strong>⚠️ River Sand (Fine)</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                        Current: 12.5 Tons | Minimum Required: 15 Tons
+                      </div>
+                    </div>
+                    <button class="btn btn-warning">Reorder</button>
+                  </div>
+                  <div style="padding: 16px; background: rgba(245, 158, 11, 0.05); border-radius: 8px; border-left: 4px solid var(--warning-color); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <strong>⚠️ Electrical Cables (2.5mm)</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                        Current: 250 Meters | Minimum Required: 500 Meters
+                      </div>
+                    </div>
+                    <button class="btn btn-warning">Reorder</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchInventoryTab(event, tabName) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+  <script src="logout.js"></script>
+  <script src="notifications.js"></script>
+</body>
+</html>

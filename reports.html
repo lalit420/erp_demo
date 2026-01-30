@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <span class="nav-icon">📁</span>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="clients.html" class="nav-link">
+              <span class="nav-icon">👥</span>
+              <span>Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="vendors.html" class="nav-link">
+              <span class="nav-icon">🏪</span>
+              <span>Vendors</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="procurement.html" class="nav-link">
+              <span class="nav-icon">🛒</span>
+              <span>Procurement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inventory.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="labour.html" class="nav-link">
+              <span class="nav-icon">👷</span>
+              <span>Labour</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="equipment.html" class="nav-link">
+              <span class="nav-icon">🚜</span>
+              <span>Equipment</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="finance.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Finance</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link active">
+              <span class="nav-icon">📈</span>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Reports & Analytics</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Reports</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search reports...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">5</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JD</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Quick Stats -->
+        <div class="grid grid-4">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Total Reports</div>
+                <div class="stat-value">156</div>
+                <div class="stat-change positive">Available Templates</div>
+              </div>
+              <div class="stat-icon blue">📊</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Generated This Month</div>
+                <div class="stat-value">42</div>
+                <div class="stat-change positive">↑ 15% increase</div>
+              </div>
+              <div class="stat-icon green">📈</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Scheduled Reports</div>
+                <div class="stat-value">8</div>
+                <div class="stat-change positive">Auto-generated</div>
+              </div>
+              <div class="stat-icon orange">⏰</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Custom Reports</div>
+                <div class="stat-value">24</div>
+                <div class="stat-change positive">User Created</div>
+              </div>
+              <div class="stat-icon red">⭐</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Categories -->
+        <div class="card mt-3">
+          <div class="card-header">
+            <h3 class="card-title">Report Categories</h3>
+            <button class="btn btn-primary">+ Custom Report Builder</button>
+          </div>
+
+          <div class="tabs">
+            <button class="tab active" onclick="switchReportTab(event, 'projectReports')">Project Reports</button>
+            <button class="tab" onclick="switchReportTab(event, 'financialReports')">Financial Reports</button>
+            <button class="tab" onclick="switchReportTab(event, 'procurementReports')">Procurement Reports</button>
+            <button class="tab" onclick="switchReportTab(event, 'inventoryReports')">Inventory Reports</button>
+            <button class="tab" onclick="switchReportTab(event, 'customReports')">Custom Reports</button>
+          </div>
+
+          <!-- Project Reports Tab -->
+          <div id="projectReports" class="tab-content active">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Project Reports</h3>
+              
+              <div class="grid grid-3" style="gap: 20px;">
+                <!-- Report Card 1 -->
+                <div class="card" style="margin: 0; cursor: pointer;" onclick="generateReport('Project Status')">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📊
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Project Status Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Overview of all projects with progress, budget, and timeline status
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <!-- Report Card 2 -->
+                <div class="card" style="margin: 0; cursor: pointer;" onclick="generateReport('Project Timeline')">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📅
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Project Timeline Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Gantt chart view with milestones, dependencies, and critical path
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-success">PDF</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <!-- Report Card 3 -->
+                <div class="card" style="margin: 0; cursor: pointer;" onclick="generateReport('Project Costing')">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      💰
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Project Costing Analysis</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Detailed cost breakdown by category with variance analysis
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-warning">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <!-- Report Card 4 -->
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📋
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Resource Utilization</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Labour, equipment, and material usage across projects
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <!-- Report Card 5 -->
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      ⚠️
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Risk & Issues Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Identified risks, issues, and mitigation strategies
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-danger">PDF</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <!-- Report Card 6 -->
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(6, 182, 212, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📈
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Performance Metrics</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        KPIs, productivity metrics, and performance trends
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Reports Tab -->
+          <div id="financialReports" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Financial Reports</h3>
+              
+              <div class="grid grid-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      💵
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Profit & Loss Statement</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Revenue, expenses, and net profit by period
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-success">PDF</span>
+                        <span class="badge badge-success">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📊
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Cash Flow Statement</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Cash inflows, outflows, and balance projections
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📄
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Balance Sheet</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Assets, liabilities, and equity overview
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-warning">PDF</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📋
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Accounts Receivable Aging</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Outstanding invoices by aging buckets
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-danger">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      💳
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Expense Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Detailed expense breakdown by category and project
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(6, 182, 212, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📈
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Budget vs Actual</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Comparison of budgeted vs actual expenditure
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Procurement Reports Tab -->
+          <div id="procurementReports" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Procurement Reports</h3>
+              
+              <div class="grid grid-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      🛒
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Purchase Order Summary</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        All POs with status, amounts, and delivery tracking
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      🏪
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Vendor Performance</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Vendor ratings, delivery times, and quality metrics
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-success">PDF</span>
+                        <span class="badge badge-success">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📊
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">RFQ Analysis</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Quote comparisons, savings, and vendor selection
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-warning">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      💰
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Procurement Spend Analysis</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Spending trends by category, vendor, and project
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📋
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Material Requisition Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        All material requests with approval and fulfillment status
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-danger">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inventory Reports Tab -->
+          <div id="inventoryReports" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Inventory Reports</h3>
+              
+              <div class="grid grid-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📦
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Stock Level Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Current stock levels across all warehouses
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      ⚠️
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Low Stock Alert Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Items below minimum stock levels requiring reorder
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-danger">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📊
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Material Consumption Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Material usage by project and time period
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-success">PDF</span>
+                        <span class="badge badge-success">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      🔄
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Stock Movement Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        All stock in, out, and transfers with details
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-warning">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      💵
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Inventory Valuation Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Total inventory value and item-wise breakdown
+                      </p>
+                      <div style="display: flex; gap: 8px;">
+                        <span class="badge badge-info">PDF</span>
+                        <span class="badge badge-info">Excel</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">Generate Report</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Reports Tab -->
+          <div id="customReports" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>My Custom Reports</h3>
+                <button class="btn btn-primary">+ Create Custom Report</button>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Report Name</th>
+                      <th>Category</th>
+                      <th>Created By</th>
+                      <th>Created Date</th>
+                      <th>Last Generated</th>
+                      <th>Schedule</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Monthly Executive Summary</strong></td>
+                      <td><span class="badge badge-info">Financial</span></td>
+                      <td>John Doe</td>
+                      <td>Dec 15, 2025</td>
+                      <td>Jan 28, 2026</td>
+                      <td><span class="badge badge-success">Monthly</span></td>
+                      <td>
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Generate</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🗑️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Project Milestone Tracker</strong></td>
+                      <td><span class="badge badge-success">Project</span></td>
+                      <td>Jane Smith</td>
+                      <td>Jan 10, 2026</td>
+                      <td>Jan 25, 2026</td>
+                      <td><span class="badge badge-warning">Weekly</span></td>
+                      <td>
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Generate</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🗑️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Vendor Payment Schedule</strong></td>
+                      <td><span class="badge badge-warning">Procurement</span></td>
+                      <td>Mike Johnson</td>
+                      <td>Nov 20, 2025</td>
+                      <td>Jan 20, 2026</td>
+                      <td><span class="badge badge-info">Bi-weekly</span></td>
+                      <td>
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Generate</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🗑️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Labour Productivity Analysis</strong></td>
+                      <td><span class="badge badge-danger">Labour</span></td>
+                      <td>Sarah Williams</td>
+                      <td>Jan 05, 2026</td>
+                      <td>Jan 22, 2026</td>
+                      <td><span class="badge badge-secondary">On-Demand</span></td>
+                      <td>
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Generate</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;">🗑️</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Reports -->
+        <div class="card mt-3">
+          <div class="card-header">
+            <h3 class="card-title">Recently Generated Reports</h3>
+            <button class="btn btn-secondary">View All</button>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Report Name</th>
+                  <th>Type</th>
+                  <th>Generated By</th>
+                  <th>Date & Time</th>
+                  <th>Format</th>
+                  <th>Size</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Project Status Report - January 2026</strong></td>
+                  <td><span class="badge badge-info">Project</span></td>
+                  <td>John Doe</td>
+                  <td>Jan 30, 2026 10:30 AM</td>
+                  <td>PDF</td>
+                  <td>2.5 MB</td>
+                  <td>
+                    <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                    <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Financial Summary - Q4 2025</strong></td>
+                  <td><span class="badge badge-success">Financial</span></td>
+                  <td>Jane Smith</td>
+                  <td>Jan 28, 2026 3:15 PM</td>
+                  <td>Excel</td>
+                  <td>1.8 MB</td>
+                  <td>
+                    <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                    <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Vendor Performance - January 2026</strong></td>
+                  <td><span class="badge badge-warning">Procurement</span></td>
+                  <td>System Auto</td>
+                  <td>Jan 25, 2026 12:00 PM</td>
+                  <td>PDF</td>
+                  <td>1.2 MB</td>
+                  <td>
+                    <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">Download</button>
+                    <button class="btn btn-secondary btn-icon" style="padding: 6px;">👁️</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function switchReportTab(event, tabName) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function generateReport(reportName) {
+      alert('Generating ' + reportName + '...\n\nThis would open a report generation dialog with date range, filters, and format options.');
+    }
+  </script>
+  <script src="logout.js"></script>
+  <script src="notifications.js"></script>
+</body>
+</html>

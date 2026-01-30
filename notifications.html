@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="dashboard.html" class="nav-link">
+              <span class="nav-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link">
+              <span class="nav-icon">📁</span>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="clients.html" class="nav-link">
+              <span class="nav-icon">👥</span>
+              <span>Clients</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="vendors.html" class="nav-link">
+              <span class="nav-icon">🏪</span>
+              <span>Vendors</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="procurement.html" class="nav-link">
+              <span class="nav-icon">🛒</span>
+              <span>Procurement</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="inventory.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Inventory</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="labour.html" class="nav-link">
+              <span class="nav-icon">👷</span>
+              <span>Labour</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="equipment.html" class="nav-link">
+              <span class="nav-icon">🚜</span>
+              <span>Equipment</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="finance.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Finance</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <span class="nav-icon">📈</span>
+              <span>Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Notifications</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Notifications</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search notifications...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">5</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JD</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Notifications</h3>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary">Mark all as read</button>
+            </div>
+          </div>
+          <div style="display: grid; gap: 12px;">
+            <div style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;">
+              <div style="font-weight: 600;">New invoice received</div>
+              <div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Invoice INV-2026-0205 from Smart City Corp.</div>
+              <div style="color: var(--text-secondary); font-size: 12px; margin-top: 8px;">2 mins ago</div>
+            </div>
+            <div style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;">
+              <div style="font-weight: 600;">Project update posted</div>
+              <div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Apollo Towers progress updated to 75%.</div>
+              <div style="color: var(--text-secondary); font-size: 12px; margin-top: 8px;">1 hour ago</div>
+            </div>
+            <div style="padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;">
+              <div style="font-weight: 600;">Payment overdue reminder</div>
+              <div style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">Invoice INV-2026-0198 is overdue by 5 days.</div>
+              <div style="color: var(--text-secondary); font-size: 12px; margin-top: 8px;">Today</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="logout.js"></script>
+  <script src="notifications.js"></script>
+</body>
+</html>
