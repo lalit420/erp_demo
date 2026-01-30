@@ -40,11 +40,31 @@
               <span>Vendors</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="procurement.html" class="nav-link">
+          <li class="nav-item has-submenu">
+            <a href="procurement.html" class="nav-link active">
               <span class="nav-icon">🛒</span>
               <span>Procurement</span>
             </a>
+            <ul class="sub-menu">
+              <li>
+                <a href="site-management.html" class="nav-sublink">
+                  <span class="nav-icon">🏗️</span>
+                  <span>Site Management</span>
+                </a>
+              </li>
+              <li>
+                <a href="quality-control.html" class="nav-sublink">
+                  <span class="nav-icon">✓</span>
+                  <span>Quality Control</span>
+                </a>
+              </li>
+              <li>
+                <a href="document-management.html" class="nav-sublink active">
+                  <span class="nav-icon">📄</span>
+                  <span>Documents</span>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="inventory.html" class="nav-link">
@@ -68,24 +88,6 @@
             <a href="finance.html" class="nav-link">
               <span class="nav-icon">💰</span>
               <span>Finance</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="site-management.html" class="nav-link">
-              <span class="nav-icon">🏗️</span>
-              <span>Site Management</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="quality-control.html" class="nav-link">
-              <span class="nav-icon">✓</span>
-              <span>Quality Control</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="document-management.html" class="nav-link active">
-              <span class="nav-icon">📄</span>
-              <span>Documents</span>
             </a>
           </li>
           <li class="nav-item">
@@ -967,6 +969,55 @@
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');
     }
+
+    function initProcurementSubmenuToggle() {
+      const procurementLink = document.querySelector('.nav-item.has-submenu > .nav-link');
+      if (!procurementLink) {
+        return;
+      }
+
+      const parentItem = procurementLink.parentElement;
+      const subLinks = Array.from(parentItem.querySelectorAll('.nav-sublink'));
+
+      const setActiveForCurrentPage = () => {
+        const currentPage = window.location.pathname.split('/').pop();
+        let matched = false;
+        subLinks.forEach((link) => {
+          if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+            matched = true;
+          } else {
+            link.classList.remove('active');
+          }
+        });
+        if (matched) {
+          procurementLink.classList.remove('active');
+        }
+      };
+
+      const setCollapsedState = () => {
+        subLinks.forEach(link => link.classList.remove('active'));
+        procurementLink.classList.add('active');
+      };
+
+      setActiveForCurrentPage();
+      if (subLinks.some(link => link.classList.contains('active'))) {
+        parentItem.classList.add('open');
+      }
+
+      procurementLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        const isOpen = parentItem.classList.toggle('open');
+        if (isOpen) {
+          setActiveForCurrentPage();
+        } else {
+          setCollapsedState();
+          window.location.href = 'procurement.html';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initProcurementSubmenuToggle);
   </script>
   <script src="logout.js"></script>
   <script src="notifications.js"></script>
