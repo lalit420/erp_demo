@@ -153,6 +153,89 @@
     backdrop.classList.add('active');
   };
 
+  const defaultNotifications = [
+    { text: '3 new RFQ responses received.', meta: '5 minutes ago', tone: 'info' },
+    { text: 'Purchase order PO-1287 approved.', meta: '25 minutes ago', tone: 'success' },
+    { text: 'Low stock alert: Cement (OPC 53).', meta: '1 hour ago', tone: 'warning' },
+    { text: 'Invoice INV-2026-0205 is overdue.', meta: 'Today · 9:10 AM', tone: 'danger' }
+  ];
+
+  const closeAllNotificationMenus = () => {
+    document.querySelectorAll('.notification-dropdown').forEach(menu => {
+      menu.classList.remove('active');
+    });
+  };
+
+  const renderNotificationDropdown = (dropdown, notifications) => {
+    const list = notifications.map((item) => `
+      <div class="notification-item">
+        <span class="notification-dot ${item.tone || 'info'}"></span>
+        <div class="notification-content">
+          <div class="notification-text">${item.text}</div>
+          <div class="notification-meta">${item.meta}</div>
+        </div>
+      </div>
+    `).join('');
+
+    dropdown.innerHTML = `
+      <div class="notification-header">
+        <div class="notification-title">Notifications</div>
+        <button class="notification-mark-read" type="button">Mark all read</button>
+      </div>
+      <div class="notification-list">
+        ${list}
+      </div>
+      <div class="notification-footer">
+        <button class="notification-view-all" type="button">View all</button>
+      </div>
+    `;
+  };
+
+  const setupNotificationDropdown = (button) => {
+    if (!button || button.parentElement.querySelector('.notification-dropdown')) {
+      return;
+    }
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'notification-dropdown';
+    renderNotificationDropdown(dropdown, defaultNotifications);
+
+    dropdown.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+
+    const parent = button.parentElement;
+    parent.style.position = 'relative';
+    parent.appendChild(dropdown);
+
+    const badge = button.querySelector('.notification-badge');
+
+    dropdown.querySelector('.notification-mark-read').addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeAllNotificationMenus();
+      if (badge) {
+        badge.textContent = '0';
+        badge.style.display = 'none';
+      }
+      showToast('All notifications marked as read.');
+    });
+
+    dropdown.querySelector('.notification-view-all').addEventListener('click', (event) => {
+      event.stopPropagation();
+      closeAllNotificationMenus();
+      showToast('Opening all notifications...');
+    });
+
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isActive = dropdown.classList.contains('active');
+      closeAllNotificationMenus();
+      if (!isActive) {
+        dropdown.classList.add('active');
+      }
+    });
+  };
+
   const openAddUserModal = () => {
     openModal({
       title: 'Add User',
@@ -2892,5 +2975,13 @@
   document.addEventListener('DOMContentLoaded', () => {
     initFilters();
     initButtons();
+
+    document.querySelectorAll('.notification-btn').forEach((button) => {
+      setupNotificationDropdown(button);
+    });
+
+    document.addEventListener('click', () => {
+      closeAllNotificationMenus();
+    });
   });
 })();
