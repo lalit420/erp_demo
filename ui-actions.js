@@ -2641,6 +2641,10 @@
         const action = button.dataset.action;
 
         if (action === 'logout') {
+          if (typeof window.handleLogout === 'function') {
+            window.handleLogout();
+            return;
+          }
           window.location.href = 'login.html';
           return;
         }

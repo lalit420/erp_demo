@@ -34,6 +34,14 @@ function toggleProfileMenu(button) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-action="logout"]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      handleLogout();
+    });
+  });
+
   const profileButtons = document.querySelectorAll('.profile-btn');
 
   profileButtons.forEach(button => {
