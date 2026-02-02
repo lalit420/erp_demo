@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Module - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="admin.html" class="nav-link active">
+              <span class="nav-icon">⚙️</span>
+              <span>Admin</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="store.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Store</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="scm.html" class="nav-link">
+              <span class="nav-icon">🔗</span>
+              <span>SCM</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="planning-billing.html" class="nav-link">
+              <span class="nav-icon">📋</span>
+              <span>Planning & Billing</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="accounts-banking.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Accounts & Banking</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div style="padding: 20px; margin-top: auto; border-top: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div class="avatar" style="width: 40px; height: 40px;">JD</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">John Doe</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Administrator</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; font-size: 13px;" data-action="logout">
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Admin Dashboard</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Admin</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search anything...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">5</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JD</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- System Overview Stats -->
+        <div class="grid grid-4">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Total Users</div>
+                <div class="stat-value">124</div>
+                <div class="stat-change positive">↑ 8 new this month</div>
+              </div>
+              <div class="stat-icon blue">👥</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Active Projects</div>
+                <div class="stat-value">18</div>
+                <div class="stat-change positive">85% completion avg</div>
+              </div>
+              <div class="stat-icon green">📁</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">System Storage</div>
+                <div class="stat-value">45.2 GB</div>
+                <div class="stat-change positive">of 100 GB used</div>
+              </div>
+              <div class="stat-icon orange">💾</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Active Sessions</div>
+                <div class="stat-value">48</div>
+                <div class="stat-change positive">Users online now</div>
+              </div>
+              <div class="stat-icon red">🌐</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Charts -->
+        <div class="grid grid-2 mt-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">User Activity Trend</h3>
+              <select class="form-select" style="width: auto;">
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>Last 90 Days</option>
+              </select>
+            </div>
+            <div class="chart-container">
+              <canvas id="userActivityChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Module Usage Distribution</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="moduleUsageChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="card mt-3">
+          <div class="tabs">
+            <button class="tab active" onclick="switchAdminTab(event, 'dashboard')">Dashboard</button>
+            <button class="tab" onclick="switchAdminTab(event, 'users')">User Management</button>
+            <button class="tab" onclick="switchAdminTab(event, 'roles')">Roles & Permissions</button>
+            <button class="tab" onclick="switchAdminTab(event, 'settings')">System Settings</button>
+            <button class="tab" onclick="switchAdminTab(event, 'documents')">Documents</button>
+            <button class="tab" onclick="switchAdminTab(event, 'reports')">Reports</button>
+          </div>
+
+          <!-- Dashboard Tab -->
+          <div id="dashboard" class="tab-content active">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">System Overview</h3>
+              
+              <div class="grid grid-3" style="gap: 20px; margin-bottom: 24px;">
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 16px;">Recent Activities</h4>
+                  <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; gap: 12px; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                      <div class="avatar" style="background: #3b82f6; width: 36px; height: 36px; font-size: 14px;">JS</div>
+                      <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500;">Jane Smith created new project</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">2 hours ago</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                      <div class="avatar" style="background: #10b981; width: 36px; height: 36px; font-size: 14px;">MJ</div>
+                      <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500;">Mike Johnson approved PO</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">4 hours ago</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; padding: 12px; background: var(--bg-primary); border-radius: 8px;">
+                      <div class="avatar" style="background: #f59e0b; width: 36px; height: 36px; font-size: 14px;">SW</div>
+                      <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500;">Sarah Williams updated inventory</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">6 hours ago</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 16px;">System Health</h4>
+                  <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 13px;">CPU Usage</span>
+                        <span style="font-size: 13px; font-weight: 600;">42%</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill success" style="width: 42%;"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 13px;">Memory</span>
+                        <span style="font-size: 13px; font-weight: 600;">65%</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill warning" style="width: 65%;"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 13px;">Storage</span>
+                        <span style="font-size: 13px; font-weight: 600;">45%</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill success" style="width: 45%;"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 13px;">Database</span>
+                        <span style="font-size: 13px; font-weight: 600;">38%</span>
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill success" style="width: 38%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 16px;">Quick Actions</h4>
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="btn btn-primary" style="width: 100%; justify-content: flex-start;" data-action="add-user" onclick="openAddUserModal()">
+                      <span>👤</span> Add New User
+                    </button>
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start;" data-action="generate-report">
+                      <span>📊</span> Generate Report
+                    </button>
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start;" data-action="backup-database">
+                      <span>💾</span> Backup Database
+                    </button>
+                    <button class="btn btn-secondary" style="width: 100%; justify-content: flex-start;" data-action="open-settings">
+                      <span>⚙️</span> System Settings
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom: 0;">
+                <h4 style="margin-bottom: 16px;">System Logs</h4>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Module</th>
+                        <th>IP Address</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Jan 30, 2026 10:30 AM</td>
+                        <td>John Doe</td>
+                        <td>Login</td>
+                        <td>Admin</td>
+                        <td>192.168.1.100</td>
+                        <td><span class="badge badge-success">Success</span></td>
+                      </tr>
+                      <tr>
+                        <td>Jan 30, 2026 10:25 AM</td>
+                        <td>Jane Smith</td>
+                        <td>Create Project</td>
+                        <td>Planning</td>
+                        <td>192.168.1.105</td>
+                        <td><span class="badge badge-success">Success</span></td>
+                      </tr>
+                      <tr>
+                        <td>Jan 30, 2026 10:20 AM</td>
+                        <td>Mike Johnson</td>
+                        <td>Approve PO</td>
+                        <td>SCM</td>
+                        <td>192.168.1.110</td>
+                        <td><span class="badge badge-success">Success</span></td>
+                      </tr>
+                      <tr>
+                        <td>Jan 30, 2026 10:15 AM</td>
+                        <td>Unknown User</td>
+                        <td>Login Attempt</td>
+                        <td>Admin</td>
+                        <td>203.45.67.89</td>
+                        <td><span class="badge badge-danger">Failed</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Management Tab -->
+          <div id="users" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>User Management</h3>
+                <button class="btn btn-primary" data-action="add-user" onclick="openAddUserModal()">+ Add User</button>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Department</th>
+                      <th>Status</th>
+                      <th>Last Login</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #3b82f6; width: 36px; height: 36px;">JD</div>
+                          <strong>John Doe</strong>
+                        </div>
+                      </td>
+                      <td>john.doe@buildpro.com</td>
+                      <td><span class="badge badge-danger">Administrator</span></td>
+                      <td>IT</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 30, 2026 10:30 AM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="edit-user" onclick="editUserRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="toggle-user" onclick="toggleUserRow(this)">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #10b981; width: 36px; height: 36px;">JS</div>
+                          <strong>Jane Smith</strong>
+                        </div>
+                      </td>
+                      <td>jane.smith@buildpro.com</td>
+                      <td><span class="badge badge-info">Project Manager</span></td>
+                      <td>Projects</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 30, 2026 9:15 AM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="edit-user" onclick="editUserRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="toggle-user" onclick="toggleUserRow(this)">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #f59e0b; width: 36px; height: 36px;">MJ</div>
+                          <strong>Mike Johnson</strong>
+                        </div>
+                      </td>
+                      <td>mike.johnson@buildpro.com</td>
+                      <td><span class="badge badge-warning">Procurement Manager</span></td>
+                      <td>SCM</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>Jan 29, 2026 5:45 PM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="edit-user" onclick="editUserRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="toggle-user" onclick="toggleUserRow(this)">🔒</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                          <div class="avatar" style="background: #8b5cf6; width: 36px; height: 36px;">SW</div>
+                          <strong>Sarah Williams</strong>
+                        </div>
+                      </td>
+                      <td>sarah.williams@buildpro.com</td>
+                      <td><span class="badge badge-success">Finance Manager</span></td>
+                      <td>Accounts</td>
+                      <td><span class="badge badge-warning">Inactive</span></td>
+                      <td>Jan 25, 2026 2:20 PM</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="edit-user" onclick="editUserRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="toggle-user" onclick="toggleUserRow(this)">🔓</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Roles & Permissions Tab -->
+          <div id="roles" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Roles & Permissions</h3>
+                <button class="btn btn-primary" data-action="create-role" onclick="openCreateRoleModal()">+ Create Role</button>
+              </div>
+
+              <div style="margin-bottom: 24px;">
+                <h4 style="margin-bottom: 12px;">Administrator</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked disabled>
+                    <span>Full System Access</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked disabled>
+                    <span>User Management</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked disabled>
+                    <span>System Settings</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 24px;">
+                <h4 style="margin-bottom: 12px;">Project Manager</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>View Projects</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Create Projects</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Edit Projects</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>View Reports</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Manage Labour</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox">
+                    <span>Delete Projects</span>
+                  </label>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 24px;">
+                <h4 style="margin-bottom: 12px;">Procurement Manager</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>View Vendors</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Create RFQs</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Create POs</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Approve POs</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" checked>
+                    <span>Manage Inventory</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox">
+                    <span>Financial Access</span>
+                  </label>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" data-action="save-permissions">Save Permissions</button>
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div id="settings" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">System Settings</h3>
+
+              <div class="card" style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 16px;">Company Settings</h4>
+                <div class="form-group">
+                  <label class="form-label">Company Name</label>
+                  <input type="text" class="form-input" value="BuildPro Construction Pvt Ltd">
+                </div>
+                <div class="grid grid-2" style="gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">GST Number</label>
+                    <input type="text" class="form-input" value="29ABCDE1234F1Z5">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">PAN Number</label>
+                    <input type="text" class="form-input" value="ABCDE1234F">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Address</label>
+                  <textarea class="form-textarea">Sector 62, Noida, Uttar Pradesh - 201301, India</textarea>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 16px;">Email Configuration</h4>
+                <div class="form-group">
+                  <label class="form-label">SMTP Host</label>
+                  <input type="text" class="form-input" value="smtp.gmail.com">
+                </div>
+                <div class="grid grid-2" style="gap: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">SMTP Port</label>
+                    <input type="number" class="form-input" value="587">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Encryption</label>
+                    <select class="form-select">
+                      <option>TLS</option>
+                      <option>SSL</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h4 style="margin-bottom: 16px;">Security Settings</h4>
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <input type="checkbox" checked>
+                  <span>Enable Two-Factor Authentication</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <input type="checkbox" checked>
+                  <span>Require Password Change Every 90 Days</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox">
+                  <span>Allow Multiple Sessions</span>
+                </label>
+              </div>
+
+              <button class="btn btn-primary" style="margin-top: 20px;" data-action="save-settings">Save Settings</button>
+            </div>
+          </div>
+
+          <!-- Documents Tab -->
+          <div id="documents" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Document Management</h3>
+                <button class="btn btn-primary" data-action="upload-document" onclick="openUploadDocumentModal()">+ Upload Document</button>
+              </div>
+
+              <div class="grid grid-4" style="gap: 16px; margin-bottom: 24px;">
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 32px;">📁</span>
+                    <div>
+                      <strong>Contracts</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">142 files</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 32px;">📐</span>
+                    <div>
+                      <strong>Drawings</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">856 files</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 32px;">📜</span>
+                    <div>
+                      <strong>Permits</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">48 files</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 32px;">📊</span>
+                    <div>
+                      <strong>Reports</strong>
+                      <div style="font-size: 13px; color: var(--text-secondary);">324 files</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Document Name</th>
+                      <th>Type</th>
+                      <th>Category</th>
+                      <th>Uploaded By</th>
+                      <th>Date</th>
+                      <th>Size</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>📄 System_Configuration.pdf</strong></td>
+                      <td>PDF</td>
+                      <td><span class="badge badge-info">Technical</span></td>
+                      <td>John Doe</td>
+                      <td>Jan 28, 2026</td>
+                      <td>2.4 MB</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="view-document">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="download-document">⬇️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>📊 Annual_Report_2025.xlsx</strong></td>
+                      <td>XLSX</td>
+                      <td><span class="badge badge-success">Financial</span></td>
+                      <td>Sarah Williams</td>
+                      <td>Jan 25, 2026</td>
+                      <td>3.2 MB</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="view-document">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-action="download-document">⬇️</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reports Tab -->
+          <div id="reports" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">System Reports</h3>
+
+              <div class="grid grid-3" style="gap: 20px;">
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      👥
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">User Activity Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Detailed user login and activity logs
+                      </p>
+                      <button class="btn btn-primary" style="width: 100%; font-size: 13px;" data-action="generate-report">Generate Report</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(16, 185, 129, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      📊
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">System Performance</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        CPU, memory, and storage metrics
+                      </p>
+                      <button class="btn btn-primary" style="width: 100%; font-size: 13px;" data-action="generate-report">Generate Report</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0; cursor: pointer;">
+                  <div style="display: flex; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px;">
+                      🔒
+                    </div>
+                    <div style="flex: 1;">
+                      <h4 style="margin-bottom: 8px;">Security Audit Report</h4>
+                      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+                        Failed logins and security events
+                      </p>
+                      <button class="btn btn-primary" style="width: 100%; font-size: 13px;" data-action="generate-report">Generate Report</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="logout.js"></script>
+  <script src="ui-actions.js"></script>
+  <script>
+    function switchAdminTab(event, tabName) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+      if (window.applyAllTableFilters) {
+        window.applyAllTableFilters();
+      }
+    }
+
+    // User Activity Chart
+    const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
+    new Chart(userActivityCtx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Active Users',
+          data: [45, 52, 48, 58, 62, 35, 28],
+          borderColor: 'rgba(37, 99, 235, 1)',
+          backgroundColor: 'rgba(37, 99, 235, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    });
+
+    // Module Usage Chart
+    const moduleUsageCtx = document.getElementById('moduleUsageChart').getContext('2d');
+    new Chart(moduleUsageCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Admin', 'Store', 'SCM', 'Planning & Billing', 'Accounts & Banking'],
+        datasets: [{
+          data: [15, 25, 20, 30, 10],
+          backgroundColor: [
+            'rgba(37, 99, 235, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(139, 92, 246, 0.8)',
+            'rgba(239, 68, 68, 0.8)'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

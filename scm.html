@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCM Module - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="admin.html" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Admin</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="store.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Store</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="scm.html" class="nav-link active">
+              <span class="nav-icon">🔗</span>
+              <span>SCM</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="planning-billing.html" class="nav-link">
+              <span class="nav-icon">📋</span>
+              <span>Planning & Billing</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="accounts-banking.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Accounts & Banking</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div style="padding: 20px; margin-top: auto; border-top: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div class="avatar" style="width: 40px; height: 40px;">MJ</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">Mike Johnson</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">SCM Manager</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; font-size: 13px;" onclick="window.location.href='login.html'">
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Supply Chain Management</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>SCM</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search vendors, POs...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">12</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">MJ</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Stats -->
+        <div class="grid grid-4">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Active Vendors</div>
+                <div class="stat-value">156</div>
+                <div class="stat-change positive">↑ 12 new this month</div>
+              </div>
+              <div class="stat-icon blue">🏪</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Active RFQs</div>
+                <div class="stat-value">18</div>
+                <div class="stat-change positive">3 responses pending</div>
+              </div>
+              <div class="stat-icon green">📋</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Pending POs</div>
+                <div class="stat-value">24</div>
+                <div class="stat-change negative">12 awaiting approval</div>
+              </div>
+              <div class="stat-icon orange">⏳</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Monthly Procurement</div>
+                <div class="stat-value">₹8.5M</div>
+                <div class="stat-change positive">↑ 12% from last month</div>
+              </div>
+              <div class="stat-icon red">💰</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-2 mt-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Procurement Trend</h3>
+              <select class="form-select" style="width: auto;">
+                <option>Last 6 Months</option>
+                <option>Last Year</option>
+                <option>All Time</option>
+              </select>
+            </div>
+            <div style="position: relative; height: 350px; padding: 20px;">
+              <canvas id="procurementChart" style="max-height: 310px;"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Vendor Performance</h3>
+            </div>
+            <div style="position: relative; height: 350px; padding: 20px; display: flex; justify-content: center; align-items: center;">
+              <canvas id="vendorPerformanceChart" style="max-height: 310px; max-width: 310px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="card mt-3">
+          <div class="tabs">
+            <button class="tab active" onclick="switchSCMTab(event, 'vendors')">Vendors</button>
+            <button class="tab" onclick="switchSCMTab(event, 'rfqs')">RFQs</button>
+            <button class="tab" onclick="switchSCMTab(event, 'purchaseOrders')">Purchase Orders</button>
+            <button class="tab" onclick="switchSCMTab(event, 'requisitions')">Material Requisitions</button>
+            <button class="tab" onclick="switchSCMTab(event, 'deliveryTracking')">Delivery Tracking</button>
+          </div>
+
+          <!-- Vendors Tab -->
+          <div id="vendors" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Categories</option>
+                  <option>Raw Materials</option>
+                  <option>Equipment</option>
+                  <option>Services</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                  <option>Blacklisted</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openAddVendorModal()">+ Add Vendor</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vendor ID</th>
+                    <th>Vendor Name</th>
+                    <th>Category</th>
+                    <th>Contact Person</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Rating</th>
+                    <th>Total Orders</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>VEN-001</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #3b82f6; width: 32px; height: 32px; font-size: 12px;">AS</div>
+                        <strong>ABC Supplies</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Raw Materials</span></td>
+                    <td>Rajesh Kumar</td>
+                    <td>9876543210</td>
+                    <td>rajesh@abcsupplies.com</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="color: #f59e0b;">⭐</span>
+                        <span style="font-weight: 600;">4.5</span>
+                      </div>
+                    </td>
+                    <td>142</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewVendorRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editVendorRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>VEN-002</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #10b981; width: 32px; height: 32px; font-size: 12px;">XC</div>
+                        <strong>XYZ Cement</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Raw Materials</span></td>
+                    <td>Suresh Sharma</td>
+                    <td>9876543211</td>
+                    <td>suresh@xyzcement.com</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="color: #f59e0b;">⭐</span>
+                        <span style="font-weight: 600;">4.8</span>
+                      </div>
+                    </td>
+                    <td>98</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewVendorRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editVendorRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>VEN-003</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #f59e0b; width: 32px; height: 32px; font-size: 12px;">MS</div>
+                        <strong>MegaSteel Pvt Ltd</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Raw Materials</span></td>
+                    <td>Amit Verma</td>
+                    <td>9876543212</td>
+                    <td>amit@megasteel.com</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="color: #f59e0b;">⭐</span>
+                        <span style="font-weight: 600;">4.2</span>
+                      </div>
+                    </td>
+                    <td>75</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewVendorRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editVendorRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>VEN-004</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #8b5cf6; width: 32px; height: 32px; font-size: 12px;">EC</div>
+                        <strong>ElectroCare Solutions</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Services</span></td>
+                    <td>Vikram Singh</td>
+                    <td>9876543213</td>
+                    <td>vikram@electrocare.com</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="color: #f59e0b;">⭐</span>
+                        <span style="font-weight: 600;">4.6</span>
+                      </div>
+                    </td>
+                    <td>45</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewVendorRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editVendorRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>VEN-005</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #ef4444; width: 32px; height: 32px; font-size: 12px;">BM</div>
+                        <strong>BuildMate Traders</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">Equipment</span></td>
+                    <td>Mohan Kumar</td>
+                    <td>9876543214</td>
+                    <td>mohan@buildmate.com</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="color: #f59e0b;">⭐</span>
+                        <span style="font-weight: 600;">3.9</span>
+                      </div>
+                    </td>
+                    <td>32</td>
+                    <td><span class="badge badge-warning">Inactive</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewVendorRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editVendorRow(this)">📝</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- RFQs Tab -->
+          <div id="rfqs" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Draft</option>
+                  <option>Sent</option>
+                  <option>Responses Received</option>
+                  <option>Finalized</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Projects</option>
+                  <option>Apollo Towers</option>
+                  <option>Metro Plaza</option>
+                  <option>Green Valley</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openCreateRFQModal()">+ Create RFQ</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>RFQ No.</th>
+                    <th>Project</th>
+                    <th>Items</th>
+                    <th>Vendors</th>
+                    <th>Responses</th>
+                    <th>Created Date</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>#RFQ-1045</strong></td>
+                    <td>Apollo Towers</td>
+                    <td>Steel Rods, Cement</td>
+                    <td>5</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight: 600;">3/5</span>
+                        <div class="progress-bar" style="width: 60px; height: 6px;">
+                          <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Jan 25, 2026</td>
+                    <td style="color: var(--warning-color); font-weight: 500;">Feb 05, 2026</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRFQRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editRFQRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#RFQ-1046</strong></td>
+                    <td>Metro Plaza</td>
+                    <td>Bricks, Sand, Gravel</td>
+                    <td>5</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight: 600;">5/5</span>
+                        <div class="progress-bar" style="width: 60px; height: 6px;">
+                          <div class="progress-fill success" style="width: 100%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Jan 20, 2026</td>
+                    <td>Feb 02, 2026</td>
+                    <td><span class="badge badge-success">Complete</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRFQRow(this)">👁️</button>
+                      <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="showRFQComparison('RFQ-1046')">Compare</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#RFQ-1047</strong></td>
+                    <td>Green Valley</td>
+                    <td>Plumbing Materials</td>
+                    <td>6</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight: 600;">2/6</span>
+                        <div class="progress-bar" style="width: 60px; height: 6px;">
+                          <div class="progress-fill warning" style="width: 33%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Jan 28, 2026</td>
+                    <td>Feb 10, 2026</td>
+                    <td><span class="badge badge-info">Open</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRFQRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editRFQRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#RFQ-1048</strong></td>
+                    <td>Sky Heights</td>
+                    <td>Electrical Fittings</td>
+                    <td>4</td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight: 600;">4/4</span>
+                        <div class="progress-bar" style="width: 60px; height: 6px;">
+                          <div class="progress-fill success" style="width: 100%;"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Jan 22, 2026</td>
+                    <td>Jan 30, 2026</td>
+                    <td><span class="badge badge-success">Finalized</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRFQRow(this)">👁️</button>
+                      <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="openCreatePOModal({ poNumber: '', vendor: '', project: '', items: '' })">Create PO</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Purchase Orders Tab -->
+          <div id="purchaseOrders" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Draft</option>
+                  <option>Pending Approval</option>
+                  <option>Approved</option>
+                  <option>In Transit</option>
+                  <option>Delivered</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Vendors</option>
+                  <option>ABC Supplies</option>
+                  <option>XYZ Cement</option>
+                  <option>MegaSteel</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openCreatePOModal()">+ Create PO</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PO Number</th>
+                    <th>Vendor</th>
+                    <th>Project</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Delivery Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>PO-2026-0234</strong></td>
+                    <td>ABC Supplies</td>
+                    <td>Apollo Towers</td>
+                    <td>Steel Rods - 50 tons</td>
+                    <td><strong>₹2.4M</strong></td>
+                    <td>Jan 20, 2026</td>
+                    <td>Feb 10, 2026</td>
+                    <td><span class="badge badge-success">Approved</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewPORow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewPODocument(this)">📄</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PO-2026-0235</strong></td>
+                    <td>XYZ Cement</td>
+                    <td>Metro Plaza</td>
+                    <td>Cement - 500 bags</td>
+                    <td><strong>₹1.8M</strong></td>
+                    <td>Jan 22, 2026</td>
+                    <td>Feb 05, 2026</td>
+                    <td><span class="badge badge-warning">Pending Approval</span></td>
+                    <td>
+                      <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approvePORow(this)">Approve</button>
+                      <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="rejectPORow(this)">Reject</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PO-2026-0236</strong></td>
+                    <td>MegaSteel Pvt Ltd</td>
+                    <td>Green Valley</td>
+                    <td>Steel Beams - 100 units</td>
+                    <td><strong>₹3.2M</strong></td>
+                    <td>Jan 25, 2026</td>
+                    <td>Feb 15, 2026</td>
+                    <td><span class="badge badge-info">In Transit</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewPORow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="trackPORow(this)">📍</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PO-2026-0237</strong></td>
+                    <td>BuildMate Traders</td>
+                    <td>Sky Heights</td>
+                    <td>Electrical Cables</td>
+                    <td><strong>₹0.95M</strong></td>
+                    <td>Jan 27, 2026</td>
+                    <td>Feb 08, 2026</td>
+                    <td><span class="badge badge-success">Delivered</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewPORow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="confirmPODelivery(this)">✓</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Material Requisitions Tab -->
+          <div id="requisitions" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Pending</option>
+                  <option>Approved</option>
+                  <option>Processing</option>
+                  <option>Fulfilled</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Projects</option>
+                  <option>Apollo Towers</option>
+                  <option>Metro Plaza</option>
+                  <option>Green Valley</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openNewRequisitionModal()">+ New Requisition</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Req. No.</th>
+                    <th>Project</th>
+                    <th>Requested By</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Priority</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>MR-2026-0145</strong></td>
+                    <td>Apollo Towers</td>
+                    <td>Rajesh Singh</td>
+                    <td>Cement, Sand</td>
+                    <td>500 bags, 20 tons</td>
+                    <td><span class="badge badge-danger">High</span></td>
+                    <td>Jan 28, 2026</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <button class="btn btn-success" style="padding: 6px 12px; font-size: 12px;" onclick="approveRequisitionRow(this)">Approve</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MR-2026-0146</strong></td>
+                    <td>Metro Plaza</td>
+                    <td>Amit Kumar</td>
+                    <td>Steel Rods</td>
+                    <td>100 tons</td>
+                    <td><span class="badge badge-danger">High</span></td>
+                    <td>Jan 27, 2026</td>
+                    <td><span class="badge badge-success">Approved</span></td>
+                    <td>
+                      <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="createRFQFromRequisitionRow(this)">Create RFQ</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MR-2026-0147</strong></td>
+                    <td>Green Valley</td>
+                    <td>Mukesh Kumar</td>
+                    <td>Plumbing Fixtures</td>
+                    <td>As per specs</td>
+                    <td><span class="badge badge-warning">Medium</span></td>
+                    <td>Jan 26, 2026</td>
+                    <td><span class="badge badge-info">Processing</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRequisitionRow(this)">👁️</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>MR-2026-0148</strong></td>
+                    <td>Sky Heights</td>
+                    <td>Vikram Joshi</td>
+                    <td>Paint, Putty</td>
+                    <td>200 liters, 50 bags</td>
+                    <td><span class="badge badge-info">Low</span></td>
+                    <td>Jan 25, 2026</td>
+                    <td><span class="badge badge-success">Fulfilled</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewRequisitionRow(this)">👁️</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Delivery Tracking Tab -->
+          <div id="deliveryTracking" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Delivery Tracking & Logistics</h3>
+                <select class="form-select" style="width: auto;">
+                  <option>All Deliveries</option>
+                  <option>In Transit</option>
+                  <option>Out for Delivery</option>
+                  <option>Delivered</option>
+                  <option>Delayed</option>
+                </select>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>PO Number</th>
+                      <th>Vendor</th>
+                      <th>Items</th>
+                      <th>Destination</th>
+                      <th>Shipped Date</th>
+                      <th>Expected Delivery</th>
+                      <th>Status</th>
+                      <th>Tracking</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>PO-2026-0236</strong></td>
+                      <td>MegaSteel Pvt Ltd</td>
+                      <td>Steel Beams - 100 units</td>
+                      <td>Green Valley Site</td>
+                      <td>Jan 27, 2026</td>
+                      <td>Feb 15, 2026</td>
+                      <td><span class="badge badge-info">In Transit</span></td>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <div class="progress-bar" style="width: 100px;">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                          </div>
+                          <span style="font-size: 12px;">45%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="trackDeliveryRow(this)">📍</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openDeliveryNotesRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewDeliveryRow(this)">👁️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>PO-2026-0234</strong></td>
+                      <td>ABC Supplies</td>
+                      <td>Steel Rods - 50 tons</td>
+                      <td>Apollo Towers</td>
+                      <td>Jan 25, 2026</td>
+                      <td>Feb 10, 2026</td>
+                      <td><span class="badge badge-warning">Out for Delivery</span></td>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <div class="progress-bar" style="width: 100px;">
+                            <div class="progress-fill warning" style="width: 85%;"></div>
+                          </div>
+                          <span style="font-size: 12px;">85%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="trackDeliveryRow(this)">📍</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openDeliveryNotesRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewDeliveryRow(this)">👁️</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>PO-2026-0237</strong></td>
+                      <td>BuildMate Traders</td>
+                      <td>Electrical Cables</td>
+                      <td>Sky Heights</td>
+                      <td>Jan 28, 2026</td>
+                      <td>Feb 08, 2026</td>
+                      <td><span class="badge badge-success">Delivered</span></td>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <div class="progress-bar" style="width: 100px;">
+                            <div class="progress-fill success" style="width: 100%;"></div>
+                          </div>
+                          <span style="font-size: 12px;">100%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button class="btn btn-success btn-icon" style="padding: 6px;" onclick="confirmPODelivery(this)">✓</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openDeliveryNotesRow(this)">📝</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewDeliveryRow(this)">👁️</button>
+                      </td>
+                    </tr>
+                    <tr style="background: rgba(239, 68, 68, 0.05);">
+                      <td><strong>PO-2026-0235</strong></td>
+                      <td>XYZ Cement</td>
+                      <td>Cement - 500 bags</td>
+                      <td>Metro Plaza</td>
+                      <td>Jan 23, 2026</td>
+                      <td>Feb 02, 2026</td>
+                      <td><span class="badge badge-danger">Delayed</span></td>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <div class="progress-bar" style="width: 100px;">
+                            <div class="progress-fill danger" style="width: 60%;"></div>
+                          </div>
+                          <span style="font-size: 12px;">60%</span>
+                        </div>
+                      </td>
+                      <td>
+                        <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="followUpDeliveryRow(this)">Follow Up</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openDeliveryNotesRow(this)">📝</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="margin-top: 32px;">
+                <h4 style="margin-bottom: 16px;">Delivery Map View</h4>
+                <div style="padding: 80px; background: var(--bg-primary); border-radius: 8px; text-align: center; border: 2px dashed var(--border-color);">
+                  <div style="font-size: 64px; margin-bottom: 16px;">🗺️</div>
+                  <div style="color: var(--text-secondary); font-size: 18px;">Interactive Delivery Tracking Map</div>
+                  <div style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
+                    Real-time GPS tracking of deliveries in transit
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- RFQ Comparison Modal -->
+  <div class="modal-overlay" id="rfqComparisonModal">
+    <div class="modal" style="max-width: 1200px;">
+      <div class="modal-header">
+        <h2 class="modal-title" id="rfqModalTitle">#RFQ-1046 - Vendor Quote Comparison</h2>
+        <button class="modal-close" onclick="closeRFQComparison()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="grid grid-2" style="gap: 24px; margin-bottom: 24px;">
+          <div>
+            <h3 style="margin-bottom: 12px;">RFQ Information</h3>
+            <div style="display: grid; gap: 8px;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-secondary);">Project:</span>
+                <strong id="rfqProject">Metro Plaza</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-secondary);">Created Date:</span>
+                <strong id="rfqCreatedDate">Jan 20, 2026</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-secondary);">Deadline:</span>
+                <strong id="rfqDeadline" style="color: var(--warning-color);">Feb 02, 2026</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-secondary);">Vendors Invited:</span>
+                <strong id="rfqVendorsInvited">5</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-secondary);">Responses Received:</span>
+                <strong id="rfqResponsesReceived">5</strong>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 style="margin-bottom: 12px;">Items Requested</h3>
+            <div style="background: var(--bg-primary); padding: 12px; border-radius: 8px;">
+              <ul id="rfqItemsList" style="margin: 0; padding-left: 20px;">
+                <li>Bricks (Red Clay) - 50,000 pieces</li>
+                <li>Sand (River Sand) - 100 cubic ft</li>
+                <li>Gravel (20mm) - 50 cubic ft</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom: 16px;">Vendor Quotes Comparison</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th>Bricks<br><small>(per 1000)</small></th>
+                <th>Sand<br><small>(per cubic ft)</small></th>
+                <th>Gravel<br><small>(per cubic ft)</small></th>
+                <th>Total Amount</th>
+                <th>Delivery Time</th>
+                <th>Payment Terms</th>
+                <th>Status</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: rgba(16, 185, 129, 0.05);">
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="avatar" style="background: #3b82f6; width: 32px; height: 32px; font-size: 12px;">AS</div>
+                    <div>
+                      <div style="font-weight: 600;">ABC Supplies</div>
+                      <div style="font-size: 11px; color: var(--text-secondary);">Rating: 4.5/5 ⭐</div>
+                    </div>
+                  </div>
+                </td>
+                <td><strong>₹6,500</strong></td>
+                <td><strong>₹45</strong></td>
+                <td><strong>₹55</strong></td>
+                <td>
+                  <div style="font-size: 18px; font-weight: 700; color: var(--success-color);">₹3.32L</div>
+                  <div style="font-size: 11px; color: var(--success-color);">✓ Lowest Bid</div>
+                </td>
+                <td>5 days</td>
+                <td>30 days credit</td>
+                <td><span class="badge badge-success">Received</span></td>
+                <td>
+                  <input type="radio" name="vendorSelection" checked style="width: 20px; height: 20px; cursor: pointer;">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="avatar" style="background: #10b981; width: 32px; height: 32px; font-size: 12px;">XC</div>
+                    <div>
+                      <div style="font-weight: 600;">XYZ Cement</div>
+                      <div style="font-size: 11px; color: var(--text-secondary);">Rating: 4.8/5 ⭐</div>
+                    </div>
+                  </div>
+                </td>
+                <td><strong>₹6,200</strong></td>
+                <td><strong>₹48</strong></td>
+                <td><strong>₹58</strong></td>
+                <td>
+                  <div style="font-size: 18px; font-weight: 700;">₹3.29L</div>
+                </td>
+                <td>3 days</td>
+                <td>45 days credit</td>
+                <td><span class="badge badge-success">Received</span></td>
+                <td>
+                  <input type="radio" name="vendorSelection" style="width: 20px; height: 20px; cursor: pointer;">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="avatar" style="background: #f59e0b; width: 32px; height: 32px; font-size: 12px;">MS</div>
+                    <div>
+                      <div style="font-weight: 600;">MegaSteel Pvt Ltd</div>
+                      <div style="font-size: 11px; color: var(--text-secondary);">Rating: 4.2/5 ⭐</div>
+                    </div>
+                  </div>
+                </td>
+                <td><strong>₹6,800</strong></td>
+                <td><strong>₹50</strong></td>
+                <td><strong>₹60</strong></td>
+                <td>
+                  <div style="font-size: 18px; font-weight: 700;">₹3.48L</div>
+                </td>
+                <td>7 days</td>
+                <td>20 days credit</td>
+                <td><span class="badge badge-success">Received</span></td>
+                <td>
+                  <input type="radio" name="vendorSelection" style="width: 20px; height: 20px; cursor: pointer;">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="avatar" style="background: #ef4444; width: 32px; height: 32px; font-size: 12px;">BM</div>
+                    <div>
+                      <div style="font-weight: 600;">BuildMate Traders</div>
+                      <div style="font-size: 11px; color: var(--text-secondary);">Rating: 3.9/5 ⭐</div>
+                    </div>
+                  </div>
+                </td>
+                <td><strong>₹7,200</strong></td>
+                <td><strong>₹52</strong></td>
+                <td><strong>₹62</strong></td>
+                <td>
+                  <div style="font-size: 18px; font-weight: 700;">₹3.64L</div>
+                </td>
+                <td>10 days</td>
+                <td>15 days credit</td>
+                <td><span class="badge badge-success">Received</span></td>
+                <td>
+                  <input type="radio" name="vendorSelection" style="width: 20px; height: 20px; cursor: pointer;">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="avatar" style="background: #8b5cf6; width: 32px; height: 32px; font-size: 12px;">SS</div>
+                    <div>
+                      <div style="font-weight: 600;">SteelSmart Co</div>
+                      <div style="font-size: 11px; color: var(--text-secondary);">Rating: 4.1/5 ⭐</div>
+                    </div>
+                  </div>
+                </td>
+                <td><strong>₹6,600</strong></td>
+                <td><strong>₹47</strong></td>
+                <td><strong>₹57</strong></td>
+                <td>
+                  <div style="font-size: 18px; font-weight: 700;">₹3.38L</div>
+                </td>
+                <td>6 days</td>
+                <td>25 days credit</td>
+                <td><span class="badge badge-success">Received</span></td>
+                <td>
+                  <input type="radio" name="vendorSelection" style="width: 20px; height: 20px; cursor: pointer;">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 24px; padding: 16px; background: rgba(37, 99, 235, 0.05); border-radius: 8px; border-left: 4px solid var(--primary-color);">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <span style="font-size: 24px;">💡</span>
+            <div>
+              <strong style="display: block; margin-bottom: 4px;">Recommendation:</strong>
+              <span>ABC Supplies offers the lowest total cost (₹3.32L) with competitive delivery time (5 days) and good payment terms (30 days credit). Their rating of 4.5/5 indicates reliable performance. <strong style="color: var(--success-color);">Estimated savings: ₹32,000</strong> compared to highest bid.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Comparison Chart -->
+        <div style="margin-top: 24px;">
+          <h4 style="margin-bottom: 16px;">Cost Comparison Chart</h4>
+          <div style="background: var(--bg-primary); padding: 20px; border-radius: 8px;">
+            <div style="position: relative; height: 250px;">
+              <canvas id="vendorComparisonChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeRFQComparison()">Close</button>
+        <button class="btn btn-primary" onclick="finalizeRFQ()">Finalize & Create PO</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="logout.js"></script>
+  <script src="ui-actions.js"></script>
+  <script>
+    function switchSCMTab(event, tabName) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+      if (window.applyAllTableFilters) {
+        window.applyAllTableFilters();
+      }
+    }
+
+    // Show RFQ Comparison Modal
+    function showRFQComparison(rfqNumber) {
+      document.getElementById('rfqComparisonModal').classList.add('active');
+      document.getElementById('rfqModalTitle').textContent = '#' + rfqNumber + ' - Vendor Quote Comparison';
+      
+      // Initialize comparison chart
+      setTimeout(() => {
+        initVendorComparisonChart();
+      }, 100);
+    }
+
+    // Close RFQ Comparison Modal
+    function closeRFQComparison() {
+      document.getElementById('rfqComparisonModal').classList.remove('active');
+    }
+
+    // Finalize RFQ
+    function finalizeRFQ() {
+      const selectedVendor = document.querySelector('input[name="vendorSelection"]:checked');
+      if (selectedVendor) {
+        alert('RFQ finalized successfully! Redirecting to create Purchase Order...');
+        closeRFQComparison();
+        // In production, this would redirect to PO creation page
+      } else {
+        alert('Please select a vendor first.');
+      }
+    }
+
+    // Vendor Comparison Chart in Modal
+    let comparisonChartInstance = null;
+    function initVendorComparisonChart() {
+      const ctx = document.getElementById('vendorComparisonChart');
+      if (!ctx) return;
+      
+      // Destroy existing chart if any
+      if (comparisonChartInstance) {
+        comparisonChartInstance.destroy();
+      }
+      
+      const chartCtx = ctx.getContext('2d');
+      comparisonChartInstance = new Chart(chartCtx, {
+        type: 'bar',
+        data: {
+          labels: ['ABC Supplies', 'XYZ Cement', 'MegaSteel', 'BuildMate', 'SteelSmart'],
+          datasets: [{
+            label: 'Total Quote Amount (₹ Lakhs)',
+            data: [3.32, 3.29, 3.48, 3.64, 3.38],
+            backgroundColor: [
+              'rgba(16, 185, 129, 0.8)',
+              'rgba(37, 99, 235, 0.8)',
+              'rgba(245, 158, 11, 0.8)',
+              'rgba(239, 68, 68, 0.8)',
+              'rgba(139, 92, 246, 0.8)'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '₹' + value + 'L';
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Procurement Trend Chart
+    const procurementCtx = document.getElementById('procurementChart').getContext('2d');
+    new Chart(procurementCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Procurement Value (₹M)',
+          data: [6.5, 7.2, 8.1, 7.8, 8.5, 9.2],
+          backgroundColor: 'rgba(37, 99, 235, 0.8)',
+          borderColor: 'rgba(37, 99, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Vendor Performance Chart
+    const vendorPerformanceCtx = document.getElementById('vendorPerformanceChart').getContext('2d');
+    new Chart(vendorPerformanceCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Excellent (4.5+)', 'Good (4.0-4.4)', 'Average (3.5-3.9)', 'Poor (<3.5)'],
+        datasets: [{
+          data: [45, 35, 15, 5],
+          backgroundColor: [
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(37, 99, 235, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(239, 68, 68, 0.8)'
+          ],
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: {
+                size: 12
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

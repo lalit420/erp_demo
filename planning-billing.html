@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planning & Billing Module - Construction ERP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">🏗️</div>
+        <div class="company-name">BuildPro ERP</div>
+      </div>
+      <nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="admin.html" class="nav-link">
+              <span class="nav-icon">⚙️</span>
+              <span>Admin</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="store.html" class="nav-link">
+              <span class="nav-icon">📦</span>
+              <span>Store</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="scm.html" class="nav-link">
+              <span class="nav-icon">🔗</span>
+              <span>SCM</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="planning-billing.html" class="nav-link active">
+              <span class="nav-icon">📋</span>
+              <span>Planning & Billing</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="accounts-banking.html" class="nav-link">
+              <span class="nav-icon">💰</span>
+              <span>Accounts & Banking</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div style="padding: 20px; margin-top: auto; border-top: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <div class="avatar" style="width: 40px; height: 40px;">JS</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">Jane Smith</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Project Manager</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; font-size: 13px;" onclick="window.location.href='login.html'">
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <h1>Planning & Billing Management</h1>
+          <div class="breadcrumb">
+            <span>Home</span> / <span>Planning & Billing</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search projects, clients...">
+          </div>
+          <button class="notification-btn">
+            <span>🔔</span>
+            <span class="notification-badge">15</span>
+          </button>
+          <button class="profile-btn">
+            <div class="user-avatar">JS</div>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- Stats -->
+        <div class="grid grid-4">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Active Projects</div>
+                <div class="stat-value">18</div>
+                <div class="stat-change positive">3 new this month</div>
+              </div>
+              <div class="stat-icon blue">📁</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Total Clients</div>
+                <div class="stat-value">45</div>
+                <div class="stat-change positive">↑ 8% growth</div>
+              </div>
+              <div class="stat-icon green">👥</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Labour Force</div>
+                <div class="stat-value">342</div>
+                <div class="stat-change positive">Across all sites</div>
+              </div>
+              <div class="stat-icon orange">👷</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <div>
+                <div class="stat-label">Equipment Active</div>
+                <div class="stat-value">112</div>
+                <div class="stat-change positive">76% utilization</div>
+              </div>
+              <div class="stat-icon red">🚜</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-2 mt-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Project Progress Overview</h3>
+              <select class="form-select" style="width: auto;">
+                <option>All Projects</option>
+                <option>This Quarter</option>
+                <option>This Year</option>
+              </select>
+            </div>
+            <div style="position: relative; height: 350px; padding: 20px;">
+              <canvas id="projectProgressChart" style="max-height: 310px;"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Resource Utilization</h3>
+            </div>
+            <div style="position: relative; height: 350px; padding: 20px; display: flex; justify-content: center; align-items: center;">
+              <canvas id="resourceUtilizationChart" style="max-height: 310px; max-width: 310px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="card mt-3">
+          <div class="tabs">
+            <button class="tab active" onclick="switchPlanningTab(event, 'projects')">Projects</button>
+            <button class="tab" onclick="switchPlanningTab(event, 'clients')">Clients</button>
+            <button class="tab" onclick="switchPlanningTab(event, 'siteManagement')">Site Management</button>
+            <button class="tab" onclick="switchPlanningTab(event, 'labour')">Labour</button>
+            <button class="tab" onclick="switchPlanningTab(event, 'equipment')">Equipment</button>
+            <button class="tab" onclick="switchPlanningTab(event, 'qualityControl')">Quality Control</button>
+          </div>
+
+          <!-- Projects Tab -->
+          <div id="projects" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Planning</option>
+                  <option>In Progress</option>
+                  <option>On Hold</option>
+                  <option>Completed</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Types</option>
+                  <option>Residential</option>
+                  <option>Commercial</option>
+                  <option>Infrastructure</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openNewProjectModal()">+ New Project</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                    <th>Client</th>
+                    <th>Location</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Budget</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>PRJ-001</strong></td>
+                    <td><strong>Apollo Towers</strong></td>
+                    <td>Tech Corp Ltd</td>
+                    <td>Sector 62, Noida</td>
+                    <td>Jan 15, 2024</td>
+                    <td>Mar 30, 2026</td>
+                    <td><strong>₹12.5 Cr</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="progress-bar" style="width: 80px;">
+                          <div class="progress-fill success" style="width: 75%;"></div>
+                        </div>
+                        <span style="font-weight: 600;">75%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">In Progress</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewProjectRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editProjectRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PRJ-002</strong></td>
+                    <td><strong>Metro Plaza</strong></td>
+                    <td>Metro Developers</td>
+                    <td>Golf Course Rd, Gurgaon</td>
+                    <td>Mar 01, 2024</td>
+                    <td>Aug 31, 2026</td>
+                    <td><strong>₹18.2 Cr</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="progress-bar" style="width: 80px;">
+                          <div class="progress-fill warning" style="width: 45%;"></div>
+                        </div>
+                        <span style="font-weight: 600;">45%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">In Progress</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewProjectRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editProjectRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PRJ-003</strong></td>
+                    <td><strong>Green Valley Resort</strong></td>
+                    <td>Valley Resorts Pvt Ltd</td>
+                    <td>Manesar, Haryana</td>
+                    <td>Jun 01, 2024</td>
+                    <td>Dec 31, 2026</td>
+                    <td><strong>₹25.5 Cr</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="progress-bar" style="width: 80px;">
+                          <div class="progress-fill" style="width: 15%;"></div>
+                        </div>
+                        <span style="font-weight: 600;">15%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Planning</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewProjectRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editProjectRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PRJ-004</strong></td>
+                    <td><strong>Smart City Complex</strong></td>
+                    <td>Smart City Corp</td>
+                    <td>Greater Noida West</td>
+                    <td>Feb 15, 2024</td>
+                    <td>Sep 30, 2026</td>
+                    <td><strong>₹35.8 Cr</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="progress-bar" style="width: 80px;">
+                          <div class="progress-fill warning" style="width: 58%;"></div>
+                        </div>
+                        <span style="font-weight: 600;">58%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">In Progress</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewProjectRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editProjectRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>PRJ-005</strong></td>
+                    <td><strong>Sky Heights Apartments</strong></td>
+                    <td>Urban Homes Ltd</td>
+                    <td>Sector 137, Noida</td>
+                    <td>Aug 01, 2023</td>
+                    <td>Jan 31, 2026</td>
+                    <td><strong>₹22.3 Cr</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="progress-bar" style="width: 80px;">
+                          <div class="progress-fill success" style="width: 92%;"></div>
+                        </div>
+                        <span style="font-weight: 600;">92%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-success">In Progress</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewProjectRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editProjectRow(this)">📝</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Clients Tab -->
+          <div id="clients" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
+              <div style="display: flex; gap: 12px;">
+                <select class="form-select" style="width: auto;">
+                  <option>All Types</option>
+                  <option>Corporate</option>
+                  <option>Individual</option>
+                  <option>Government</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="openAddClientModal()">+ Add Client</button>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Client ID</th>
+                    <th>Client Name</th>
+                    <th>Type</th>
+                    <th>Contact Person</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Active Projects</th>
+                    <th>Total Value</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>CLI-001</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #3b82f6; width: 32px; height: 32px; font-size: 12px;">TC</div>
+                        <strong>Tech Corp Ltd</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Corporate</span></td>
+                    <td>Amit Sharma</td>
+                    <td>+91 9876543210</td>
+                    <td>amit@techcorp.com</td>
+                    <td>2</td>
+                    <td><strong>₹18.5 Cr</strong></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewClientRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editClientRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>CLI-002</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #10b981; width: 32px; height: 32px; font-size: 12px;">MD</div>
+                        <strong>Metro Developers</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Corporate</span></td>
+                    <td>Priya Mehta</td>
+                    <td>+91 9876543211</td>
+                    <td>priya@metrodev.com</td>
+                    <td>1</td>
+                    <td><strong>₹18.2 Cr</strong></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewClientRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editClientRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>CLI-003</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #f59e0b; width: 32px; height: 32px; font-size: 12px;">VR</div>
+                        <strong>Valley Resorts Pvt Ltd</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-info">Corporate</span></td>
+                    <td>Vikram Singh</td>
+                    <td>+91 9876543212</td>
+                    <td>vikram@valleyresorts.com</td>
+                    <td>1</td>
+                    <td><strong>₹25.5 Cr</strong></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewClientRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editClientRow(this)">📝</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>CLI-004</strong></td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <div class="avatar" style="background: #8b5cf6; width: 32px; height: 32px; font-size: 12px;">SC</div>
+                        <strong>Smart City Corp</strong>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-warning">Government</span></td>
+                    <td>Rajesh Kumar</td>
+                    <td>+91 9876543213</td>
+                    <td>rajesh@smartcity.gov.in</td>
+                    <td>1</td>
+                    <td><strong>₹35.8 Cr</strong></td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewClientRow(this)">👁️</button>
+                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editClientRow(this)">📝</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Site Management Tab -->
+          <div id="siteManagement" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Active Construction Sites</h3>
+
+              <div class="grid grid-2" style="gap: 20px;">
+                <!-- Site Card 1 -->
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                    <div>
+                      <h3 style="font-size: 18px; margin-bottom: 4px;">Apollo Towers - Site A</h3>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Sector 62, Noida</div>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Site Manager</div>
+                      <div style="font-weight: 500;">Rajesh Singh</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Workers Today</div>
+                      <div style="font-weight: 500;">142 / 160</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Progress</div>
+                      <div style="font-weight: 500; color: var(--success-color);">75%</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Last Updated</div>
+                      <div style="font-weight: 500;">2 hours ago</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                      <span style="font-size: 13px;">Overall Progress</span>
+                      <span style="font-size: 13px; font-weight: 600;">75%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill success" style="width: 75%;"></div>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="viewSiteDetails(this)">View Details</button>
+                    <button class="btn btn-secondary" onclick="openSiteDailyReport(this)">Daily Report</button>
+                  </div>
+                </div>
+
+                <!-- Site Card 2 -->
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                    <div>
+                      <h3 style="font-size: 18px; margin-bottom: 4px;">Metro Plaza - Site B</h3>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Golf Course Road, Gurgaon</div>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Site Manager</div>
+                      <div style="font-weight: 500;">Amit Kumar</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Workers Today</div>
+                      <div style="font-weight: 500;">98 / 120</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Progress</div>
+                      <div style="font-weight: 500; color: var(--warning-color);">45%</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Last Updated</div>
+                      <div style="font-weight: 500;">1 hour ago</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                      <span style="font-size: 13px;">Overall Progress</span>
+                      <span style="font-size: 13px; font-weight: 600;">45%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill warning" style="width: 45%;"></div>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="viewSiteDetails(this)">View Details</button>
+                    <button class="btn btn-secondary" onclick="openSiteDailyReport(this)">Daily Report</button>
+                  </div>
+                </div>
+
+                <!-- Site Card 3 -->
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                    <div>
+                      <h3 style="font-size: 18px; margin-bottom: 4px;">Green Valley Resort</h3>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Manesar, Haryana</div>
+                    </div>
+                    <span class="badge badge-warning">Planning</span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Site Manager</div>
+                      <div style="font-weight: 500;">Suresh Verma</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Workers Today</div>
+                      <div style="font-weight: 500;">45 / 80</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Progress</div>
+                      <div style="font-weight: 500; color: var(--text-secondary);">15%</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Last Updated</div>
+                      <div style="font-weight: 500;">3 hours ago</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                      <span style="font-size: 13px;">Overall Progress</span>
+                      <span style="font-size: 13px; font-weight: 600;">15%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill" style="width: 15%;"></div>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="viewSiteDetails(this)">View Details</button>
+                    <button class="btn btn-secondary" onclick="openSiteDailyReport(this)">Daily Report</button>
+                  </div>
+                </div>
+
+                <!-- Site Card 4 -->
+                <div class="card" style="margin: 0;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
+                    <div>
+                      <h3 style="font-size: 18px; margin-bottom: 4px;">Smart City Complex</h3>
+                      <div style="font-size: 13px; color: var(--text-secondary);">Greater Noida West</div>
+                    </div>
+                    <span class="badge badge-success">Active</span>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Site Manager</div>
+                      <div style="font-weight: 500;">Vikram Joshi</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Workers Today</div>
+                      <div style="font-weight: 500;">57 / 65</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Progress</div>
+                      <div style="font-weight: 500; color: var(--warning-color);">58%</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 12px; color: var(--text-secondary);">Last Updated</div>
+                      <div style="font-weight: 500;">30 mins ago</div>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                      <span style="font-size: 13px;">Overall Progress</span>
+                      <span style="font-size: 13px; font-weight: 600;">58%</span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill warning" style="width: 58%;"></div>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="viewSiteDetails(this)">View Details</button>
+                    <button class="btn btn-secondary" onclick="openSiteDailyReport(this)">Daily Report</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Labour Tab -->
+          <div id="labour" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Labour Management</h3>
+                <button class="btn btn-primary" onclick="openAddWorkerModal()">+ Add Worker</button>
+              </div>
+
+              <!-- Labour Stats -->
+              <div class="grid grid-4" style="margin-bottom: 24px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Workers</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">342</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Present Today</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">302</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Absent</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--danger-color);">40</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Attendance Rate</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">88%</div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Worker ID</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Site</th>
+                      <th>Phone</th>
+                      <th>Daily Rate</th>
+                      <th>Attendance %</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>WKR-001</strong></td>
+                      <td>Ramesh Kumar</td>
+                      <td><span class="badge badge-info">Mason</span></td>
+                      <td>Apollo Towers</td>
+                      <td>9876543210</td>
+                      <td>₹850</td>
+                      <td>95%</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewWorkerRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editWorkerRow(this)">📝</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>WKR-002</strong></td>
+                      <td>Suresh Yadav</td>
+                      <td><span class="badge badge-info">Carpenter</span></td>
+                      <td>Metro Plaza</td>
+                      <td>9876543211</td>
+                      <td>₹900</td>
+                      <td>92%</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewWorkerRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editWorkerRow(this)">📝</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>WKR-003</strong></td>
+                      <td>Mukesh Sharma</td>
+                      <td><span class="badge badge-warning">Electrician</span></td>
+                      <td>Apollo Towers</td>
+                      <td>9876543212</td>
+                      <td>₹1,100</td>
+                      <td>88%</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewWorkerRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editWorkerRow(this)">📝</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>WKR-004</strong></td>
+                      <td>Vijay Singh</td>
+                      <td><span class="badge badge-warning">Plumber</span></td>
+                      <td>Smart City</td>
+                      <td>9876543213</td>
+                      <td>₹1,050</td>
+                      <td>90%</td>
+                      <td><span class="badge badge-success">Active</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewWorkerRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editWorkerRow(this)">📝</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Equipment Tab -->
+          <div id="equipment" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Equipment Management</h3>
+                <button class="btn btn-primary" onclick="openAddEquipmentModal()">+ Add Equipment</button>
+              </div>
+
+              <!-- Equipment Stats -->
+              <div class="grid grid-4" style="margin-bottom: 24px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Equipment</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">148</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">In Operation</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">112</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Maintenance Due</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--warning-color);">8</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Utilization Rate</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">76%</div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Equipment ID</th>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Model</th>
+                      <th>Location</th>
+                      <th>Status</th>
+                      <th>Last Maintenance</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>EQP-001</strong></td>
+                      <td>Excavator - Komatsu</td>
+                      <td><span class="badge badge-info">Heavy Machinery</span></td>
+                      <td>PC200-8</td>
+                      <td>Apollo Towers</td>
+                      <td><span class="badge badge-success">In Use</span></td>
+                      <td>Jan 15, 2026</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewEquipmentRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editEquipmentRow(this)">📝</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>EQP-002</strong></td>
+                      <td>Tower Crane</td>
+                      <td><span class="badge badge-info">Heavy Machinery</span></td>
+                      <td>Potain MCT 85</td>
+                      <td>Metro Plaza</td>
+                      <td><span class="badge badge-success">In Use</span></td>
+                      <td>Jan 10, 2026</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewEquipmentRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editEquipmentRow(this)">📝</button>
+                      </td>
+                    </tr>
+                    <tr style="background: rgba(245, 158, 11, 0.05);">
+                      <td><strong>EQP-003</strong></td>
+                      <td>Bulldozer - Caterpillar</td>
+                      <td><span class="badge badge-info">Heavy Machinery</span></td>
+                      <td>D6T</td>
+                      <td>Workshop</td>
+                      <td><span class="badge badge-warning">Maintenance</span></td>
+                      <td>Dec 28, 2025</td>
+                      <td>
+                        <button class="btn btn-warning" style="padding: 6px 12px; font-size: 12px;" onclick="scheduleEquipmentMaintenance(this)">Schedule</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>EQP-004</strong></td>
+                      <td>Generator - 100 KVA</td>
+                      <td><span class="badge badge-secondary">Power Equipment</span></td>
+                      <td>Kirloskar</td>
+                      <td>Apollo Towers</td>
+                      <td><span class="badge badge-success">In Use</span></td>
+                      <td>Jan 18, 2026</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewEquipmentRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editEquipmentRow(this)">📝</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quality Control Tab -->
+          <div id="qualityControl" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Quality Control & Inspections</h3>
+                <button class="btn btn-primary" onclick="openNewInspectionModal()">+ New Inspection</button>
+              </div>
+
+              <!-- Quality Stats -->
+              <div class="grid grid-4" style="margin-bottom: 24px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Inspections</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--primary-color);">245</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Pass Rate</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">94%</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Non-Conformances</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--danger-color);">15</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Quality Score</div>
+                  <div style="font-size: 24px; font-weight: 700; color: var(--success-color);">8.9/10</div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Inspection ID</th>
+                      <th>Type</th>
+                      <th>Project</th>
+                      <th>Date</th>
+                      <th>Inspector</th>
+                      <th>Result</th>
+                      <th>Score</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>INS-2026-0245</strong></td>
+                      <td>Foundation</td>
+                      <td>Apollo Towers</td>
+                      <td>Jan 30, 2026</td>
+                      <td>Rajesh Singh</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td><span class="badge badge-warning">In Progress</span></td>
+                      <td>
+                        <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="continueInspection(this)">Continue</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>INS-2026-0244</strong></td>
+                      <td>Structural</td>
+                      <td>Metro Plaza</td>
+                      <td>Jan 29, 2026</td>
+                      <td>Amit Kumar</td>
+                      <td><span class="badge badge-success">Passed</span></td>
+                      <td><strong>9.2/10</strong></td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewInspectionRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openInspectionReport(this)">📄</button>
+                      </td>
+                    </tr>
+                    <tr style="background: rgba(239, 68, 68, 0.05);">
+                      <td><strong>INS-2026-0243</strong></td>
+                      <td>MEP Systems</td>
+                      <td>Apollo Towers</td>
+                      <td>Jan 28, 2026</td>
+                      <td>Mukesh Prasad</td>
+                      <td><span class="badge badge-danger">Failed</span></td>
+                      <td><strong>6.5/10</strong></td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td>
+                        <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="actionRequiredInspection(this)">Action Required</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>INS-2026-0242</strong></td>
+                      <td>Concrete Quality</td>
+                      <td>Green Valley</td>
+                      <td>Jan 27, 2026</td>
+                      <td>Suresh Verma</td>
+                      <td><span class="badge badge-success">Passed</span></td>
+                      <td><strong>8.8/10</strong></td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewInspectionRow(this)">👁️</button>
+                        <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="openInspectionReport(this)">📄</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="logout.js"></script>
+  <script src="ui-actions.js"></script>
+  <script>
+    function switchPlanningTab(event, tabName) {
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+      if (window.applyAllTableFilters) {
+        window.applyAllTableFilters();
+      }
+    }
+
+    // Project Progress Chart
+    const projectProgressCtx = document.getElementById('projectProgressChart').getContext('2d');
+    new Chart(projectProgressCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Apollo Towers', 'Metro Plaza', 'Green Valley', 'Smart City', 'Sky Heights'],
+        datasets: [{
+          label: 'Progress (%)',
+          data: [75, 45, 15, 58, 92],
+          backgroundColor: [
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(239, 68, 68, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(16, 185, 129, 0.8)'
+          ],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+
+    // Resource Utilization Chart
+    const resourceUtilizationCtx = document.getElementById('resourceUtilizationChart').getContext('2d');
+    new Chart(resourceUtilizationCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Labour', 'Equipment', 'Materials', 'Subcontractors'],
+        datasets: [{
+          data: [35, 25, 30, 10],
+          backgroundColor: [
+            'rgba(37, 99, 235, 0.8)',
+            'rgba(16, 185, 129, 0.8)',
+            'rgba(245, 158, 11, 0.8)',
+            'rgba(139, 92, 246, 0.8)'
+          ],
+          borderWidth: 2,
+          borderColor: '#ffffff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 15,
+              font: {
+                size: 12
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
