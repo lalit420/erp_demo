@@ -40,6 +40,26 @@
               <span class="nav-icon">📋</span>
               <span>Planning & Billing</span>
             </a>
+            <ul class="nav-submenu">
+              <li>
+                <button class="nav-sublink active" type="button" onclick="switchPlanningTab(event, 'projects')">Projects</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchPlanningTab(event, 'clients')">Clients</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchPlanningTab(event, 'siteManagement')">Site Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchPlanningTab(event, 'labour')">Labour</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchPlanningTab(event, 'equipment')">Equipment</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchPlanningTab(event, 'qualityControl')">Quality Control</button>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="accounts-banking.html" class="nav-link">
@@ -160,17 +180,8 @@
           </div>
         </div>
 
-        <!-- Tabs -->
+        <!-- Planning & Billing Sections -->
         <div class="card mt-3">
-          <div class="tabs">
-            <button class="tab active" onclick="switchPlanningTab(event, 'projects')">Projects</button>
-            <button class="tab" onclick="switchPlanningTab(event, 'clients')">Clients</button>
-            <button class="tab" onclick="switchPlanningTab(event, 'siteManagement')">Site Management</button>
-            <button class="tab" onclick="switchPlanningTab(event, 'labour')">Labour</button>
-            <button class="tab" onclick="switchPlanningTab(event, 'equipment')">Equipment</button>
-            <button class="tab" onclick="switchPlanningTab(event, 'qualityControl')">Quality Control</button>
-          </div>
-
           <!-- Projects Tab -->
           <div id="projects" class="tab-content active">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
@@ -955,8 +966,8 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => tab.classList.remove('active'));
+      const sublinks = document.querySelectorAll('.nav-submenu .nav-sublink');
+      sublinks.forEach(link => link.classList.remove('active'));
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');

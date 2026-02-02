@@ -34,6 +34,23 @@
               <span class="nav-icon">🔗</span>
               <span>SCM</span>
             </a>
+            <ul class="nav-submenu">
+              <li>
+                <button class="nav-sublink active" type="button" onclick="switchSCMTab(event, 'vendors')">Vendors</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'rfqs')">RFQs</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'purchaseOrders')">Purchase Orders</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'requisitions')">Material Requisitions</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'deliveryTracking')">Delivery Tracking</button>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="planning-billing.html" class="nav-link">
@@ -160,16 +177,8 @@
           </div>
         </div>
 
-        <!-- Tabs -->
+        <!-- SCM Sections -->
         <div class="card mt-3">
-          <div class="tabs">
-            <button class="tab active" onclick="switchSCMTab(event, 'vendors')">Vendors</button>
-            <button class="tab" onclick="switchSCMTab(event, 'rfqs')">RFQs</button>
-            <button class="tab" onclick="switchSCMTab(event, 'purchaseOrders')">Purchase Orders</button>
-            <button class="tab" onclick="switchSCMTab(event, 'requisitions')">Material Requisitions</button>
-            <button class="tab" onclick="switchSCMTab(event, 'deliveryTracking')">Delivery Tracking</button>
-          </div>
-
           <!-- Vendors Tab -->
           <div id="vendors" class="tab-content active">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
@@ -1011,8 +1020,8 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => tab.classList.remove('active'));
+      const sublinks = document.querySelectorAll('.nav-submenu .nav-sublink');
+      sublinks.forEach(link => link.classList.remove('active'));
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');

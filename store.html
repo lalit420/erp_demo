@@ -28,6 +28,23 @@
               <span class="nav-icon">📦</span>
               <span>Store</span>
             </a>
+            <ul class="nav-submenu">
+              <li>
+                <button class="nav-sublink active" type="button" onclick="switchStoreTab(event, 'inventory')">Inventory</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'warehouses')">Warehouses</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockMovement')">Stock Movement</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockAdjustment')">Stock Adjustment</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'reorderLevels')">Reorder Levels</button>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="scm.html" class="nav-link">
@@ -160,16 +177,8 @@
           </div>
         </div>
 
-        <!-- Tabs -->
+        <!-- Store Sections -->
         <div class="card mt-3">
-          <div class="tabs">
-            <button class="tab active" onclick="switchStoreTab(event, 'inventory')">Inventory</button>
-            <button class="tab" onclick="switchStoreTab(event, 'warehouses')">Warehouses</button>
-            <button class="tab" onclick="switchStoreTab(event, 'stockMovement')">Stock Movement</button>
-            <button class="tab" onclick="switchStoreTab(event, 'stockAdjustment')">Stock Adjustment</button>
-            <button class="tab" onclick="switchStoreTab(event, 'reorderLevels')">Reorder Levels</button>
-          </div>
-
           <!-- Inventory Tab -->
           <div id="inventory" class="tab-content active">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
@@ -654,8 +663,8 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => tab.classList.remove('active'));
+      const sublinks = document.querySelectorAll('.nav-submenu .nav-sublink');
+      sublinks.forEach(link => link.classList.remove('active'));
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');

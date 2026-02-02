@@ -22,6 +22,26 @@
               <span class="nav-icon">⚙️</span>
               <span>Admin</span>
             </a>
+            <ul class="nav-submenu">
+              <li>
+                <button class="nav-sublink active" type="button" onclick="switchAdminTab(event, 'dashboard')">Dashboard</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'users')">User Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'roles')">Roles & Permissions</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'settings')">System Settings</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'documents')">Documents</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'reports')">Reports</button>
+              </li>
+            </ul>
           </li>
           <li class="nav-item">
             <a href="store.html" class="nav-link">
@@ -160,17 +180,8 @@
           </div>
         </div>
 
-        <!-- Tabs -->
+        <!-- Admin Sections -->
         <div class="card mt-3">
-          <div class="tabs">
-            <button class="tab active" onclick="switchAdminTab(event, 'dashboard')">Dashboard</button>
-            <button class="tab" onclick="switchAdminTab(event, 'users')">User Management</button>
-            <button class="tab" onclick="switchAdminTab(event, 'roles')">Roles & Permissions</button>
-            <button class="tab" onclick="switchAdminTab(event, 'settings')">System Settings</button>
-            <button class="tab" onclick="switchAdminTab(event, 'documents')">Documents</button>
-            <button class="tab" onclick="switchAdminTab(event, 'reports')">Reports</button>
-          </div>
-
           <!-- Dashboard Tab -->
           <div id="dashboard" class="tab-content active">
             <div style="padding-top: 20px;">
@@ -729,8 +740,8 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => tab.classList.remove('active'));
+      const sublinks = document.querySelectorAll('.nav-sublink');
+      sublinks.forEach(link => link.classList.remove('active'));
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');

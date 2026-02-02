@@ -46,6 +46,26 @@
               <span class="nav-icon">💰</span>
               <span>Accounts & Banking</span>
             </a>
+            <ul class="nav-submenu">
+              <li>
+                <button class="nav-sublink active" type="button" onclick="switchAccountsTab(event, 'invoices')">Invoices & Billing</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'receivables')">Accounts Receivable</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'payables')">Accounts Payable</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'payments')">Payments</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'budget')">Budget Tracking</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'bankAccounts')">Bank Accounts</button>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -160,17 +180,8 @@
           </div>
         </div>
 
-        <!-- Tabs -->
+        <!-- Accounts & Banking Sections -->
         <div class="card mt-3">
-          <div class="tabs">
-            <button class="tab active" onclick="switchAccountsTab(event, 'invoices')">Invoices & Billing</button>
-            <button class="tab" onclick="switchAccountsTab(event, 'receivables')">Accounts Receivable</button>
-            <button class="tab" onclick="switchAccountsTab(event, 'payables')">Accounts Payable</button>
-            <button class="tab" onclick="switchAccountsTab(event, 'payments')">Payments</button>
-            <button class="tab" onclick="switchAccountsTab(event, 'budget')">Budget Tracking</button>
-            <button class="tab" onclick="switchAccountsTab(event, 'bankAccounts')">Bank Accounts</button>
-          </div>
-
           <!-- Invoices & Billing Tab -->
           <div id="invoices" class="tab-content active">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 20px;">
@@ -881,8 +892,8 @@
       const tabContents = document.querySelectorAll('.tab-content');
       tabContents.forEach(content => content.classList.remove('active'));
 
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => tab.classList.remove('active'));
+      const sublinks = document.querySelectorAll('.nav-submenu .nav-sublink');
+      sublinks.forEach(link => link.classList.remove('active'));
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');
