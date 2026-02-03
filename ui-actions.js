@@ -34,7 +34,7 @@
 
   const getStoredRole = () => {
     try {
-      return localStorage.getItem('erpRole') || sessionStorage.getItem('erpRole') || '';
+      return normalize(localStorage.getItem('erpRole') || sessionStorage.getItem('erpRole') || '');
     } catch (error) {
       return '';
     }
@@ -49,7 +49,12 @@
     }
   };
 
-  const getCurrentPage = () => normalizePath(window.location.href);
+  const normalizeRouteName = (value) => {
+    const file = normalizePath(value);
+    return file.replace(/\.html?$/i, '');
+  };
+
+  const getCurrentPage = () => normalizePath(window.location.pathname || window.location.href);
 
   const applyRoleAccess = () => {
     const roleFromQuery = getRoleFromQuery();
@@ -64,9 +69,13 @@
       return;
     }
 
+    const currentRoute = normalizeRouteName(currentPage);
+
     let inferredRole = '';
     if (!role || !roleRoutes[role]) {
-      inferredRole = Object.keys(roleRoutes).find((key) => roleRoutes[key].includes(currentPage)) || '';
+      inferredRole = Object.keys(roleRoutes).find((key) =>
+        roleRoutes[key].some((route) => normalizeRouteName(route) === currentRoute)
+      ) || '';
       if (inferredRole) {
         persistRole(inferredRole);
       } else {
@@ -77,8 +86,13 @@
 
     const effectiveRole = role && roleRoutes[role] ? role : inferredRole || getStoredRole();
     const allowed = roleRoutes[effectiveRole] || [currentPage];
+    const allowedNormalized = allowed.map(normalizeRouteName).filter(Boolean);
 
-    if (!allowed.includes(currentPage)) {
+    if (!allowedNormalized.length) {
+      return;
+    }
+
+    if (!allowedNormalized.includes(currentRoute)) {
       window.location.href = allowed[0];
       return;
     }
@@ -86,10 +100,10 @@
     document.querySelectorAll('.nav-menu .nav-link').forEach((link) => {
       const href = link.getAttribute('href');
       if (!href) return;
-      const normalizedHref = normalizePath(href).replace(/^\/+/, '');
+      const normalizedHref = normalizeRouteName(href).replace(/^\/+/, '');
       const item = link.closest('.nav-item');
       if (!item) return;
-      item.style.display = allowed.includes(normalizedHref) ? '' : 'none';
+      item.style.display = allowedNormalized.includes(normalizedHref) ? '' : 'none';
     });
   };
 
