@@ -44,6 +44,48 @@
               <li>
                 <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'reorderLevels')">Reorder Levels</button>
               </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'materialRequests')">Material Requests</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'issueReturns')">Issue & Returns</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'grn')">GRN / Goods Receipt</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'qualityInspection')">Quality Inspection</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'batchTracking')">Batch / Lot Tracking</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'serialTracking')">Serial Tracking</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'transferOrders')">Transfer Orders</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockValuation')">Stock Valuation</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'toolCrib')">Tool Crib</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'consumables')">Consumables</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'expiryShelfLife')">Expiry & Shelf-life</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'kitting')">Kitting / Bundling</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'binLocations')">Bin & Location</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'cycleCounts')">Cycle Counts</button>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -651,6 +693,1684 @@
               </div>
             </div>
           </div>
+
+          <!-- Material Requests Tab -->
+          <div id="materialRequests" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Material Requests</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Create and approve site-wise requests, reserve stock, and generate pick lists.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Request Intake</h4>
+                    <button class="btn btn-secondary" id="mr-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="mr-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="mr-edit-index" value="">
+                    <div class="form-group">
+                      <label for="mr-no">Request No</label>
+                      <input type="text" id="mr-no" required placeholder="MR-2026-014">
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-site">Site</label>
+                      <input type="text" id="mr-site" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-item">Item</label>
+                      <input type="text" id="mr-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-qty">Quantity</label>
+                      <input type="number" id="mr-qty" required min="1" placeholder="120">
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-uom">UOM</label>
+                      <select id="mr-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-priority">Priority</label>
+                      <select id="mr-priority" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-required">Required By</label>
+                      <input type="text" id="mr-required" required placeholder="Feb 10, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="mr-status">Status</label>
+                      <select id="mr-status" class="form-select" required>
+                        <option value="Submitted">Submitted</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Partially Fulfilled">Partially Fulfilled</option>
+                        <option value="Fulfilled">Fulfilled</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="mr-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Request</th>
+                          <th>Site</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Priority</th>
+                          <th>Required By</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="mr-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="mr-export" type="button">Export Requests</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Fulfillment Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Open Requests</span>
+                      <strong id="mr-open-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Urgent</span>
+                      <strong id="mr-urgent-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Fulfilled</span>
+                      <strong id="mr-fulfilled-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Partial</span>
+                      <strong id="mr-partial-count">0</strong>
+                    </div>
+                  </div>
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Request</th>
+                          <th>Warehouse</th>
+                          <th>Allocated</th>
+                        </tr>
+                      </thead>
+                      <tbody id="mr-allocations-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Issue & Returns Tab -->
+          <div id="issueReturns" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Issue & Returns</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Issue materials to sites/teams and record returns, damage, and wastage.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Issue / Return Entry</h4>
+                    <button class="btn btn-secondary" id="issue-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="issue-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="issue-edit-index" value="">
+                    <div class="form-group">
+                      <label for="issue-type">Type</label>
+                      <select id="issue-type" class="form-select" required>
+                        <option value="Issue">Issue</option>
+                        <option value="Return">Return</option>
+                        <option value="Wastage">Wastage</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-ref">Reference No</label>
+                      <input type="text" id="issue-ref" required placeholder="IS-2026-022">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-site">Site / Cost Center</label>
+                      <input type="text" id="issue-site" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-item">Item</label>
+                      <input type="text" id="issue-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-qty">Quantity</label>
+                      <input type="number" id="issue-qty" required min="1" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-uom">UOM</label>
+                      <select id="issue-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-receiver">Receiver / Handler</label>
+                      <input type="text" id="issue-receiver" required placeholder="Site Supervisor">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-date">Date</label>
+                      <input type="text" id="issue-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="issue-status">Status</label>
+                      <select id="issue-status" class="form-select" required>
+                        <option value="Open">Open</option>
+                        <option value="Posted">Posted</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="issue-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Reference</th>
+                          <th>Site</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="issue-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="issue-export" type="button">Export Issues</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Issue Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Open</span>
+                      <strong id="issue-open-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Posted</span>
+                      <strong id="issue-posted-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Returns</span>
+                      <strong id="issue-return-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Wastage</span>
+                      <strong id="issue-wastage-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Reference</th>
+                          <th>Handler</th>
+                          <th>Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody id="issue-handlers-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GRN Tab -->
+          <div id="grn" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">GRN / Goods Receipt</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Receive items against PO, validate quantities, and update stock on hand.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Receiving</h4>
+                    <button class="btn btn-secondary" id="grn-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="grn-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="grn-edit-index" value="">
+                    <div class="form-group">
+                      <label for="grn-no">GRN No</label>
+                      <input type="text" id="grn-no" required placeholder="GRN-2026-028">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-po">PO No</label>
+                      <input type="text" id="grn-po" required placeholder="PO-2026-110">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-vendor">Vendor</label>
+                      <input type="text" id="grn-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-item">Item</label>
+                      <input type="text" id="grn-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-qty">Received Qty</label>
+                      <input type="number" id="grn-qty" required min="1" placeholder="200">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-uom">UOM</label>
+                      <select id="grn-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-warehouse">Warehouse</label>
+                      <input type="text" id="grn-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-date">Received Date</label>
+                      <input type="text" id="grn-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="grn-status">Status</label>
+                      <select id="grn-status" class="form-select" required>
+                        <option value="Received">Received</option>
+                        <option value="QC Hold">QC Hold</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="grn-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>GRN</th>
+                          <th>PO</th>
+                          <th>Vendor</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="grn-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="grn-export" type="button">Export GRN</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Put-away & QC Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Received</span>
+                      <strong id="grn-received-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">QC Hold</span>
+                      <strong id="grn-qc-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Rejected</span>
+                      <strong id="grn-rejected-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>GRN</th>
+                          <th>Warehouse</th>
+                          <th>Put-away</th>
+                        </tr>
+                      </thead>
+                      <tbody id="grn-putaway-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quality Inspection Tab -->
+          <div id="qualityInspection" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Quality Inspection</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Inspect incoming materials, record QC results, and release or reject lots.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Inspection Log</h4>
+                    <button class="btn btn-secondary" id="qc-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="qc-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="qc-edit-index" value="">
+                    <div class="form-group">
+                      <label for="qc-id">QC ID</label>
+                      <input type="text" id="qc-id" required placeholder="QC-2026-011">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-grn">GRN No</label>
+                      <input type="text" id="qc-grn" required placeholder="GRN-2026-028">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-item">Item</label>
+                      <input type="text" id="qc-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-batch">Batch / Lot</label>
+                      <input type="text" id="qc-batch" required placeholder="LOT-AP-5521">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-sample">Sample Size</label>
+                      <input type="number" id="qc-sample" required min="1" placeholder="20">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-defects">Defects</label>
+                      <input type="number" id="qc-defects" required min="0" placeholder="1">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-inspector">Inspector</label>
+                      <input type="text" id="qc-inspector" required placeholder="QA Engineer">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-date">Date</label>
+                      <input type="text" id="qc-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="qc-status">Result</label>
+                      <select id="qc-status" class="form-select" required>
+                        <option value="Passed">Passed</option>
+                        <option value="Hold">Hold</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="qc-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>QC ID</th>
+                          <th>GRN</th>
+                          <th>Item</th>
+                          <th>Batch</th>
+                          <th>Sample</th>
+                          <th>Defects</th>
+                          <th>Result</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="qc-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="qc-export" type="button">Export QC</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">QC Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Passed</span>
+                      <strong id="qc-pass-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Hold</span>
+                      <strong id="qc-hold-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Rejected</span>
+                      <strong id="qc-reject-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Batch</th>
+                          <th>Inspector</th>
+                          <th>Result</th>
+                        </tr>
+                      </thead>
+                      <tbody id="qc-inspector-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Batch / Lot Tracking Tab -->
+          <div id="batchTracking" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Batch / Lot Tracking</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Track batches across receipts, issues, and usage for traceability.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Batch Register</h4>
+                    <button class="btn btn-secondary" id="batch-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="batch-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="batch-edit-index" value="">
+                    <div class="form-group">
+                      <label for="batch-no">Batch / Lot No</label>
+                      <input type="text" id="batch-no" required placeholder="LOT-AP-5521">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-grn">GRN No</label>
+                      <input type="text" id="batch-grn" required placeholder="GRN-2026-028">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-item">Item</label>
+                      <input type="text" id="batch-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-qty">Quantity</label>
+                      <input type="number" id="batch-qty" required min="1" placeholder="200">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-uom">UOM</label>
+                      <select id="batch-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-warehouse">Warehouse</label>
+                      <input type="text" id="batch-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-mfg">Mfg Date</label>
+                      <input type="text" id="batch-mfg" required placeholder="Jan 15, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-expiry">Expiry Date</label>
+                      <input type="text" id="batch-expiry" required placeholder="Jul 15, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="batch-status">Status</label>
+                      <select id="batch-status" class="form-select" required>
+                        <option value="Available">Available</option>
+                        <option value="Reserved">Reserved</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="batch-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Batch</th>
+                          <th>GRN</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Warehouse</th>
+                          <th>Expiry</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="batch-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="batch-export" type="button">Export Batches</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Traceability Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Available</span>
+                      <strong id="batch-available-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Reserved</span>
+                      <strong id="batch-reserved-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Expired</span>
+                      <strong id="batch-expired-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Batch</th>
+                          <th>Issued To</th>
+                          <th>Qty</th>
+                        </tr>
+                      </thead>
+                      <tbody id="batch-trace-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Serial Tracking Tab -->
+          <div id="serialTracking" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Serial Tracking</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Assign and track unique serial numbers for tools/equipment.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Serial Register</h4>
+                    <button class="btn btn-secondary" id="serial-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="serial-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="serial-edit-index" value="">
+                    <div class="form-group">
+                      <label for="serial-no">Serial No</label>
+                      <input type="text" id="serial-no" required placeholder="SRL-AP-4501">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-item">Item</label>
+                      <input type="text" id="serial-item" required placeholder="Total Station">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-grn">GRN No</label>
+                      <input type="text" id="serial-grn" required placeholder="GRN-2026-030">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-status">Status</label>
+                      <select id="serial-status" class="form-select" required>
+                        <option value="Available">Available</option>
+                        <option value="Issued">Issued</option>
+                        <option value="Under Repair">Under Repair</option>
+                        <option value="Retired">Retired</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-issued">Issued To</label>
+                      <input type="text" id="serial-issued" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-warranty">Warranty Expiry</label>
+                      <input type="text" id="serial-warranty" required placeholder="Dec 31, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-last">Last Service</label>
+                      <input type="text" id="serial-last" required placeholder="Jan 10, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-location">Location</label>
+                      <input type="text" id="serial-location" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="serial-condition">Condition</label>
+                      <select id="serial-condition" class="form-select" required>
+                        <option value="Good">Good</option>
+                        <option value="Needs Service">Needs Service</option>
+                        <option value="Damaged">Damaged</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="serial-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Serial</th>
+                          <th>Item</th>
+                          <th>Status</th>
+                          <th>Issued To</th>
+                          <th>Warranty</th>
+                          <th>Condition</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="serial-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="serial-export" type="button">Export Serials</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Service Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Available</span>
+                      <strong id="serial-available-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Issued</span>
+                      <strong id="serial-issued-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Needs Service</span>
+                      <strong id="serial-service-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Serial</th>
+                          <th>Last Service</th>
+                          <th>Location</th>
+                        </tr>
+                      </thead>
+                      <tbody id="serial-service-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Transfer Orders Tab -->
+          <div id="transferOrders" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Transfer Orders</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Move stock between warehouses and sites with in-transit visibility.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Transfer Request</h4>
+                    <button class="btn btn-secondary" id="transfer-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="transfer-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="transfer-edit-index" value="">
+                    <div class="form-group">
+                      <label for="transfer-no">Transfer No</label>
+                      <input type="text" id="transfer-no" required placeholder="TO-2026-012">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-from">From Warehouse</label>
+                      <input type="text" id="transfer-from" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-to">To Warehouse</label>
+                      <input type="text" id="transfer-to" required placeholder="Site - Metro">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-item">Item</label>
+                      <input type="text" id="transfer-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-qty">Quantity</label>
+                      <input type="number" id="transfer-qty" required min="1" placeholder="100">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-uom">UOM</label>
+                      <select id="transfer-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-date">Dispatch Date</label>
+                      <input type="text" id="transfer-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="transfer-status">Status</label>
+                      <select id="transfer-status" class="form-select" required>
+                        <option value="Requested">Requested</option>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Received">Received</option>
+                        <option value="Cancelled">Cancelled</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="transfer-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Transfer</th>
+                          <th>From</th>
+                          <th>To</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="transfer-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="transfer-export" type="button">Export Transfers</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">In-Transit Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Requested</span>
+                      <strong id="transfer-requested-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">In Transit</span>
+                      <strong id="transfer-transit-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Received</span>
+                      <strong id="transfer-received-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Transfer</th>
+                          <th>Vehicle</th>
+                          <th>ETA</th>
+                        </tr>
+                      </thead>
+                      <tbody id="transfer-transit-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Valuation Tab -->
+          <div id="stockValuation" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Stock Valuation</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Value inventory using FIFO/Weighted Average and generate valuation reports.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Valuation Register</h4>
+                    <button class="btn btn-secondary" id="valuation-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="valuation-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="valuation-edit-index" value="">
+                    <div class="form-group">
+                      <label for="valuation-item">Item</label>
+                      <input type="text" id="valuation-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-warehouse">Warehouse</label>
+                      <input type="text" id="valuation-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-qty">Quantity</label>
+                      <input type="number" id="valuation-qty" required min="1" placeholder="850">
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-uom">UOM</label>
+                      <select id="valuation-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-cost">Unit Cost (₹)</label>
+                      <input type="number" id="valuation-cost" required min="0" step="0.01" placeholder="450">
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-method">Method</label>
+                      <select id="valuation-method" class="form-select" required>
+                        <option value="FIFO">FIFO</option>
+                        <option value="Weighted Avg">Weighted Avg</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-date">As of Date</label>
+                      <input type="text" id="valuation-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="valuation-status">Status</label>
+                      <select id="valuation-status" class="form-select" required>
+                        <option value="Draft">Draft</option>
+                        <option value="Posted">Posted</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="valuation-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Warehouse</th>
+                          <th>Qty</th>
+                          <th>Unit Cost</th>
+                          <th>Value</th>
+                          <th>Method</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="valuation-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="valuation-export" type="button">Export Valuation</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Valuation Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Total Value</span>
+                      <strong id="valuation-total">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">FIFO</span>
+                      <strong id="valuation-fifo-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Weighted Avg</span>
+                      <strong id="valuation-wavg-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Warehouse</th>
+                          <th>Value</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="valuation-warehouse-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tool Crib Tab -->
+          <div id="toolCrib" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Tool Crib</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Check-out tools, track custody, and schedule maintenance.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Tool Issue / Return</h4>
+                    <button class="btn btn-secondary" id="tool-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="tool-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="tool-edit-index" value="">
+                    <div class="form-group">
+                      <label for="tool-type">Type</label>
+                      <select id="tool-type" class="form-select" required>
+                        <option value="Issue">Issue</option>
+                        <option value="Return">Return</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-ref">Reference No</label>
+                      <input type="text" id="tool-ref" required placeholder="TL-2026-019">
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-name">Tool</label>
+                      <input type="text" id="tool-name" required placeholder="Power Drill">
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-qty">Quantity</label>
+                      <input type="number" id="tool-qty" required min="1" placeholder="2">
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-employee">Issued / Returned By</label>
+                      <input type="text" id="tool-employee" required placeholder="Site Supervisor">
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-date">Date</label>
+                      <input type="text" id="tool-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-condition">Condition</label>
+                      <select id="tool-condition" class="form-select" required>
+                        <option value="Good">Good</option>
+                        <option value="Needs Service">Needs Service</option>
+                        <option value="Damaged">Damaged</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="tool-status">Status</label>
+                      <select id="tool-status" class="form-select" required>
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="tool-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Reference</th>
+                          <th>Tool</th>
+                          <th>Qty</th>
+                          <th>Person</th>
+                          <th>Date</th>
+                          <th>Condition</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tool-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="tool-export" type="button">Export Tool Log</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Maintenance Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Open Issues</span>
+                      <strong id="tool-open-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Needs Service</span>
+                      <strong id="tool-service-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Damaged</span>
+                      <strong id="tool-damaged-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Tool</th>
+                          <th>Last Action</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tool-maintenance-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Consumables Tab -->
+          <div id="consumables" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Consumables</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Track fast‑moving consumables and auto-replenishment rules.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Consumable Issue Log</h4>
+                    <button class="btn btn-secondary" id="consumable-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="consumable-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="consumable-edit-index" value="">
+                    <div class="form-group">
+                      <label for="consumable-item">Item</label>
+                      <input type="text" id="consumable-item" required placeholder="Cutting Discs">
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-site">Site</label>
+                      <input type="text" id="consumable-site" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-qty">Quantity</label>
+                      <input type="number" id="consumable-qty" required min="1" placeholder="25">
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-uom">UOM</label>
+                      <select id="consumable-uom" class="form-select" required>
+                        <option value="Nos">Nos</option>
+                        <option value="Boxes">Boxes</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Kg">Kg</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-date">Issue Date</label>
+                      <input type="text" id="consumable-date" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-cap">Daily Cap</label>
+                      <input type="number" id="consumable-cap" required min="1" placeholder="100">
+                    </div>
+                    <div class="form-group">
+                      <label for="consumable-status">Status</label>
+                      <select id="consumable-status" class="form-select" required>
+                        <option value="Normal">Normal</option>
+                        <option value="High">High</option>
+                        <option value="Exceeded">Exceeded</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="consumable-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Site</th>
+                          <th>Qty</th>
+                          <th>Issue Date</th>
+                          <th>Daily Cap</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="consumable-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="consumable-export" type="button">Export Consumables</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Usage Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Normal</span>
+                      <strong id="consumable-normal-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">High</span>
+                      <strong id="consumable-high-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Exceeded</span>
+                      <strong id="consumable-exceeded-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Site</th>
+                          <th>Qty</th>
+                        </tr>
+                      </thead>
+                      <tbody id="consumable-site-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expiry & Shelf-life Tab -->
+          <div id="expiryShelfLife" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Expiry & Shelf-life</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Monitor expiring materials and enforce FEFO issue rules.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Expiry Register</h4>
+                    <button class="btn btn-secondary" id="expiry-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="expiry-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="expiry-edit-index" value="">
+                    <div class="form-group">
+                      <label for="expiry-item">Item</label>
+                      <input type="text" id="expiry-item" required placeholder="Adhesive">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-batch">Batch</label>
+                      <input type="text" id="expiry-batch" required placeholder="LOT-AD-221">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-warehouse">Warehouse</label>
+                      <input type="text" id="expiry-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-qty">Quantity</label>
+                      <input type="number" id="expiry-qty" required min="1" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-uom">UOM</label>
+                      <select id="expiry-uom" class="form-select" required>
+                        <option value="Nos">Nos</option>
+                        <option value="Boxes">Boxes</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Kg">Kg</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-date">Expiry Date</label>
+                      <input type="text" id="expiry-date" required placeholder="Mar 10, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-days">Days Left</label>
+                      <input type="number" id="expiry-days" required min="0" placeholder="35">
+                    </div>
+                    <div class="form-group">
+                      <label for="expiry-status">Status</label>
+                      <select id="expiry-status" class="form-select" required>
+                        <option value="Safe">Safe</option>
+                        <option value="Expiring">Expiring</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="expiry-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Batch</th>
+                          <th>Warehouse</th>
+                          <th>Qty</th>
+                          <th>Expiry</th>
+                          <th>Days Left</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="expiry-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="expiry-export" type="button">Export Expiry</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Expiry Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Safe</span>
+                      <strong id="expiry-safe-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Expiring</span>
+                      <strong id="expiry-expiring-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Expired</span>
+                      <strong id="expiry-expired-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Batch</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="expiry-action-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kitting / Bundling Tab -->
+          <div id="kitting" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Kitting / Bundling</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Pre-assemble kits for work packages and issue as a unit.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Kit Builder</h4>
+                    <button class="btn btn-secondary" id="kit-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="kit-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="kit-edit-index" value="">
+                    <div class="form-group">
+                      <label for="kit-code">Kit Code</label>
+                      <input type="text" id="kit-code" required placeholder="KIT-AP-002">
+                    </div>
+                    <div class="form-group">
+                      <label for="kit-name">Kit Name</label>
+                      <input type="text" id="kit-name" required placeholder="Concrete Pour Kit">
+                    </div>
+                    <div class="form-group">
+                      <label for="kit-components">Components</label>
+                      <input type="text" id="kit-components" required placeholder="Cement, Sand, Additives">
+                    </div>
+                    <div class="form-group">
+                      <label for="kit-qty">Kit Quantity</label>
+                      <input type="number" id="kit-qty" required min="1" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                      <label for="kit-site">Site</label>
+                      <input type="text" id="kit-site" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="kit-status">Status</label>
+                      <select id="kit-status" class="form-select" required>
+                        <option value="Draft">Draft</option>
+                        <option value="Reserved">Reserved</option>
+                        <option value="Issued">Issued</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="kit-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Kit Code</th>
+                          <th>Name</th>
+                          <th>Components</th>
+                          <th>Qty</th>
+                          <th>Site</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="kit-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="kit-export" type="button">Export Kits</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Kit Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Draft</span>
+                      <strong id="kit-draft-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Reserved</span>
+                      <strong id="kit-reserved-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Issued</span>
+                      <strong id="kit-issued-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Kit</th>
+                          <th>Site</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="kit-site-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bin & Location Tab -->
+          <div id="binLocations" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Bin & Location Management</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Define bin locations and optimize put‑away/picking paths.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Bin Register</h4>
+                    <button class="btn btn-secondary" id="bin-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="bin-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="bin-edit-index" value="">
+                    <div class="form-group">
+                      <label for="bin-code">Bin Code</label>
+                      <input type="text" id="bin-code" required placeholder="A1-R1-S1">
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-zone">Zone</label>
+                      <input type="text" id="bin-zone" required placeholder="Zone A">
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-warehouse">Warehouse</label>
+                      <input type="text" id="bin-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-capacity">Capacity</label>
+                      <input type="number" id="bin-capacity" required min="1" placeholder="1000">
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-used">Used</label>
+                      <input type="number" id="bin-used" required min="0" placeholder="650">
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-uom">UOM</label>
+                      <select id="bin-uom" class="form-select" required>
+                        <option value="Units">Units</option>
+                        <option value="Bags">Bags</option>
+                        <option value="Boxes">Boxes</option>
+                        <option value="Pallets">Pallets</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="bin-status">Status</label>
+                      <select id="bin-status" class="form-select" required>
+                        <option value="Available">Available</option>
+                        <option value="Near Full">Near Full</option>
+                        <option value="Full">Full</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="bin-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Bin</th>
+                          <th>Zone</th>
+                          <th>Warehouse</th>
+                          <th>Capacity</th>
+                          <th>Used</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bin-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="bin-export" type="button">Export Bins</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Capacity Snapshot</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Available</span>
+                      <strong id="bin-available-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Near Full</span>
+                      <strong id="bin-nearfull-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Full</span>
+                      <strong id="bin-full-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Bin</th>
+                          <th>Usage</th>
+                          <th>Utilization</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bin-usage-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cycle Counts Tab -->
+          <div id="cycleCounts" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Cycle Counts</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Schedule counts, reconcile variances, and improve accuracy.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Count Plan</h4>
+                    <button class="btn btn-secondary" id="count-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="count-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="count-edit-index" value="">
+                    <div class="form-group">
+                      <label for="count-plan">Plan ID</label>
+                      <input type="text" id="count-plan" required placeholder="CC-2026-004">
+                    </div>
+                    <div class="form-group">
+                      <label for="count-warehouse">Warehouse</label>
+                      <input type="text" id="count-warehouse" required placeholder="Main Warehouse">
+                    </div>
+                    <div class="form-group">
+                      <label for="count-class">ABC Class</label>
+                      <select id="count-class" class="form-select" required>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="count-frequency">Frequency</label>
+                      <select id="count-frequency" class="form-select" required>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="count-date">Count Date</label>
+                      <input type="text" id="count-date" required placeholder="Feb 05, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="count-status">Status</label>
+                      <select id="count-status" class="form-select" required>
+                        <option value="Scheduled">Scheduled</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="count-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Plan</th>
+                          <th>Warehouse</th>
+                          <th>Class</th>
+                          <th>Frequency</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="count-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="count-export" type="button">Export Plans</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Variance Review</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Scheduled</span>
+                      <strong id="count-scheduled-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">In Progress</span>
+                      <strong id="count-progress-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Completed</span>
+                      <strong id="count-completed-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Plan</th>
+                          <th>Variance</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="count-variance-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -672,6 +2392,2004 @@
         window.applyAllTableFilters();
       }
     }
+
+    const materialRequests = [
+      { reqNo: 'MR-2026-014', site: 'Apollo Site', item: 'Cement (OPC 53)', qty: 120, uom: 'Bags', priority: 'High', requiredBy: 'Feb 10, 2026', status: 'Approved', warehouse: 'Main Warehouse', allocated: 120 },
+      { reqNo: 'MR-2026-015', site: 'Metro Site', item: 'Steel TMT Bars', qty: 12, uom: 'Tons', priority: 'Urgent', requiredBy: 'Feb 06, 2026', status: 'Partially Fulfilled', warehouse: 'Main Warehouse', allocated: 8 },
+      { reqNo: 'MR-2026-016', site: 'Apollo Site', item: 'Safety Helmets', qty: 30, uom: 'Pieces', priority: 'Medium', requiredBy: 'Feb 12, 2026', status: 'Submitted', warehouse: 'Main Warehouse', allocated: 0 },
+      { reqNo: 'MR-2026-017', site: 'Metro Site', item: 'Sand (River Sand)', qty: 500, uom: 'Cubic Ft', priority: 'High', requiredBy: 'Feb 08, 2026', status: 'Fulfilled', warehouse: 'Site - Metro', allocated: 500 }
+    ];
+
+    const issueReturns = [
+      { type: 'Issue', ref: 'IS-2026-022', site: 'Apollo Site', item: 'Cement (OPC 53)', qty: 50, uom: 'Bags', handler: 'Site Supervisor', date: 'Feb 02, 2026', status: 'Posted' },
+      { type: 'Issue', ref: 'IS-2026-023', site: 'Metro Site', item: 'Steel TMT Bars', qty: 5, uom: 'Tons', handler: 'Store Keeper', date: 'Feb 02, 2026', status: 'Open' },
+      { type: 'Return', ref: 'RN-2026-004', site: 'Apollo Site', item: 'Safety Helmets', qty: 6, uom: 'Pieces', handler: 'HSE Officer', date: 'Feb 01, 2026', status: 'Posted' },
+      { type: 'Wastage', ref: 'WS-2026-002', site: 'Metro Site', item: 'Sand (River Sand)', qty: 20, uom: 'Cubic Ft', handler: 'Site Supervisor', date: 'Jan 31, 2026', status: 'Posted' }
+    ];
+
+    const grnReceipts = [
+      { grn: 'GRN-2026-028', po: 'PO-2026-110', vendor: 'ABC Supplies', item: 'Cement (OPC 53)', qty: 200, uom: 'Bags', warehouse: 'Main Warehouse', date: 'Feb 02, 2026', status: 'Received', putaway: 'Done' },
+      { grn: 'GRN-2026-029', po: 'PO-2026-111', vendor: 'SteelWorks Ltd', item: 'Steel TMT Bars', qty: 10, uom: 'Tons', warehouse: 'Main Warehouse', date: 'Feb 01, 2026', status: 'QC Hold', putaway: 'Hold' },
+      { grn: 'GRN-2026-030', po: 'PO-2026-114', vendor: 'Site Suppliers', item: 'Safety Helmets', qty: 40, uom: 'Pieces', warehouse: 'Main Warehouse', date: 'Jan 31, 2026', status: 'Received', putaway: 'Done' },
+      { grn: 'GRN-2026-031', po: 'PO-2026-118', vendor: 'River Sand Co', item: 'Sand (River Sand)', qty: 500, uom: 'Cubic Ft', warehouse: 'Site - Metro', date: 'Jan 30, 2026', status: 'Rejected', putaway: 'N/A' }
+    ];
+
+    const qualityInspections = [
+      { qcId: 'QC-2026-011', grn: 'GRN-2026-028', item: 'Cement (OPC 53)', batch: 'LOT-AP-5521', sample: 20, defects: 1, inspector: 'QA Engineer', date: 'Feb 02, 2026', status: 'Passed' },
+      { qcId: 'QC-2026-012', grn: 'GRN-2026-029', item: 'Steel TMT Bars', batch: 'LOT-ST-3109', sample: 10, defects: 2, inspector: 'QC Lead', date: 'Feb 01, 2026', status: 'Hold' },
+      { qcId: 'QC-2026-013', grn: 'GRN-2026-030', item: 'Safety Helmets', batch: 'LOT-SF-7780', sample: 15, defects: 0, inspector: 'QA Engineer', date: 'Jan 31, 2026', status: 'Passed' },
+      { qcId: 'QC-2026-014', grn: 'GRN-2026-031', item: 'Sand (River Sand)', batch: 'LOT-RS-009', sample: 25, defects: 5, inspector: 'QC Lead', date: 'Jan 30, 2026', status: 'Rejected' }
+    ];
+
+    const batchLots = [
+      { batch: 'LOT-AP-5521', grn: 'GRN-2026-028', item: 'Cement (OPC 53)', qty: 200, uom: 'Bags', warehouse: 'Main Warehouse', mfg: 'Jan 15, 2026', expiry: 'Jul 15, 2026', status: 'Available', issuedTo: 'Apollo Site', issuedQty: 120 },
+      { batch: 'LOT-ST-3109', grn: 'GRN-2026-029', item: 'Steel TMT Bars', qty: 10, uom: 'Tons', warehouse: 'Main Warehouse', mfg: 'Jan 10, 2026', expiry: 'Jan 10, 2027', status: 'Reserved', issuedTo: 'Metro Site', issuedQty: 6 },
+      { batch: 'LOT-SF-7780', grn: 'GRN-2026-030', item: 'Safety Helmets', qty: 40, uom: 'Pieces', warehouse: 'Main Warehouse', mfg: 'Dec 20, 2025', expiry: 'Dec 20, 2027', status: 'Available', issuedTo: 'Apollo Site', issuedQty: 20 },
+      { batch: 'LOT-RS-009', grn: 'GRN-2026-031', item: 'Sand (River Sand)', qty: 500, uom: 'Cubic Ft', warehouse: 'Site - Metro', mfg: 'Dec 15, 2025', expiry: 'Jan 15, 2026', status: 'Expired', issuedTo: 'Metro Site', issuedQty: 0 }
+    ];
+
+    const serialTracking = [
+      { serial: 'SRL-AP-4501', item: 'Total Station', grn: 'GRN-2026-030', status: 'Issued', issuedTo: 'Apollo Site', warranty: 'Dec 31, 2026', lastService: 'Jan 10, 2026', location: 'Apollo Site', condition: 'Good' },
+      { serial: 'SRL-AP-4502', item: 'Laser Level', grn: 'GRN-2026-029', status: 'Available', issuedTo: 'Main Warehouse', warranty: 'Oct 15, 2026', lastService: 'Dec 20, 2025', location: 'Main Warehouse', condition: 'Good' },
+      { serial: 'SRL-AP-4503', item: 'Generator 5kVA', grn: 'GRN-2026-031', status: 'Under Repair', issuedTo: 'Metro Site', warranty: 'Aug 12, 2026', lastService: 'Jan 02, 2026', location: 'Service Bay', condition: 'Needs Service' },
+      { serial: 'SRL-AP-4504', item: 'Power Drill', grn: 'GRN-2026-028', status: 'Issued', issuedTo: 'Metro Site', warranty: 'Sep 30, 2026', lastService: 'Jan 18, 2026', location: 'Metro Site', condition: 'Damaged' }
+    ];
+
+    const transferOrders = [
+      { transferNo: 'TO-2026-012', from: 'Main Warehouse', to: 'Site - Metro', item: 'Cement (OPC 53)', qty: 100, uom: 'Bags', date: 'Feb 02, 2026', status: 'In Transit', vehicle: 'UP-16-TR-2210', eta: 'Feb 02, 2026 4:00 PM' },
+      { transferNo: 'TO-2026-013', from: 'Main Warehouse', to: 'Site - Apollo', item: 'Safety Helmets', qty: 20, uom: 'Pieces', date: 'Feb 01, 2026', status: 'Received', vehicle: 'UP-16-TR-8812', eta: 'Delivered' },
+      { transferNo: 'TO-2026-014', from: 'Site - Metro', to: 'Main Warehouse', item: 'Steel TMT Bars', qty: 3, uom: 'Tons', date: 'Feb 01, 2026', status: 'Requested', vehicle: 'TBD', eta: 'Pending' },
+      { transferNo: 'TO-2026-015', from: 'Main Warehouse', to: 'Site - Metro', item: 'Paint (Exterior)', qty: 50, uom: 'Liters', date: 'Jan 30, 2026', status: 'Cancelled', vehicle: 'N/A', eta: 'Cancelled' }
+    ];
+
+    const stockValuations = [
+      { item: 'Cement (OPC 53)', warehouse: 'Main Warehouse', qty: 850, uom: 'Bags', unitCost: 450, method: 'FIFO', asOf: 'Feb 02, 2026', status: 'Posted' },
+      { item: 'Steel TMT Bars', warehouse: 'Main Warehouse', qty: 45, uom: 'Tons', unitCost: 48000, method: 'Weighted Avg', asOf: 'Feb 02, 2026', status: 'Posted' },
+      { item: 'Safety Helmets', warehouse: 'Main Warehouse', qty: 150, uom: 'Pieces', unitCost: 250, method: 'FIFO', asOf: 'Feb 02, 2026', status: 'Draft' },
+      { item: 'Sand (River Sand)', warehouse: 'Site - Metro', qty: 500, uom: 'Cubic Ft', unitCost: 45, method: 'Weighted Avg', asOf: 'Feb 02, 2026', status: 'Posted' }
+    ];
+
+    const toolCribLog = [
+      { type: 'Issue', ref: 'TL-2026-019', tool: 'Power Drill', qty: 2, person: 'Site Supervisor', date: 'Feb 02, 2026', condition: 'Good', status: 'Open' },
+      { type: 'Issue', ref: 'TL-2026-020', tool: 'Laser Level', qty: 1, person: 'QC Lead', date: 'Feb 01, 2026', condition: 'Good', status: 'Closed' },
+      { type: 'Return', ref: 'TL-2026-021', tool: 'Generator 5kVA', qty: 1, person: 'Store Keeper', date: 'Feb 01, 2026', condition: 'Needs Service', status: 'Open' },
+      { type: 'Return', ref: 'TL-2026-022', tool: 'Vibrator Needle', qty: 1, person: 'HSE Officer', date: 'Jan 31, 2026', condition: 'Damaged', status: 'Open' }
+    ];
+
+    const consumableUsage = [
+      { item: 'Cutting Discs', site: 'Apollo Site', qty: 25, uom: 'Nos', date: 'Feb 02, 2026', cap: 100, status: 'Normal' },
+      { item: 'Drill Bits', site: 'Metro Site', qty: 80, uom: 'Nos', date: 'Feb 02, 2026', cap: 90, status: 'High' },
+      { item: 'Safety Gloves', site: 'Apollo Site', qty: 120, uom: 'Pairs', date: 'Feb 01, 2026', cap: 100, status: 'Exceeded' },
+      { item: 'Lubricant', site: 'Main Warehouse', qty: 15, uom: 'Liters', date: 'Feb 01, 2026', cap: 30, status: 'Normal' }
+    ];
+
+    const expiryShelfLife = [
+      { item: 'Adhesive', batch: 'LOT-AD-221', warehouse: 'Main Warehouse', qty: 50, uom: 'Liters', expiry: 'Mar 10, 2026', daysLeft: 35, status: 'Expiring' },
+      { item: 'Paint (Exterior)', batch: 'LOT-PA-540', warehouse: 'Main Warehouse', qty: 120, uom: 'Liters', expiry: 'Jun 20, 2026', daysLeft: 140, status: 'Safe' },
+      { item: 'Sealant', batch: 'LOT-SE-019', warehouse: 'Site - Metro', qty: 20, uom: 'Boxes', expiry: 'Jan 20, 2026', daysLeft: 0, status: 'Expired' },
+      { item: 'Lubricant', batch: 'LOT-LB-455', warehouse: 'Main Warehouse', qty: 30, uom: 'Liters', expiry: 'Apr 05, 2026', daysLeft: 62, status: 'Safe' }
+    ];
+
+    const kittingBundles = [
+      { code: 'KIT-AP-002', name: 'Concrete Pour Kit', components: 'Cement, Sand, Additives', qty: 5, site: 'Apollo Site', status: 'Reserved' },
+      { code: 'KIT-MT-006', name: 'Finishing Kit', components: 'Putty, Paint, Rollers', qty: 3, site: 'Metro Site', status: 'Issued' },
+      { code: 'KIT-AP-010', name: 'Safety Kit', components: 'Helmets, Gloves, Vests', qty: 10, site: 'Apollo Site', status: 'Draft' },
+      { code: 'KIT-WH-001', name: 'Maintenance Kit', components: 'Lubricant, Wipes, Grease', qty: 4, site: 'Main Warehouse', status: 'Reserved' }
+    ];
+
+    const binLocations = [
+      { bin: 'A1-R1-S1', zone: 'Zone A', warehouse: 'Main Warehouse', capacity: 1000, used: 650, uom: 'Units', status: 'Available' },
+      { bin: 'A1-R2-S3', zone: 'Zone A', warehouse: 'Main Warehouse', capacity: 800, used: 720, uom: 'Units', status: 'Near Full' },
+      { bin: 'B2-R1-S2', zone: 'Zone B', warehouse: 'Main Warehouse', capacity: 600, used: 600, uom: 'Units', status: 'Full' },
+      { bin: 'S1-Z1', zone: 'Site Zone', warehouse: 'Site - Metro', capacity: 300, used: 120, uom: 'Units', status: 'Available' }
+    ];
+
+    const cycleCounts = [
+      { plan: 'CC-2026-004', warehouse: 'Main Warehouse', abc: 'A', frequency: 'Weekly', date: 'Feb 05, 2026', status: 'Scheduled', variance: -2.5, action: 'Investigate' },
+      { plan: 'CC-2026-005', warehouse: 'Main Warehouse', abc: 'B', frequency: 'Monthly', date: 'Feb 10, 2026', status: 'In Progress', variance: 1.2, action: 'Recount' },
+      { plan: 'CC-2026-006', warehouse: 'Site - Metro', abc: 'C', frequency: 'Quarterly', date: 'Jan 28, 2026', status: 'Completed', variance: 0.0, action: 'Closed' },
+      { plan: 'CC-2026-007', warehouse: 'Apollo Site', abc: 'B', frequency: 'Monthly', date: 'Feb 02, 2026', status: 'Completed', variance: -0.8, action: 'Adjusted' }
+    ];
+
+    const initMaterialRequests = () => {
+      const tbody = document.getElementById('mr-table-body');
+      const allocationsBody = document.getElementById('mr-allocations-body');
+      const form = document.getElementById('mr-form');
+      const editIndex = document.getElementById('mr-edit-index');
+      const cancel = document.getElementById('mr-cancel');
+      const addNew = document.getElementById('mr-add-new');
+      const exportBtn = document.getElementById('mr-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const openCountEl = document.getElementById('mr-open-count');
+      const urgentCountEl = document.getElementById('mr-urgent-count');
+      const fulfilledCountEl = document.getElementById('mr-fulfilled-count');
+      const partialCountEl = document.getElementById('mr-partial-count');
+
+      const updateSummary = () => {
+        const openCount = materialRequests.filter((row) => ['Submitted', 'Approved', 'Partially Fulfilled'].includes(row.status)).length;
+        const urgentCount = materialRequests.filter((row) => row.priority === 'Urgent').length;
+        const fulfilledCount = materialRequests.filter((row) => row.status === 'Fulfilled').length;
+        const partialCount = materialRequests.filter((row) => row.status === 'Partially Fulfilled').length;
+
+        if (openCountEl) openCountEl.textContent = openCount.toString();
+        if (urgentCountEl) urgentCountEl.textContent = urgentCount.toString();
+        if (fulfilledCountEl) fulfilledCountEl.textContent = fulfilledCount.toString();
+        if (partialCountEl) partialCountEl.textContent = partialCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = materialRequests.map((row, index) => `
+          <tr>
+            <td>${row.reqNo}</td>
+            <td>${row.site}</td>
+            <td>${row.item}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td><span class="badge ${row.priority === 'Urgent' ? 'badge-danger' : row.priority === 'High' ? 'badge-warning' : row.priority === 'Medium' ? 'badge-info' : 'badge-success'}">${row.priority}</span></td>
+            <td>${row.requiredBy}</td>
+            <td><span class="badge ${row.status === 'Fulfilled' ? 'badge-success' : row.status === 'Partially Fulfilled' ? 'badge-warning' : row.status === 'Rejected' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No material requests found.</td></tr>';
+
+        if (allocationsBody) {
+          allocationsBody.innerHTML = materialRequests.map((row) => `
+            <tr>
+              <td>${row.reqNo}</td>
+              <td>${row.warehouse}</td>
+              <td>${row.allocated} ${row.uom}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No allocations found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          reqNo: document.getElementById('mr-no').value.trim(),
+          site: document.getElementById('mr-site').value.trim(),
+          item: document.getElementById('mr-item').value.trim(),
+          qty: parseFloat(document.getElementById('mr-qty').value || '0'),
+          uom: document.getElementById('mr-uom').value,
+          priority: document.getElementById('mr-priority').value,
+          requiredBy: document.getElementById('mr-required').value.trim(),
+          status: document.getElementById('mr-status').value,
+          warehouse: 'Main Warehouse',
+          allocated: 0
+        };
+
+        if (editIndex.value !== '') {
+          const index = parseInt(editIndex.value, 10);
+          materialRequests[index] = { ...materialRequests[index], ...row };
+        } else {
+          materialRequests.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = materialRequests[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('mr-no').value = row.reqNo;
+          document.getElementById('mr-site').value = row.site;
+          document.getElementById('mr-item').value = row.item;
+          document.getElementById('mr-qty').value = row.qty;
+          document.getElementById('mr-uom').value = row.uom;
+          document.getElementById('mr-priority').value = row.priority;
+          document.getElementById('mr-required').value = row.requiredBy;
+          document.getElementById('mr-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this material request?')) return;
+          materialRequests.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Request', 'Site', 'Item', 'Qty', 'UOM', 'Priority', 'Required By', 'Status'];
+        const rows = materialRequests.map((row) => [row.reqNo, row.site, row.item, row.qty, row.uom, row.priority, row.requiredBy, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'material-requests.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initIssueReturns = () => {
+      const tbody = document.getElementById('issue-table-body');
+      const handlersBody = document.getElementById('issue-handlers-body');
+      const form = document.getElementById('issue-form');
+      const editIndex = document.getElementById('issue-edit-index');
+      const cancel = document.getElementById('issue-cancel');
+      const addNew = document.getElementById('issue-add-new');
+      const exportBtn = document.getElementById('issue-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const openCountEl = document.getElementById('issue-open-count');
+      const postedCountEl = document.getElementById('issue-posted-count');
+      const returnCountEl = document.getElementById('issue-return-count');
+      const wastageCountEl = document.getElementById('issue-wastage-count');
+
+      const updateSummary = () => {
+        const openCount = issueReturns.filter((row) => row.status === 'Open').length;
+        const postedCount = issueReturns.filter((row) => row.status === 'Posted').length;
+        const returnCount = issueReturns.filter((row) => row.type === 'Return').length;
+        const wastageCount = issueReturns.filter((row) => row.type === 'Wastage').length;
+
+        if (openCountEl) openCountEl.textContent = openCount.toString();
+        if (postedCountEl) postedCountEl.textContent = postedCount.toString();
+        if (returnCountEl) returnCountEl.textContent = returnCount.toString();
+        if (wastageCountEl) wastageCountEl.textContent = wastageCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = issueReturns.map((row, index) => `
+          <tr>
+            <td><span class="badge ${row.type === 'Issue' ? 'badge-info' : row.type === 'Return' ? 'badge-success' : 'badge-warning'}">${row.type}</span></td>
+            <td>${row.ref}</td>
+            <td>${row.site}</td>
+            <td>${row.item}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Posted' ? 'badge-success' : row.status === 'Rejected' ? 'badge-danger' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No entries found.</td></tr>';
+
+        if (handlersBody) {
+          handlersBody.innerHTML = issueReturns.map((row) => `
+            <tr>
+              <td>${row.ref}</td>
+              <td>${row.handler}</td>
+              <td>${row.qty} ${row.uom}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No handlers found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          type: document.getElementById('issue-type').value,
+          ref: document.getElementById('issue-ref').value.trim(),
+          site: document.getElementById('issue-site').value.trim(),
+          item: document.getElementById('issue-item').value.trim(),
+          qty: parseFloat(document.getElementById('issue-qty').value || '0'),
+          uom: document.getElementById('issue-uom').value,
+          handler: document.getElementById('issue-receiver').value.trim(),
+          date: document.getElementById('issue-date').value.trim(),
+          status: document.getElementById('issue-status').value
+        };
+
+        if (editIndex.value !== '') {
+          issueReturns[parseInt(editIndex.value, 10)] = row;
+        } else {
+          issueReturns.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = issueReturns[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('issue-type').value = row.type;
+          document.getElementById('issue-ref').value = row.ref;
+          document.getElementById('issue-site').value = row.site;
+          document.getElementById('issue-item').value = row.item;
+          document.getElementById('issue-qty').value = row.qty;
+          document.getElementById('issue-uom').value = row.uom;
+          document.getElementById('issue-receiver').value = row.handler;
+          document.getElementById('issue-date').value = row.date;
+          document.getElementById('issue-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this entry?')) return;
+          issueReturns.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Type', 'Reference', 'Site', 'Item', 'Qty', 'UOM', 'Handler', 'Date', 'Status'];
+        const rows = issueReturns.map((row) => [row.type, row.ref, row.site, row.item, row.qty, row.uom, row.handler, row.date, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'issue-returns.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initGRN = () => {
+      const tbody = document.getElementById('grn-table-body');
+      const putawayBody = document.getElementById('grn-putaway-body');
+      const form = document.getElementById('grn-form');
+      const editIndex = document.getElementById('grn-edit-index');
+      const cancel = document.getElementById('grn-cancel');
+      const addNew = document.getElementById('grn-add-new');
+      const exportBtn = document.getElementById('grn-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const receivedCountEl = document.getElementById('grn-received-count');
+      const qcCountEl = document.getElementById('grn-qc-count');
+      const rejectedCountEl = document.getElementById('grn-rejected-count');
+
+      const updateSummary = () => {
+        const receivedCount = grnReceipts.filter((row) => row.status === 'Received').length;
+        const qcCount = grnReceipts.filter((row) => row.status === 'QC Hold').length;
+        const rejectedCount = grnReceipts.filter((row) => row.status === 'Rejected').length;
+
+        if (receivedCountEl) receivedCountEl.textContent = receivedCount.toString();
+        if (qcCountEl) qcCountEl.textContent = qcCount.toString();
+        if (rejectedCountEl) rejectedCountEl.textContent = rejectedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = grnReceipts.map((row, index) => `
+          <tr>
+            <td>${row.grn}</td>
+            <td>${row.po}</td>
+            <td>${row.vendor}</td>
+            <td>${row.item}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Received' ? 'badge-success' : row.status === 'QC Hold' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No GRN records found.</td></tr>';
+
+        if (putawayBody) {
+          putawayBody.innerHTML = grnReceipts.map((row) => `
+            <tr>
+              <td>${row.grn}</td>
+              <td>${row.warehouse}</td>
+              <td>${row.putaway}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No put-away updates found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          grn: document.getElementById('grn-no').value.trim(),
+          po: document.getElementById('grn-po').value.trim(),
+          vendor: document.getElementById('grn-vendor').value.trim(),
+          item: document.getElementById('grn-item').value.trim(),
+          qty: parseFloat(document.getElementById('grn-qty').value || '0'),
+          uom: document.getElementById('grn-uom').value,
+          warehouse: document.getElementById('grn-warehouse').value.trim(),
+          date: document.getElementById('grn-date').value.trim(),
+          status: document.getElementById('grn-status').value,
+          putaway: document.getElementById('grn-status').value === 'Received' ? 'Done' : document.getElementById('grn-status').value === 'QC Hold' ? 'Hold' : 'N/A'
+        };
+
+        if (editIndex.value !== '') {
+          grnReceipts[parseInt(editIndex.value, 10)] = row;
+        } else {
+          grnReceipts.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = grnReceipts[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('grn-no').value = row.grn;
+          document.getElementById('grn-po').value = row.po;
+          document.getElementById('grn-vendor').value = row.vendor;
+          document.getElementById('grn-item').value = row.item;
+          document.getElementById('grn-qty').value = row.qty;
+          document.getElementById('grn-uom').value = row.uom;
+          document.getElementById('grn-warehouse').value = row.warehouse;
+          document.getElementById('grn-date').value = row.date;
+          document.getElementById('grn-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this GRN entry?')) return;
+          grnReceipts.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['GRN', 'PO', 'Vendor', 'Item', 'Qty', 'UOM', 'Warehouse', 'Date', 'Status'];
+        const rows = grnReceipts.map((row) => [row.grn, row.po, row.vendor, row.item, row.qty, row.uom, row.warehouse, row.date, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'grn-receipts.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initQualityInspection = () => {
+      const tbody = document.getElementById('qc-table-body');
+      const inspectorBody = document.getElementById('qc-inspector-body');
+      const form = document.getElementById('qc-form');
+      const editIndex = document.getElementById('qc-edit-index');
+      const cancel = document.getElementById('qc-cancel');
+      const addNew = document.getElementById('qc-add-new');
+      const exportBtn = document.getElementById('qc-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const passCountEl = document.getElementById('qc-pass-count');
+      const holdCountEl = document.getElementById('qc-hold-count');
+      const rejectCountEl = document.getElementById('qc-reject-count');
+
+      const updateSummary = () => {
+        const passCount = qualityInspections.filter((row) => row.status === 'Passed').length;
+        const holdCount = qualityInspections.filter((row) => row.status === 'Hold').length;
+        const rejectCount = qualityInspections.filter((row) => row.status === 'Rejected').length;
+
+        if (passCountEl) passCountEl.textContent = passCount.toString();
+        if (holdCountEl) holdCountEl.textContent = holdCount.toString();
+        if (rejectCountEl) rejectCountEl.textContent = rejectCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = qualityInspections.map((row, index) => `
+          <tr>
+            <td>${row.qcId}</td>
+            <td>${row.grn}</td>
+            <td>${row.item}</td>
+            <td>${row.batch}</td>
+            <td>${row.sample}</td>
+            <td>${row.defects}</td>
+            <td><span class="badge ${row.status === 'Passed' ? 'badge-success' : row.status === 'Hold' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No inspections found.</td></tr>';
+
+        if (inspectorBody) {
+          inspectorBody.innerHTML = qualityInspections.map((row) => `
+            <tr>
+              <td>${row.batch}</td>
+              <td>${row.inspector}</td>
+              <td><span class="badge ${row.status === 'Passed' ? 'badge-success' : row.status === 'Hold' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No inspector entries found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          qcId: document.getElementById('qc-id').value.trim(),
+          grn: document.getElementById('qc-grn').value.trim(),
+          item: document.getElementById('qc-item').value.trim(),
+          batch: document.getElementById('qc-batch').value.trim(),
+          sample: parseInt(document.getElementById('qc-sample').value || '0', 10),
+          defects: parseInt(document.getElementById('qc-defects').value || '0', 10),
+          inspector: document.getElementById('qc-inspector').value.trim(),
+          date: document.getElementById('qc-date').value.trim(),
+          status: document.getElementById('qc-status').value
+        };
+
+        if (editIndex.value !== '') {
+          qualityInspections[parseInt(editIndex.value, 10)] = row;
+        } else {
+          qualityInspections.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = qualityInspections[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('qc-id').value = row.qcId;
+          document.getElementById('qc-grn').value = row.grn;
+          document.getElementById('qc-item').value = row.item;
+          document.getElementById('qc-batch').value = row.batch;
+          document.getElementById('qc-sample').value = row.sample;
+          document.getElementById('qc-defects').value = row.defects;
+          document.getElementById('qc-inspector').value = row.inspector;
+          document.getElementById('qc-date').value = row.date;
+          document.getElementById('qc-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this inspection?')) return;
+          qualityInspections.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['QC ID', 'GRN', 'Item', 'Batch', 'Sample', 'Defects', 'Inspector', 'Date', 'Status'];
+        const rows = qualityInspections.map((row) => [row.qcId, row.grn, row.item, row.batch, row.sample, row.defects, row.inspector, row.date, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'quality-inspection.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initBatchTracking = () => {
+      const tbody = document.getElementById('batch-table-body');
+      const traceBody = document.getElementById('batch-trace-body');
+      const form = document.getElementById('batch-form');
+      const editIndex = document.getElementById('batch-edit-index');
+      const cancel = document.getElementById('batch-cancel');
+      const addNew = document.getElementById('batch-add-new');
+      const exportBtn = document.getElementById('batch-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const availableCountEl = document.getElementById('batch-available-count');
+      const reservedCountEl = document.getElementById('batch-reserved-count');
+      const expiredCountEl = document.getElementById('batch-expired-count');
+
+      const updateSummary = () => {
+        const availableCount = batchLots.filter((row) => row.status === 'Available').length;
+        const reservedCount = batchLots.filter((row) => row.status === 'Reserved').length;
+        const expiredCount = batchLots.filter((row) => row.status === 'Expired').length;
+
+        if (availableCountEl) availableCountEl.textContent = availableCount.toString();
+        if (reservedCountEl) reservedCountEl.textContent = reservedCount.toString();
+        if (expiredCountEl) expiredCountEl.textContent = expiredCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = batchLots.map((row, index) => `
+          <tr>
+            <td>${row.batch}</td>
+            <td>${row.grn}</td>
+            <td>${row.item}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.warehouse}</td>
+            <td>${row.expiry}</td>
+            <td><span class="badge ${row.status === 'Available' ? 'badge-success' : row.status === 'Reserved' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No batch records found.</td></tr>';
+
+        if (traceBody) {
+          traceBody.innerHTML = batchLots.map((row) => `
+            <tr>
+              <td>${row.batch}</td>
+              <td>${row.issuedTo}</td>
+              <td>${row.issuedQty} ${row.uom}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No trace data found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          batch: document.getElementById('batch-no').value.trim(),
+          grn: document.getElementById('batch-grn').value.trim(),
+          item: document.getElementById('batch-item').value.trim(),
+          qty: parseFloat(document.getElementById('batch-qty').value || '0'),
+          uom: document.getElementById('batch-uom').value,
+          warehouse: document.getElementById('batch-warehouse').value.trim(),
+          mfg: document.getElementById('batch-mfg').value.trim(),
+          expiry: document.getElementById('batch-expiry').value.trim(),
+          status: document.getElementById('batch-status').value,
+          issuedTo: 'Apollo Site',
+          issuedQty: 0
+        };
+
+        if (editIndex.value !== '') {
+          const index = parseInt(editIndex.value, 10);
+          batchLots[index] = { ...batchLots[index], ...row };
+        } else {
+          batchLots.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = batchLots[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('batch-no').value = row.batch;
+          document.getElementById('batch-grn').value = row.grn;
+          document.getElementById('batch-item').value = row.item;
+          document.getElementById('batch-qty').value = row.qty;
+          document.getElementById('batch-uom').value = row.uom;
+          document.getElementById('batch-warehouse').value = row.warehouse;
+          document.getElementById('batch-mfg').value = row.mfg;
+          document.getElementById('batch-expiry').value = row.expiry;
+          document.getElementById('batch-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this batch?')) return;
+          batchLots.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Batch', 'GRN', 'Item', 'Qty', 'UOM', 'Warehouse', 'Mfg', 'Expiry', 'Status'];
+        const rows = batchLots.map((row) => [row.batch, row.grn, row.item, row.qty, row.uom, row.warehouse, row.mfg, row.expiry, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'batch-tracking.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initSerialTracking = () => {
+      const tbody = document.getElementById('serial-table-body');
+      const serviceBody = document.getElementById('serial-service-body');
+      const form = document.getElementById('serial-form');
+      const editIndex = document.getElementById('serial-edit-index');
+      const cancel = document.getElementById('serial-cancel');
+      const addNew = document.getElementById('serial-add-new');
+      const exportBtn = document.getElementById('serial-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const availableCountEl = document.getElementById('serial-available-count');
+      const issuedCountEl = document.getElementById('serial-issued-count');
+      const serviceCountEl = document.getElementById('serial-service-count');
+
+      const updateSummary = () => {
+        const availableCount = serialTracking.filter((row) => row.status === 'Available').length;
+        const issuedCount = serialTracking.filter((row) => row.status === 'Issued').length;
+        const serviceCount = serialTracking.filter((row) => row.condition === 'Needs Service').length;
+
+        if (availableCountEl) availableCountEl.textContent = availableCount.toString();
+        if (issuedCountEl) issuedCountEl.textContent = issuedCount.toString();
+        if (serviceCountEl) serviceCountEl.textContent = serviceCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = serialTracking.map((row, index) => `
+          <tr>
+            <td>${row.serial}</td>
+            <td>${row.item}</td>
+            <td><span class="badge ${row.status === 'Available' ? 'badge-success' : row.status === 'Issued' ? 'badge-info' : row.status === 'Under Repair' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>${row.issuedTo}</td>
+            <td>${row.warranty}</td>
+            <td><span class="badge ${row.condition === 'Good' ? 'badge-success' : row.condition === 'Needs Service' ? 'badge-warning' : 'badge-danger'}">${row.condition}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No serial records found.</td></tr>';
+
+        if (serviceBody) {
+          serviceBody.innerHTML = serialTracking.map((row) => `
+            <tr>
+              <td>${row.serial}</td>
+              <td>${row.lastService}</td>
+              <td>${row.location}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No service records found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          serial: document.getElementById('serial-no').value.trim(),
+          item: document.getElementById('serial-item').value.trim(),
+          grn: document.getElementById('serial-grn').value.trim(),
+          status: document.getElementById('serial-status').value,
+          issuedTo: document.getElementById('serial-issued').value.trim(),
+          warranty: document.getElementById('serial-warranty').value.trim(),
+          lastService: document.getElementById('serial-last').value.trim(),
+          location: document.getElementById('serial-location').value.trim(),
+          condition: document.getElementById('serial-condition').value
+        };
+
+        if (editIndex.value !== '') {
+          serialTracking[parseInt(editIndex.value, 10)] = row;
+        } else {
+          serialTracking.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = serialTracking[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('serial-no').value = row.serial;
+          document.getElementById('serial-item').value = row.item;
+          document.getElementById('serial-grn').value = row.grn;
+          document.getElementById('serial-status').value = row.status;
+          document.getElementById('serial-issued').value = row.issuedTo;
+          document.getElementById('serial-warranty').value = row.warranty;
+          document.getElementById('serial-last').value = row.lastService;
+          document.getElementById('serial-location').value = row.location;
+          document.getElementById('serial-condition').value = row.condition;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this serial?')) return;
+          serialTracking.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Serial', 'Item', 'GRN', 'Status', 'Issued To', 'Warranty', 'Last Service', 'Location', 'Condition'];
+        const rows = serialTracking.map((row) => [row.serial, row.item, row.grn, row.status, row.issuedTo, row.warranty, row.lastService, row.location, row.condition]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'serial-tracking.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initTransferOrders = () => {
+      const tbody = document.getElementById('transfer-table-body');
+      const transitBody = document.getElementById('transfer-transit-body');
+      const form = document.getElementById('transfer-form');
+      const editIndex = document.getElementById('transfer-edit-index');
+      const cancel = document.getElementById('transfer-cancel');
+      const addNew = document.getElementById('transfer-add-new');
+      const exportBtn = document.getElementById('transfer-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const requestedCountEl = document.getElementById('transfer-requested-count');
+      const transitCountEl = document.getElementById('transfer-transit-count');
+      const receivedCountEl = document.getElementById('transfer-received-count');
+
+      const updateSummary = () => {
+        const requestedCount = transferOrders.filter((row) => row.status === 'Requested').length;
+        const transitCount = transferOrders.filter((row) => row.status === 'In Transit').length;
+        const receivedCount = transferOrders.filter((row) => row.status === 'Received').length;
+
+        if (requestedCountEl) requestedCountEl.textContent = requestedCount.toString();
+        if (transitCountEl) transitCountEl.textContent = transitCount.toString();
+        if (receivedCountEl) receivedCountEl.textContent = receivedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = transferOrders.map((row, index) => `
+          <tr>
+            <td>${row.transferNo}</td>
+            <td>${row.from}</td>
+            <td>${row.to}</td>
+            <td>${row.item}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Received' ? 'badge-success' : row.status === 'In Transit' ? 'badge-warning' : row.status === 'Requested' ? 'badge-info' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No transfer orders found.</td></tr>';
+
+        if (transitBody) {
+          transitBody.innerHTML = transferOrders.map((row) => `
+            <tr>
+              <td>${row.transferNo}</td>
+              <td>${row.vehicle}</td>
+              <td>${row.eta}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No transit records found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          transferNo: document.getElementById('transfer-no').value.trim(),
+          from: document.getElementById('transfer-from').value.trim(),
+          to: document.getElementById('transfer-to').value.trim(),
+          item: document.getElementById('transfer-item').value.trim(),
+          qty: parseFloat(document.getElementById('transfer-qty').value || '0'),
+          uom: document.getElementById('transfer-uom').value,
+          date: document.getElementById('transfer-date').value.trim(),
+          status: document.getElementById('transfer-status').value,
+          vehicle: 'TBD',
+          eta: 'Pending'
+        };
+
+        if (editIndex.value !== '') {
+          transferOrders[parseInt(editIndex.value, 10)] = { ...transferOrders[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          transferOrders.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = transferOrders[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('transfer-no').value = row.transferNo;
+          document.getElementById('transfer-from').value = row.from;
+          document.getElementById('transfer-to').value = row.to;
+          document.getElementById('transfer-item').value = row.item;
+          document.getElementById('transfer-qty').value = row.qty;
+          document.getElementById('transfer-uom').value = row.uom;
+          document.getElementById('transfer-date').value = row.date;
+          document.getElementById('transfer-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this transfer order?')) return;
+          transferOrders.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Transfer', 'From', 'To', 'Item', 'Qty', 'UOM', 'Date', 'Status'];
+        const rows = transferOrders.map((row) => [row.transferNo, row.from, row.to, row.item, row.qty, row.uom, row.date, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'transfer-orders.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initStockValuation = () => {
+      const tbody = document.getElementById('valuation-table-body');
+      const warehouseBody = document.getElementById('valuation-warehouse-body');
+      const form = document.getElementById('valuation-form');
+      const editIndex = document.getElementById('valuation-edit-index');
+      const cancel = document.getElementById('valuation-cancel');
+      const addNew = document.getElementById('valuation-add-new');
+      const exportBtn = document.getElementById('valuation-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const totalEl = document.getElementById('valuation-total');
+      const fifoCountEl = document.getElementById('valuation-fifo-count');
+      const wavgCountEl = document.getElementById('valuation-wavg-count');
+
+      const computeValue = (row) => row.qty * row.unitCost;
+
+      const updateSummary = () => {
+        const totalValue = stockValuations.reduce((sum, row) => sum + computeValue(row), 0);
+        const fifoCount = stockValuations.filter((row) => row.method === 'FIFO').length;
+        const wavgCount = stockValuations.filter((row) => row.method === 'Weighted Avg').length;
+
+        if (totalEl) totalEl.textContent = `₹${totalValue.toLocaleString('en-IN')}`;
+        if (fifoCountEl) fifoCountEl.textContent = fifoCount.toString();
+        if (wavgCountEl) wavgCountEl.textContent = wavgCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = stockValuations.map((row, index) => `
+          <tr>
+            <td>${row.item}</td>
+            <td>${row.warehouse}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>₹${row.unitCost.toLocaleString('en-IN')}</td>
+            <td><strong>₹${computeValue(row).toLocaleString('en-IN')}</strong></td>
+            <td>${row.method}</td>
+            <td><span class="badge ${row.status === 'Posted' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No valuation entries found.</td></tr>';
+
+        if (warehouseBody) {
+          const grouped = stockValuations.reduce((acc, row) => {
+            const value = computeValue(row);
+            acc[row.warehouse] = (acc[row.warehouse] || 0) + value;
+            return acc;
+          }, {});
+
+          warehouseBody.innerHTML = Object.entries(grouped).map(([warehouse, value]) => `
+            <tr>
+              <td>${warehouse}</td>
+              <td>₹${value.toLocaleString('en-IN')}</td>
+              <td><span class="badge badge-success">Updated</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No warehouse totals.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          item: document.getElementById('valuation-item').value.trim(),
+          warehouse: document.getElementById('valuation-warehouse').value.trim(),
+          qty: parseFloat(document.getElementById('valuation-qty').value || '0'),
+          uom: document.getElementById('valuation-uom').value,
+          unitCost: parseFloat(document.getElementById('valuation-cost').value || '0'),
+          method: document.getElementById('valuation-method').value,
+          asOf: document.getElementById('valuation-date').value.trim(),
+          status: document.getElementById('valuation-status').value
+        };
+
+        if (editIndex.value !== '') {
+          stockValuations[parseInt(editIndex.value, 10)] = row;
+        } else {
+          stockValuations.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = stockValuations[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('valuation-item').value = row.item;
+          document.getElementById('valuation-warehouse').value = row.warehouse;
+          document.getElementById('valuation-qty').value = row.qty;
+          document.getElementById('valuation-uom').value = row.uom;
+          document.getElementById('valuation-cost').value = row.unitCost;
+          document.getElementById('valuation-method').value = row.method;
+          document.getElementById('valuation-date').value = row.asOf;
+          document.getElementById('valuation-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this valuation entry?')) return;
+          stockValuations.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Item', 'Warehouse', 'Qty', 'UOM', 'Unit Cost', 'Value', 'Method', 'As Of', 'Status'];
+        const rows = stockValuations.map((row) => [row.item, row.warehouse, row.qty, row.uom, row.unitCost, computeValue(row), row.method, row.asOf, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'stock-valuation.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initToolCrib = () => {
+      const tbody = document.getElementById('tool-table-body');
+      const maintenanceBody = document.getElementById('tool-maintenance-body');
+      const form = document.getElementById('tool-form');
+      const editIndex = document.getElementById('tool-edit-index');
+      const cancel = document.getElementById('tool-cancel');
+      const addNew = document.getElementById('tool-add-new');
+      const exportBtn = document.getElementById('tool-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const openCountEl = document.getElementById('tool-open-count');
+      const serviceCountEl = document.getElementById('tool-service-count');
+      const damagedCountEl = document.getElementById('tool-damaged-count');
+
+      const updateSummary = () => {
+        const openCount = toolCribLog.filter((row) => row.status === 'Open').length;
+        const serviceCount = toolCribLog.filter((row) => row.condition === 'Needs Service').length;
+        const damagedCount = toolCribLog.filter((row) => row.condition === 'Damaged').length;
+
+        if (openCountEl) openCountEl.textContent = openCount.toString();
+        if (serviceCountEl) serviceCountEl.textContent = serviceCount.toString();
+        if (damagedCountEl) damagedCountEl.textContent = damagedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = toolCribLog.map((row, index) => `
+          <tr>
+            <td><span class="badge ${row.type === 'Issue' ? 'badge-info' : 'badge-success'}">${row.type}</span></td>
+            <td>${row.ref}</td>
+            <td>${row.tool}</td>
+            <td>${row.qty}</td>
+            <td>${row.person}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.condition === 'Good' ? 'badge-success' : row.condition === 'Needs Service' ? 'badge-warning' : 'badge-danger'}">${row.condition}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No tool records found.</td></tr>';
+
+        if (maintenanceBody) {
+          maintenanceBody.innerHTML = toolCribLog.map((row) => `
+            <tr>
+              <td>${row.tool}</td>
+              <td>${row.date}</td>
+              <td><span class="badge ${row.status === 'Closed' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No maintenance updates found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          type: document.getElementById('tool-type').value,
+          ref: document.getElementById('tool-ref').value.trim(),
+          tool: document.getElementById('tool-name').value.trim(),
+          qty: parseFloat(document.getElementById('tool-qty').value || '0'),
+          person: document.getElementById('tool-employee').value.trim(),
+          date: document.getElementById('tool-date').value.trim(),
+          condition: document.getElementById('tool-condition').value,
+          status: document.getElementById('tool-status').value
+        };
+
+        if (editIndex.value !== '') {
+          toolCribLog[parseInt(editIndex.value, 10)] = row;
+        } else {
+          toolCribLog.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = toolCribLog[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('tool-type').value = row.type;
+          document.getElementById('tool-ref').value = row.ref;
+          document.getElementById('tool-name').value = row.tool;
+          document.getElementById('tool-qty').value = row.qty;
+          document.getElementById('tool-employee').value = row.person;
+          document.getElementById('tool-date').value = row.date;
+          document.getElementById('tool-condition').value = row.condition;
+          document.getElementById('tool-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this tool entry?')) return;
+          toolCribLog.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Type', 'Reference', 'Tool', 'Qty', 'Person', 'Date', 'Condition', 'Status'];
+        const rows = toolCribLog.map((row) => [row.type, row.ref, row.tool, row.qty, row.person, row.date, row.condition, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'tool-crib-log.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initConsumables = () => {
+      const tbody = document.getElementById('consumable-table-body');
+      const siteBody = document.getElementById('consumable-site-body');
+      const form = document.getElementById('consumable-form');
+      const editIndex = document.getElementById('consumable-edit-index');
+      const cancel = document.getElementById('consumable-cancel');
+      const addNew = document.getElementById('consumable-add-new');
+      const exportBtn = document.getElementById('consumable-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const normalCountEl = document.getElementById('consumable-normal-count');
+      const highCountEl = document.getElementById('consumable-high-count');
+      const exceededCountEl = document.getElementById('consumable-exceeded-count');
+
+      const updateSummary = () => {
+        const normalCount = consumableUsage.filter((row) => row.status === 'Normal').length;
+        const highCount = consumableUsage.filter((row) => row.status === 'High').length;
+        const exceededCount = consumableUsage.filter((row) => row.status === 'Exceeded').length;
+
+        if (normalCountEl) normalCountEl.textContent = normalCount.toString();
+        if (highCountEl) highCountEl.textContent = highCount.toString();
+        if (exceededCountEl) exceededCountEl.textContent = exceededCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = consumableUsage.map((row, index) => `
+          <tr>
+            <td>${row.item}</td>
+            <td>${row.site}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.date}</td>
+            <td>${row.cap} ${row.uom}</td>
+            <td><span class="badge ${row.status === 'Normal' ? 'badge-success' : row.status === 'High' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No consumable usage found.</td></tr>';
+
+        if (siteBody) {
+          siteBody.innerHTML = consumableUsage.map((row) => `
+            <tr>
+              <td>${row.item}</td>
+              <td>${row.site}</td>
+              <td>${row.qty} ${row.uom}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No site usage found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          item: document.getElementById('consumable-item').value.trim(),
+          site: document.getElementById('consumable-site').value.trim(),
+          qty: parseFloat(document.getElementById('consumable-qty').value || '0'),
+          uom: document.getElementById('consumable-uom').value,
+          date: document.getElementById('consumable-date').value.trim(),
+          cap: parseFloat(document.getElementById('consumable-cap').value || '0'),
+          status: document.getElementById('consumable-status').value
+        };
+
+        if (editIndex.value !== '') {
+          consumableUsage[parseInt(editIndex.value, 10)] = row;
+        } else {
+          consumableUsage.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = consumableUsage[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('consumable-item').value = row.item;
+          document.getElementById('consumable-site').value = row.site;
+          document.getElementById('consumable-qty').value = row.qty;
+          document.getElementById('consumable-uom').value = row.uom;
+          document.getElementById('consumable-date').value = row.date;
+          document.getElementById('consumable-cap').value = row.cap;
+          document.getElementById('consumable-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this consumable entry?')) return;
+          consumableUsage.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Item', 'Site', 'Qty', 'UOM', 'Date', 'Daily Cap', 'Status'];
+        const rows = consumableUsage.map((row) => [row.item, row.site, row.qty, row.uom, row.date, row.cap, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'consumables.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initExpiryShelfLife = () => {
+      const tbody = document.getElementById('expiry-table-body');
+      const actionBody = document.getElementById('expiry-action-body');
+      const form = document.getElementById('expiry-form');
+      const editIndex = document.getElementById('expiry-edit-index');
+      const cancel = document.getElementById('expiry-cancel');
+      const addNew = document.getElementById('expiry-add-new');
+      const exportBtn = document.getElementById('expiry-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const safeCountEl = document.getElementById('expiry-safe-count');
+      const expiringCountEl = document.getElementById('expiry-expiring-count');
+      const expiredCountEl = document.getElementById('expiry-expired-count');
+
+      const updateSummary = () => {
+        const safeCount = expiryShelfLife.filter((row) => row.status === 'Safe').length;
+        const expiringCount = expiryShelfLife.filter((row) => row.status === 'Expiring').length;
+        const expiredCount = expiryShelfLife.filter((row) => row.status === 'Expired').length;
+
+        if (safeCountEl) safeCountEl.textContent = safeCount.toString();
+        if (expiringCountEl) expiringCountEl.textContent = expiringCount.toString();
+        if (expiredCountEl) expiredCountEl.textContent = expiredCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = expiryShelfLife.map((row, index) => `
+          <tr>
+            <td>${row.item}</td>
+            <td>${row.batch}</td>
+            <td>${row.warehouse}</td>
+            <td>${row.qty} ${row.uom}</td>
+            <td>${row.expiry}</td>
+            <td>${row.daysLeft}</td>
+            <td><span class="badge ${row.status === 'Safe' ? 'badge-success' : row.status === 'Expiring' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No expiry records found.</td></tr>';
+
+        if (actionBody) {
+          actionBody.innerHTML = expiryShelfLife.map((row) => `
+            <tr>
+              <td>${row.item}</td>
+              <td>${row.batch}</td>
+              <td>${row.status === 'Expired' ? 'Write-off' : row.status === 'Expiring' ? 'Use First' : 'Monitor'}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No actions available.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          item: document.getElementById('expiry-item').value.trim(),
+          batch: document.getElementById('expiry-batch').value.trim(),
+          warehouse: document.getElementById('expiry-warehouse').value.trim(),
+          qty: parseFloat(document.getElementById('expiry-qty').value || '0'),
+          uom: document.getElementById('expiry-uom').value,
+          expiry: document.getElementById('expiry-date').value.trim(),
+          daysLeft: parseInt(document.getElementById('expiry-days').value || '0', 10),
+          status: document.getElementById('expiry-status').value
+        };
+
+        if (editIndex.value !== '') {
+          expiryShelfLife[parseInt(editIndex.value, 10)] = row;
+        } else {
+          expiryShelfLife.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = expiryShelfLife[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('expiry-item').value = row.item;
+          document.getElementById('expiry-batch').value = row.batch;
+          document.getElementById('expiry-warehouse').value = row.warehouse;
+          document.getElementById('expiry-qty').value = row.qty;
+          document.getElementById('expiry-uom').value = row.uom;
+          document.getElementById('expiry-date').value = row.expiry;
+          document.getElementById('expiry-days').value = row.daysLeft;
+          document.getElementById('expiry-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this expiry record?')) return;
+          expiryShelfLife.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Item', 'Batch', 'Warehouse', 'Qty', 'UOM', 'Expiry', 'Days Left', 'Status'];
+        const rows = expiryShelfLife.map((row) => [row.item, row.batch, row.warehouse, row.qty, row.uom, row.expiry, row.daysLeft, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'expiry-shelf-life.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initKittingBundling = () => {
+      const tbody = document.getElementById('kit-table-body');
+      const siteBody = document.getElementById('kit-site-body');
+      const form = document.getElementById('kit-form');
+      const editIndex = document.getElementById('kit-edit-index');
+      const cancel = document.getElementById('kit-cancel');
+      const addNew = document.getElementById('kit-add-new');
+      const exportBtn = document.getElementById('kit-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const draftCountEl = document.getElementById('kit-draft-count');
+      const reservedCountEl = document.getElementById('kit-reserved-count');
+      const issuedCountEl = document.getElementById('kit-issued-count');
+
+      const updateSummary = () => {
+        const draftCount = kittingBundles.filter((row) => row.status === 'Draft').length;
+        const reservedCount = kittingBundles.filter((row) => row.status === 'Reserved').length;
+        const issuedCount = kittingBundles.filter((row) => row.status === 'Issued').length;
+
+        if (draftCountEl) draftCountEl.textContent = draftCount.toString();
+        if (reservedCountEl) reservedCountEl.textContent = reservedCount.toString();
+        if (issuedCountEl) issuedCountEl.textContent = issuedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = kittingBundles.map((row, index) => `
+          <tr>
+            <td>${row.code}</td>
+            <td>${row.name}</td>
+            <td>${row.components}</td>
+            <td>${row.qty}</td>
+            <td>${row.site}</td>
+            <td><span class="badge ${row.status === 'Issued' ? 'badge-success' : row.status === 'Reserved' ? 'badge-warning' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No kits found.</td></tr>';
+
+        if (siteBody) {
+          siteBody.innerHTML = kittingBundles.map((row) => `
+            <tr>
+              <td>${row.name}</td>
+              <td>${row.site}</td>
+              <td><span class="badge ${row.status === 'Issued' ? 'badge-success' : row.status === 'Reserved' ? 'badge-warning' : 'badge-info'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No kit summary found.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          code: document.getElementById('kit-code').value.trim(),
+          name: document.getElementById('kit-name').value.trim(),
+          components: document.getElementById('kit-components').value.trim(),
+          qty: parseFloat(document.getElementById('kit-qty').value || '0'),
+          site: document.getElementById('kit-site').value.trim(),
+          status: document.getElementById('kit-status').value
+        };
+
+        if (editIndex.value !== '') {
+          kittingBundles[parseInt(editIndex.value, 10)] = row;
+        } else {
+          kittingBundles.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = kittingBundles[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('kit-code').value = row.code;
+          document.getElementById('kit-name').value = row.name;
+          document.getElementById('kit-components').value = row.components;
+          document.getElementById('kit-qty').value = row.qty;
+          document.getElementById('kit-site').value = row.site;
+          document.getElementById('kit-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this kit?')) return;
+          kittingBundles.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Kit Code', 'Name', 'Components', 'Qty', 'Site', 'Status'];
+        const rows = kittingBundles.map((row) => [row.code, row.name, row.components, row.qty, row.site, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'kitting-bundles.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initBinLocations = () => {
+      const tbody = document.getElementById('bin-table-body');
+      const usageBody = document.getElementById('bin-usage-body');
+      const form = document.getElementById('bin-form');
+      const editIndex = document.getElementById('bin-edit-index');
+      const cancel = document.getElementById('bin-cancel');
+      const addNew = document.getElementById('bin-add-new');
+      const exportBtn = document.getElementById('bin-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const availableCountEl = document.getElementById('bin-available-count');
+      const nearFullCountEl = document.getElementById('bin-nearfull-count');
+      const fullCountEl = document.getElementById('bin-full-count');
+
+      const updateSummary = () => {
+        const availableCount = binLocations.filter((row) => row.status === 'Available').length;
+        const nearFullCount = binLocations.filter((row) => row.status === 'Near Full').length;
+        const fullCount = binLocations.filter((row) => row.status === 'Full').length;
+
+        if (availableCountEl) availableCountEl.textContent = availableCount.toString();
+        if (nearFullCountEl) nearFullCountEl.textContent = nearFullCount.toString();
+        if (fullCountEl) fullCountEl.textContent = fullCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = binLocations.map((row, index) => `
+          <tr>
+            <td>${row.bin}</td>
+            <td>${row.zone}</td>
+            <td>${row.warehouse}</td>
+            <td>${row.capacity} ${row.uom}</td>
+            <td>${row.used} ${row.uom}</td>
+            <td><span class="badge ${row.status === 'Available' ? 'badge-success' : row.status === 'Near Full' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No bins found.</td></tr>';
+
+        if (usageBody) {
+          usageBody.innerHTML = binLocations.map((row) => {
+            const utilization = Math.round((row.used / (row.capacity || 1)) * 100);
+            return `
+              <tr>
+                <td>${row.bin}</td>
+                <td>${row.used} / ${row.capacity} ${row.uom}</td>
+                <td>${utilization}%</td>
+              </tr>
+            `;
+          }).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No utilization data.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          bin: document.getElementById('bin-code').value.trim(),
+          zone: document.getElementById('bin-zone').value.trim(),
+          warehouse: document.getElementById('bin-warehouse').value.trim(),
+          capacity: parseFloat(document.getElementById('bin-capacity').value || '0'),
+          used: parseFloat(document.getElementById('bin-used').value || '0'),
+          uom: document.getElementById('bin-uom').value,
+          status: document.getElementById('bin-status').value
+        };
+
+        if (editIndex.value !== '') {
+          binLocations[parseInt(editIndex.value, 10)] = row;
+        } else {
+          binLocations.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = binLocations[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('bin-code').value = row.bin;
+          document.getElementById('bin-zone').value = row.zone;
+          document.getElementById('bin-warehouse').value = row.warehouse;
+          document.getElementById('bin-capacity').value = row.capacity;
+          document.getElementById('bin-used').value = row.used;
+          document.getElementById('bin-uom').value = row.uom;
+          document.getElementById('bin-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this bin?')) return;
+          binLocations.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Bin', 'Zone', 'Warehouse', 'Capacity', 'Used', 'UOM', 'Status'];
+        const rows = binLocations.map((row) => [row.bin, row.zone, row.warehouse, row.capacity, row.used, row.uom, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'bin-locations.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initCycleCounts = () => {
+      const tbody = document.getElementById('count-table-body');
+      const varianceBody = document.getElementById('count-variance-body');
+      const form = document.getElementById('count-form');
+      const editIndex = document.getElementById('count-edit-index');
+      const cancel = document.getElementById('count-cancel');
+      const addNew = document.getElementById('count-add-new');
+      const exportBtn = document.getElementById('count-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const scheduledCountEl = document.getElementById('count-scheduled-count');
+      const progressCountEl = document.getElementById('count-progress-count');
+      const completedCountEl = document.getElementById('count-completed-count');
+
+      const updateSummary = () => {
+        const scheduledCount = cycleCounts.filter((row) => row.status === 'Scheduled').length;
+        const progressCount = cycleCounts.filter((row) => row.status === 'In Progress').length;
+        const completedCount = cycleCounts.filter((row) => row.status === 'Completed').length;
+
+        if (scheduledCountEl) scheduledCountEl.textContent = scheduledCount.toString();
+        if (progressCountEl) progressCountEl.textContent = progressCount.toString();
+        if (completedCountEl) completedCountEl.textContent = completedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = cycleCounts.map((row, index) => `
+          <tr>
+            <td>${row.plan}</td>
+            <td>${row.warehouse}</td>
+            <td>${row.abc}</td>
+            <td>${row.frequency}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Completed' ? 'badge-success' : row.status === 'In Progress' ? 'badge-warning' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No cycle count plans found.</td></tr>';
+
+        if (varianceBody) {
+          varianceBody.innerHTML = cycleCounts.map((row) => `
+            <tr>
+              <td>${row.plan}</td>
+              <td>${row.variance}%</td>
+              <td>${row.action}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No variance data.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          plan: document.getElementById('count-plan').value.trim(),
+          warehouse: document.getElementById('count-warehouse').value.trim(),
+          abc: document.getElementById('count-class').value,
+          frequency: document.getElementById('count-frequency').value,
+          date: document.getElementById('count-date').value.trim(),
+          status: document.getElementById('count-status').value,
+          variance: 0,
+          action: 'Pending'
+        };
+
+        if (editIndex.value !== '') {
+          cycleCounts[parseInt(editIndex.value, 10)] = { ...cycleCounts[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          cycleCounts.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = cycleCounts[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('count-plan').value = row.plan;
+          document.getElementById('count-warehouse').value = row.warehouse;
+          document.getElementById('count-class').value = row.abc;
+          document.getElementById('count-frequency').value = row.frequency;
+          document.getElementById('count-date').value = row.date;
+          document.getElementById('count-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this cycle count plan?')) return;
+          cycleCounts.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Plan', 'Warehouse', 'ABC', 'Frequency', 'Date', 'Status', 'Variance', 'Action'];
+        const rows = cycleCounts.map((row) => [row.plan, row.warehouse, row.abc, row.frequency, row.date, row.status, row.variance, row.action]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'cycle-counts.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initMaterialRequests();
+      initIssueReturns();
+      initGRN();
+      initQualityInspection();
+      initBatchTracking();
+      initSerialTracking();
+      initTransferOrders();
+      initStockValuation();
+      initToolCrib();
+      initConsumables();
+      initExpiryShelfLife();
+      initKittingBundling();
+      initBinLocations();
+      initCycleCounts();
+    });
 
     // Stock Movement Chart
     const stockMovementCtx = document.getElementById('stockMovementChart').getContext('2d');

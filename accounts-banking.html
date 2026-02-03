@@ -65,6 +65,42 @@
               <li>
                 <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'bankAccounts')">Bank Accounts</button>
               </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'generalLedger')">General Ledger</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'cashTreasury')">Cash & Treasury</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'fixedAssets')">Fixed Assets</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'taxManagement')">Tax Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'costCenters')">Cost Centers</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'payroll')">Payroll & Statutory</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'bankReconciliation')">Bank Reconciliation</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'loans')">Loans & Interest</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'retentionGuarantees')">Retention & Guarantees</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'expenseManagement')">Expense Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'projectCosting')">Project Costing</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAccountsTab(event, 'consolidation')">Financial Consolidation</button>
+              </li>
             </ul>
           </li>
         </ul>
@@ -880,6 +916,891 @@
               </div>
             </div>
           </div>
+
+          <!-- General Ledger Tab -->
+          <div id="generalLedger" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">General Ledger</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Maintain chart of accounts and journal entries with static demo data.</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="gl-export">Export CSV</button>
+                  <button class="btn btn-primary" id="gl-add-new">+ New Entry</button>
+                </div>
+              </div>
+
+              <div class="grid grid-4" style="margin-bottom: 20px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Debits</div>
+                  <div id="gl-total-debits" style="font-size: 22px; font-weight: 700; color: var(--success-color);">₹0</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Credits</div>
+                  <div id="gl-total-credits" style="font-size: 22px; font-weight: 700; color: var(--danger-color);">₹0</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Net Movement</div>
+                  <div id="gl-total-net" style="font-size: 22px; font-weight: 700; color: var(--primary-color);">₹0</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Entries</div>
+                  <div id="gl-total-count" style="font-size: 22px; font-weight: 700; color: var(--text-primary);">0</div>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <div>
+                    <label class="form-label">From</label>
+                    <input type="date" class="form-input" id="gl-filter-from" value="2026-01-01">
+                  </div>
+                  <div>
+                    <label class="form-label">To</label>
+                    <input type="date" class="form-input" id="gl-filter-to" value="2026-02-02">
+                  </div>
+                  <div>
+                    <label class="form-label">Account</label>
+                    <select class="form-select" id="gl-filter-account">
+                      <option value="all">All Accounts</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="gl-filter-type">
+                      <option value="all">All Types</option>
+                      <option value="debit">Debit</option>
+                      <option value="credit">Credit</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Project</label>
+                    <select class="form-select" id="gl-filter-project">
+                      <option value="all">All Projects</option>
+                    </select>
+                  </div>
+                  <div>
+                    <button class="btn btn-secondary" id="gl-reset">Reset Filters</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Journal Entry</h4>
+                <form id="gl-entry-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="gl-edit-index" value="">
+                  <div>
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="gl-date" required value="2026-02-02">
+                  </div>
+                  <div>
+                    <label class="form-label">Account</label>
+                    <input type="text" class="form-input" id="gl-account" placeholder="Cash / Materials" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-input" id="gl-description" placeholder="Narration" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Debit (₹)</label>
+                    <input type="number" class="form-input" id="gl-debit" min="0" step="0.01" placeholder="0.00">
+                  </div>
+                  <div>
+                    <label class="form-label">Credit (₹)</label>
+                    <input type="number" class="form-input" id="gl-credit" min="0" step="0.01" placeholder="0.00">
+                  </div>
+                  <div>
+                    <label class="form-label">Project</label>
+                    <input type="text" class="form-input" id="gl-project" placeholder="Apollo Towers">
+                  </div>
+                  <div>
+                    <label class="form-label">Reference</label>
+                    <input type="text" class="form-input" id="gl-reference" placeholder="JV-0001">
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit" id="gl-save">Save Entry</button>
+                    <button class="btn btn-secondary" type="button" id="gl-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Reference</th>
+                      <th>Account</th>
+                      <th>Description</th>
+                      <th>Project</th>
+                      <th>Debit</th>
+                      <th>Credit</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="gl-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cash & Treasury Tab -->
+          <div id="cashTreasury" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Cash & Treasury</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track cash movements and daily liquidity (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="cash-export">Export CSV</button>
+                  <button class="btn btn-primary" id="cash-add-new">+ New Cash Movement</button>
+                </div>
+              </div>
+
+              <div class="grid grid-3" style="margin-bottom: 20px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Inflow</div>
+                  <div id="cash-total-in" style="font-size: 22px; font-weight: 700; color: var(--success-color);">₹0</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Total Outflow</div>
+                  <div id="cash-total-out" style="font-size: 22px; font-weight: 700; color: var(--danger-color);">₹0</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Net Cash</div>
+                  <div id="cash-total-net" style="font-size: 22px; font-weight: 700; color: var(--primary-color);">₹0</div>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Cash Movement</h4>
+                <form id="cash-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="cash-edit-index" value="">
+                  <div>
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="cash-date" required value="2026-02-02">
+                  </div>
+                  <div>
+                    <label class="form-label">Account</label>
+                    <input type="text" class="form-input" id="cash-account" placeholder="HDFC - Current" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="cash-type">
+                      <option value="in">Inflow</option>
+                      <option value="out">Outflow</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" class="form-input" id="cash-amount" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Note</label>
+                    <input type="text" class="form-input" id="cash-note" placeholder="Client receipt">
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="cash-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Account</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Note</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cash-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fixed Assets Tab -->
+          <div id="fixedAssets" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Fixed Assets</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Maintain asset register and depreciation (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="assets-export">Export CSV</button>
+                  <button class="btn btn-primary" id="assets-add-new">+ Add Asset</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Asset</h4>
+                <form id="assets-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="assets-edit-index" value="">
+                  <div>
+                    <label class="form-label">Asset Name</label>
+                    <input type="text" class="form-input" id="assets-name" placeholder="Generator" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-input" id="assets-category" placeholder="Power Equipment" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Purchase Date</label>
+                    <input type="date" class="form-input" id="assets-date" required value="2026-01-15">
+                  </div>
+                  <div>
+                    <label class="form-label">Cost (₹)</label>
+                    <input type="number" class="form-input" id="assets-cost" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Depreciation</label>
+                    <select class="form-select" id="assets-method">
+                      <option value="SLM">SLM</option>
+                      <option value="WDV">WDV</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="assets-status">
+                      <option value="Active">Active</option>
+                      <option value="Maintenance">Maintenance</option>
+                      <option value="Disposed">Disposed</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="assets-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Asset</th>
+                      <th>Category</th>
+                      <th>Purchase Date</th>
+                      <th>Cost</th>
+                      <th>Depreciation</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="assets-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tax Management Tab -->
+          <div id="taxManagement" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Tax Management</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Manage tax codes and filings (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="tax-export">Export CSV</button>
+                  <button class="btn btn-primary" id="tax-add-new">+ Add Tax Code</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Tax Code</h4>
+                <form id="tax-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="tax-edit-index" value="">
+                  <div>
+                    <label class="form-label">Tax Code</label>
+                    <input type="text" class="form-input" id="tax-code" placeholder="GST-18" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Rate (%)</label>
+                    <input type="number" class="form-input" id="tax-rate" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="tax-type">
+                      <option value="GST">GST</option>
+                      <option value="VAT">VAT</option>
+                      <option value="TDS">TDS</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Jurisdiction</label>
+                    <input type="text" class="form-input" id="tax-jurisdiction" placeholder="India" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Effective Date</label>
+                    <input type="date" class="form-input" id="tax-date" required value="2026-01-01">
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="tax-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tax Code</th>
+                      <th>Rate</th>
+                      <th>Type</th>
+                      <th>Jurisdiction</th>
+                      <th>Effective Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tax-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cost Centers Tab -->
+          <div id="costCenters" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Cost Centers</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Allocate expenses to projects and departments (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="costcenter-export">Export CSV</button>
+                  <button class="btn btn-primary" id="costcenter-add-new">+ Add Cost Center</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Cost Center</h4>
+                <form id="costcenter-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="costcenter-edit-index" value="">
+                  <div>
+                    <label class="form-label">Cost Center</label>
+                    <input type="text" class="form-input" id="costcenter-name" placeholder="Civil Works" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Project</label>
+                    <input type="text" class="form-input" id="costcenter-project" placeholder="Apollo Towers" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Owner</label>
+                    <input type="text" class="form-input" id="costcenter-owner" placeholder="Project Manager" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Budget (₹)</label>
+                    <input type="number" class="form-input" id="costcenter-budget" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Actual (₹)</label>
+                    <input type="number" class="form-input" id="costcenter-actual" min="0" step="0.01" required>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="costcenter-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cost Center</th>
+                      <th>Project</th>
+                      <th>Owner</th>
+                      <th>Budget</th>
+                      <th>Actual</th>
+                      <th>Variance</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="costcenter-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payroll & Statutory Tab -->
+          <div id="payroll" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Payroll & Statutory</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track payroll runs and statutory dues (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="payroll-export">Export CSV</button>
+                  <button class="btn btn-primary" id="payroll-add-new">+ New Payroll Run</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Payroll Run</h4>
+                <form id="payroll-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="payroll-edit-index" value="">
+                  <div>
+                    <label class="form-label">Period</label>
+                    <input type="text" class="form-input" id="payroll-period" placeholder="Jan 2026" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Employees</label>
+                    <input type="number" class="form-input" id="payroll-employees" min="0" step="1" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Gross (₹)</label>
+                    <input type="number" class="form-input" id="payroll-gross" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Deductions (₹)</label>
+                    <input type="number" class="form-input" id="payroll-deductions" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="payroll-status">
+                      <option value="Processed">Processed</option>
+                      <option value="Pending">Pending</option>
+                      <option value="On Hold">On Hold</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="payroll-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Period</th>
+                      <th>Employees</th>
+                      <th>Gross</th>
+                      <th>Deductions</th>
+                      <th>Net</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="payroll-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bank Reconciliation Tab -->
+          <div id="bankReconciliation" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Bank Reconciliation</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Match bank statements with ledger entries (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="bankrec-export">Export CSV</button>
+                  <button class="btn btn-primary" id="bankrec-add-new">+ Add Statement Line</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Statement Line</h4>
+                <form id="bankrec-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="bankrec-edit-index" value="">
+                  <div>
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="bankrec-date" required value="2026-02-01">
+                  </div>
+                  <div>
+                    <label class="form-label">Bank</label>
+                    <input type="text" class="form-input" id="bankrec-bank" placeholder="HDFC" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Statement ID</label>
+                    <input type="text" class="form-input" id="bankrec-id" placeholder="STMT-001" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" class="form-input" id="bankrec-amount" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="bankrec-status">
+                      <option value="Matched">Matched</option>
+                      <option value="Unmatched">Unmatched</option>
+                      <option value="Investigate">Investigate</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="bankrec-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Bank</th>
+                      <th>Statement ID</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bankrec-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loans & Interest Tab -->
+          <div id="loans" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Loans & Interest</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track loans, rates, and repayments (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="loans-export">Export CSV</button>
+                  <button class="btn btn-primary" id="loans-add-new">+ Add Loan</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Loan</h4>
+                <form id="loans-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="loans-edit-index" value="">
+                  <div>
+                    <label class="form-label">Lender</label>
+                    <input type="text" class="form-input" id="loans-lender" placeholder="HDFC Bank" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Loan ID</label>
+                    <input type="text" class="form-input" id="loans-id" placeholder="LN-001" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Principal (₹)</label>
+                    <input type="number" class="form-input" id="loans-principal" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Rate (%)</label>
+                    <input type="number" class="form-input" id="loans-rate" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Start Date</label>
+                    <input type="date" class="form-input" id="loans-date" required value="2026-01-01">
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="loans-status">
+                      <option value="Active">Active</option>
+                      <option value="Closed">Closed</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="loans-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Lender</th>
+                      <th>Loan ID</th>
+                      <th>Principal</th>
+                      <th>Rate</th>
+                      <th>Start Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="loans-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Retention & Guarantees Tab -->
+          <div id="retentionGuarantees" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Retention & Guarantees</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track retention amounts and bank guarantees (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="retention-export">Export CSV</button>
+                  <button class="btn btn-primary" id="retention-add-new">+ Add Entry</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Entry</h4>
+                <form id="retention-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="retention-edit-index" value="">
+                  <div>
+                    <label class="form-label">Project</label>
+                    <input type="text" class="form-input" id="retention-project" placeholder="Apollo Towers" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="retention-type">
+                      <option value="Retention">Retention</option>
+                      <option value="Bank Guarantee">Bank Guarantee</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" class="form-input" id="retention-amount" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Due Date</label>
+                    <input type="date" class="form-input" id="retention-date" required value="2026-03-01">
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="retention-status">
+                      <option value="Active">Active</option>
+                      <option value="Released">Released</option>
+                      <option value="Expired">Expired</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="retention-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Project</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Due Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="retention-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expense Management Tab -->
+          <div id="expenseManagement" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Expense Management</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Capture and approve employee expenses (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="expense-export">Export CSV</button>
+                  <button class="btn btn-primary" id="expense-add-new">+ Add Expense</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Expense</h4>
+                <form id="expense-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="expense-edit-index" value="">
+                  <div>
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-input" id="expense-date" required value="2026-02-01">
+                  </div>
+                  <div>
+                    <label class="form-label">Employee</label>
+                    <input type="text" class="form-input" id="expense-employee" placeholder="Amit Kumar" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Category</label>
+                    <input type="text" class="form-input" id="expense-category" placeholder="Travel" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" class="form-input" id="expense-amount" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="expense-status">
+                      <option value="Submitted">Submitted</option>
+                      <option value="Approved">Approved</option>
+                      <option value="Rejected">Rejected</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="expense-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Employee</th>
+                      <th>Category</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expense-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Costing Tab -->
+          <div id="projectCosting" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Project Costing</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track cost heads by project (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="costing-export">Export CSV</button>
+                  <button class="btn btn-primary" id="costing-add-new">+ Add Cost</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Project Cost</h4>
+                <form id="costing-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="costing-edit-index" value="">
+                  <div>
+                    <label class="form-label">Project</label>
+                    <input type="text" class="form-input" id="costing-project" placeholder="Apollo Towers" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Cost Head</label>
+                    <input type="text" class="form-input" id="costing-head" placeholder="Materials" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Budget (₹)</label>
+                    <input type="number" class="form-input" id="costing-budget" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Committed (₹)</label>
+                    <input type="number" class="form-input" id="costing-committed" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Actual (₹)</label>
+                    <input type="number" class="form-input" id="costing-actual" min="0" step="0.01" required>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="costing-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Project</th>
+                      <th>Cost Head</th>
+                      <th>Budget</th>
+                      <th>Committed</th>
+                      <th>Actual</th>
+                      <th>Variance</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="costing-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Consolidation Tab -->
+          <div id="consolidation" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Financial Consolidation</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Consolidate entity-level financials (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="consolidation-export">Export CSV</button>
+                  <button class="btn btn-primary" id="consolidation-add-new">+ Add Entity</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Entity Summary</h4>
+                <form id="consolidation-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="consolidation-edit-index" value="">
+                  <div>
+                    <label class="form-label">Entity</label>
+                    <input type="text" class="form-input" id="consolidation-entity" placeholder="BuildPro HQ" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Revenue (₹)</label>
+                    <input type="number" class="form-input" id="consolidation-revenue" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Expenses (₹)</label>
+                    <input type="number" class="form-input" id="consolidation-expenses" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Profit (₹)</label>
+                    <input type="number" class="form-input" id="consolidation-profit" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Period</label>
+                    <input type="text" class="form-input" id="consolidation-period" placeholder="FY 2025-26" required>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="consolidation-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Entity</th>
+                      <th>Period</th>
+                      <th>Revenue</th>
+                      <th>Expenses</th>
+                      <th>Profit</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="consolidation-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -901,6 +1822,224 @@
         window.applyAllTableFilters();
       }
     }
+
+    const glEntries = [
+      { date: '2026-02-01', reference: 'JV-1001', account: 'Cash', description: 'Site petty cash replenishment', project: 'Apollo Towers', debit: 250000, credit: 0 },
+      { date: '2026-01-30', reference: 'JV-1002', account: 'Materials', description: 'Cement purchase adjustment', project: 'Metro Plaza', debit: 0, credit: 185000 },
+      { date: '2026-01-29', reference: 'JV-1003', account: 'Labour Expense', description: 'Weekly labour accrual', project: 'Green Valley', debit: 420000, credit: 0 },
+      { date: '2026-01-28', reference: 'JV-1004', account: 'Bank - HDFC', description: 'Client milestone receipt', project: 'Apollo Towers', debit: 0, credit: 1250000 },
+      { date: '2026-01-27', reference: 'JV-1005', account: 'Equipment Expense', description: 'Crane rental for site', project: 'Sky Heights', debit: 260000, credit: 0 },
+      { date: '2026-01-26', reference: 'JV-1006', account: 'Subcontractor Payable', description: 'RA bill certification', project: 'Metro Plaza', debit: 0, credit: 540000 }
+    ];
+
+    const formatCurrency = (value) => {
+      const safeValue = Number(value || 0);
+      return `₹${safeValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    };
+
+    const getGlElements = () => ({
+      body: document.getElementById('gl-table-body'),
+      totalDebits: document.getElementById('gl-total-debits'),
+      totalCredits: document.getElementById('gl-total-credits'),
+      totalNet: document.getElementById('gl-total-net'),
+      totalCount: document.getElementById('gl-total-count'),
+      filterFrom: document.getElementById('gl-filter-from'),
+      filterTo: document.getElementById('gl-filter-to'),
+      filterAccount: document.getElementById('gl-filter-account'),
+      filterType: document.getElementById('gl-filter-type'),
+      filterProject: document.getElementById('gl-filter-project'),
+      form: document.getElementById('gl-entry-form'),
+      editIndex: document.getElementById('gl-edit-index'),
+      date: document.getElementById('gl-date'),
+      account: document.getElementById('gl-account'),
+      description: document.getElementById('gl-description'),
+      debit: document.getElementById('gl-debit'),
+      credit: document.getElementById('gl-credit'),
+      project: document.getElementById('gl-project'),
+      reference: document.getElementById('gl-reference'),
+      cancel: document.getElementById('gl-cancel')
+    });
+
+    const hydrateGlFilters = () => {
+      const { filterAccount, filterProject } = getGlElements();
+      const accounts = Array.from(new Set(glEntries.map(entry => entry.account))).sort();
+      const projects = Array.from(new Set(glEntries.map(entry => entry.project))).sort();
+
+      filterAccount.innerHTML = '<option value="all">All Accounts</option>' + accounts.map(account => `<option value="${account}">${account}</option>`).join('');
+      filterProject.innerHTML = '<option value="all">All Projects</option>' + projects.map(project => `<option value="${project}">${project}</option>`).join('');
+    };
+
+    const getFilteredEntries = () => {
+      const { filterFrom, filterTo, filterAccount, filterType, filterProject } = getGlElements();
+      const from = filterFrom.value ? new Date(filterFrom.value) : null;
+      const to = filterTo.value ? new Date(filterTo.value) : null;
+
+      return glEntries.filter((entry) => {
+        const entryDate = new Date(entry.date);
+        if (from && entryDate < from) return false;
+        if (to && entryDate > to) return false;
+        if (filterAccount.value !== 'all' && entry.account !== filterAccount.value) return false;
+        if (filterProject.value !== 'all' && entry.project !== filterProject.value) return false;
+        if (filterType.value === 'debit' && entry.debit <= 0) return false;
+        if (filterType.value === 'credit' && entry.credit <= 0) return false;
+        return true;
+      });
+    };
+
+    const renderGeneralLedger = () => {
+      const { body, totalDebits, totalCredits, totalNet, totalCount } = getGlElements();
+      const entries = getFilteredEntries();
+
+      body.innerHTML = entries.map((entry, index) => `
+        <tr>
+          <td>${entry.date}</td>
+          <td><strong>${entry.reference}</strong></td>
+          <td>${entry.account}</td>
+          <td>${entry.description}</td>
+          <td>${entry.project || '-'}</td>
+          <td style="color: var(--success-color); font-weight: 600;">${entry.debit ? formatCurrency(entry.debit) : '-'}</td>
+          <td style="color: var(--danger-color); font-weight: 600;">${entry.credit ? formatCurrency(entry.credit) : '-'}</td>
+          <td>
+            <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-gl-action="edit" data-gl-index="${glEntries.indexOf(entry)}">📝</button>
+            <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-gl-action="delete" data-gl-index="${glEntries.indexOf(entry)}">🗑️</button>
+          </td>
+        </tr>
+      `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No entries found.</td></tr>';
+
+      const totals = entries.reduce((acc, entry) => {
+        acc.debits += entry.debit || 0;
+        acc.credits += entry.credit || 0;
+        return acc;
+      }, { debits: 0, credits: 0 });
+
+      totalDebits.textContent = formatCurrency(totals.debits);
+      totalCredits.textContent = formatCurrency(totals.credits);
+      totalNet.textContent = formatCurrency(totals.debits - totals.credits);
+      totalCount.textContent = entries.length.toString();
+    };
+
+    const resetGlForm = () => {
+      const { form, editIndex, cancel } = getGlElements();
+      form.reset();
+      editIndex.value = '';
+      cancel.style.display = 'none';
+      document.getElementById('gl-date').value = '2026-02-02';
+    };
+
+    const initGeneralLedger = () => {
+      const elements = getGlElements();
+      if (!elements.body) {
+        return;
+      }
+
+      hydrateGlFilters();
+      renderGeneralLedger();
+
+      document.getElementById('gl-add-new').addEventListener('click', () => {
+        resetGlForm();
+        elements.date.focus();
+      });
+
+      document.getElementById('gl-reset').addEventListener('click', () => {
+        elements.filterFrom.value = '2026-01-01';
+        elements.filterTo.value = '2026-02-02';
+        elements.filterAccount.value = 'all';
+        elements.filterType.value = 'all';
+        elements.filterProject.value = 'all';
+        renderGeneralLedger();
+      });
+
+      ['filterFrom', 'filterTo', 'filterAccount', 'filterType', 'filterProject'].forEach((key) => {
+        elements[key].addEventListener('change', renderGeneralLedger);
+      });
+
+      elements.form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const debitValue = parseFloat(elements.debit.value || '0');
+        const creditValue = parseFloat(elements.credit.value || '0');
+
+        if ((debitValue <= 0 && creditValue <= 0) || (debitValue > 0 && creditValue > 0)) {
+          alert('Enter either debit or credit amount.');
+          return;
+        }
+
+        const entry = {
+          date: elements.date.value,
+          reference: elements.reference.value || `JV-${Math.floor(Math.random() * 9000) + 1000}`,
+          account: elements.account.value.trim(),
+          description: elements.description.value.trim(),
+          project: elements.project.value.trim(),
+          debit: debitValue > 0 ? debitValue : 0,
+          credit: creditValue > 0 ? creditValue : 0
+        };
+
+        if (elements.editIndex.value !== '') {
+          glEntries[parseInt(elements.editIndex.value, 10)] = entry;
+        } else {
+          glEntries.unshift(entry);
+        }
+
+        hydrateGlFilters();
+        renderGeneralLedger();
+        resetGlForm();
+      });
+
+      elements.cancel.addEventListener('click', () => {
+        resetGlForm();
+      });
+
+      elements.body.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-gl-action]');
+        if (!button) return;
+        const index = parseInt(button.dataset.glIndex, 10);
+        const action = button.dataset.glAction;
+        const entry = glEntries[index];
+        if (!entry) return;
+
+        if (action === 'edit') {
+          elements.editIndex.value = index.toString();
+          elements.date.value = entry.date;
+          elements.account.value = entry.account;
+          elements.description.value = entry.description;
+          elements.debit.value = entry.debit ? entry.debit : '';
+          elements.credit.value = entry.credit ? entry.credit : '';
+          elements.project.value = entry.project;
+          elements.reference.value = entry.reference;
+          elements.cancel.style.display = 'inline-flex';
+          elements.account.focus();
+        }
+
+        if (action === 'delete') {
+          const confirmed = confirm('Delete this journal entry?');
+          if (!confirmed) return;
+          glEntries.splice(index, 1);
+          hydrateGlFilters();
+          renderGeneralLedger();
+        }
+      });
+
+      document.getElementById('gl-export').addEventListener('click', () => {
+        const entries = getFilteredEntries();
+        const header = ['Date', 'Reference', 'Account', 'Description', 'Project', 'Debit', 'Credit'];
+        const rows = entries.map(entry => [
+          entry.date,
+          entry.reference,
+          entry.account,
+          entry.description,
+          entry.project,
+          entry.debit,
+          entry.credit
+        ]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'general-ledger.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+    };
 
     // Revenue vs Expense Chart
     const revenueExpenseCtx = document.getElementById('revenueExpenseChart').getContext('2d');
@@ -984,6 +2123,668 @@
           }
         }
       }
+    });
+
+    const cashMovements = [
+      { date: '2026-02-01', account: 'HDFC - Current', type: 'in', amount: 1800000, note: 'Client milestone receipt' },
+      { date: '2026-01-30', account: 'ICICI - Savings', type: 'out', amount: 320000, note: 'Vendor payment - Steel' },
+      { date: '2026-01-28', account: 'SBI - Payroll', type: 'out', amount: 1250000, note: 'Monthly salary payout' },
+      { date: '2026-01-26', account: 'HDFC - Current', type: 'in', amount: 450000, note: 'Retention release' }
+    ];
+
+    const assets = [
+      { name: 'Diesel Generator', category: 'Power Equipment', date: '2025-08-12', cost: 1850000, method: 'SLM', status: 'Active' },
+      { name: 'Tower Crane', category: 'Heavy Machinery', date: '2024-04-05', cost: 12500000, method: 'WDV', status: 'Maintenance' },
+      { name: 'Pickup Truck', category: 'Transport', date: '2023-11-20', cost: 1450000, method: 'SLM', status: 'Active' }
+    ];
+
+    const taxCodes = [
+      { code: 'GST-18', rate: 18, type: 'GST', jurisdiction: 'India', date: '2025-04-01' },
+      { code: 'GST-5', rate: 5, type: 'GST', jurisdiction: 'India', date: '2025-04-01' },
+      { code: 'TDS-2', rate: 2, type: 'TDS', jurisdiction: 'India', date: '2025-04-01' }
+    ];
+
+    const costCenters = [
+      { name: 'Civil Works', project: 'Apollo Towers', owner: 'Jane Smith', budget: 5200000, actual: 4850000 },
+      { name: 'MEP', project: 'Metro Plaza', owner: 'Rajesh Singh', budget: 3100000, actual: 3420000 },
+      { name: 'Finishing', project: 'Green Valley', owner: 'Amit Kumar', budget: 2700000, actual: 2580000 }
+    ];
+
+    const payrollRuns = [
+      { period: 'Jan 2026', employees: 342, gross: 12500000, deductions: 2100000, status: 'Processed' },
+      { period: 'Dec 2025', employees: 330, gross: 11800000, deductions: 1950000, status: 'Processed' },
+      { period: 'Feb 2026', employees: 350, gross: 13000000, deductions: 2200000, status: 'Pending' }
+    ];
+
+    const bankRecs = [
+      { date: '2026-02-01', bank: 'HDFC', id: 'STMT-001', amount: 1800000, status: 'Matched' },
+      { date: '2026-01-30', bank: 'ICICI', id: 'STMT-002', amount: 320000, status: 'Unmatched' },
+      { date: '2026-01-28', bank: 'SBI', id: 'STMT-003', amount: 1250000, status: 'Investigate' }
+    ];
+
+    const loans = [
+      { lender: 'HDFC Bank', id: 'LN-001', principal: 25000000, rate: 9.2, date: '2024-04-01', status: 'Active' },
+      { lender: 'SBI', id: 'LN-002', principal: 18000000, rate: 10.0, date: '2023-06-15', status: 'Active' },
+      { lender: 'ICICI', id: 'LN-003', principal: 7500000, rate: 8.5, date: '2022-01-10', status: 'Closed' }
+    ];
+
+    const retentionEntries = [
+      { project: 'Apollo Towers', type: 'Retention', amount: 450000, date: '2026-06-30', status: 'Active' },
+      { project: 'Metro Plaza', type: 'Bank Guarantee', amount: 1200000, date: '2026-09-30', status: 'Active' },
+      { project: 'Green Valley', type: 'Retention', amount: 300000, date: '2025-12-31', status: 'Released' }
+    ];
+
+    const expenses = [
+      { date: '2026-02-01', employee: 'Amit Kumar', category: 'Travel', amount: 18500, status: 'Submitted' },
+      { date: '2026-01-28', employee: 'Suresh Verma', category: 'Site Supplies', amount: 42000, status: 'Approved' },
+      { date: '2026-01-25', employee: 'Neha Gupta', category: 'Meals', amount: 5600, status: 'Rejected' }
+    ];
+
+    const projectCosts = [
+      { project: 'Apollo Towers', head: 'Materials', budget: 5200000, committed: 4800000, actual: 4650000 },
+      { project: 'Metro Plaza', head: 'Labour', budget: 3100000, committed: 3300000, actual: 3420000 },
+      { project: 'Green Valley', head: 'Equipment', budget: 1400000, committed: 1200000, actual: 1180000 }
+    ];
+
+    const consolidationRows = [
+      { entity: 'BuildPro HQ', period: 'FY 2025-26', revenue: 145000000, expenses: 98000000, profit: 47000000 },
+      { entity: 'BuildPro North', period: 'FY 2025-26', revenue: 52000000, expenses: 36000000, profit: 16000000 },
+      { entity: 'BuildPro South', period: 'FY 2025-26', revenue: 42000000, expenses: 29000000, profit: 13000000 }
+    ];
+
+    const bindEditableTable = ({
+      data,
+      tbodyId,
+      formId,
+      editIndexId,
+      cancelId,
+      addNewId,
+      exportId,
+      renderRow,
+      hydrateForm,
+      extractForm,
+      extraReset,
+      exportHeaders,
+      exportRow
+    }) => {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+
+      const form = document.getElementById(formId);
+      const editIndex = document.getElementById(editIndexId);
+      const cancel = document.getElementById(cancelId);
+      const addNew = document.getElementById(addNewId);
+      const exportBtn = document.getElementById(exportId);
+
+      const render = () => {
+        tbody.innerHTML = data.map((row, index) => renderRow(row, index)).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No records found.</td></tr>';
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+        if (extraReset) extraReset();
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = extractForm();
+        if (editIndex.value !== '') {
+          data[parseInt(editIndex.value, 10)] = row;
+        } else {
+          data.unshift(row);
+        }
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', () => {
+        resetForm();
+      });
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = data[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          hydrateForm(row);
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this record?')) return;
+          data.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = exportHeaders;
+        const rows = data.map(exportRow);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${tbodyId}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const formatMoney = (value) => `₹${Number(value || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+
+    const initCashTreasury = () => {
+      const totalIn = document.getElementById('cash-total-in');
+      const totalOut = document.getElementById('cash-total-out');
+      const totalNet = document.getElementById('cash-total-net');
+      const updateTotals = () => {
+        const inflow = cashMovements.reduce((sum, row) => sum + (row.type === 'in' ? row.amount : 0), 0);
+        const outflow = cashMovements.reduce((sum, row) => sum + (row.type === 'out' ? row.amount : 0), 0);
+        totalIn.textContent = formatMoney(inflow);
+        totalOut.textContent = formatMoney(outflow);
+        totalNet.textContent = formatMoney(inflow - outflow);
+      };
+
+      bindEditableTable({
+        data: cashMovements,
+        tbodyId: 'cash-table-body',
+        formId: 'cash-form',
+        editIndexId: 'cash-edit-index',
+        cancelId: 'cash-cancel',
+        addNewId: 'cash-add-new',
+        exportId: 'cash-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.date}</td>
+            <td>${row.account}</td>
+            <td><span class="badge ${row.type === 'in' ? 'badge-success' : 'badge-danger'}">${row.type === 'in' ? 'Inflow' : 'Outflow'}</span></td>
+            <td>${formatMoney(row.amount)}</td>
+            <td>${row.note || '-'}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('cash-date').value = row.date;
+          document.getElementById('cash-account').value = row.account;
+          document.getElementById('cash-type').value = row.type;
+          document.getElementById('cash-amount').value = row.amount;
+          document.getElementById('cash-note').value = row.note;
+        },
+        extractForm: () => ({
+          date: document.getElementById('cash-date').value,
+          account: document.getElementById('cash-account').value.trim(),
+          type: document.getElementById('cash-type').value,
+          amount: parseFloat(document.getElementById('cash-amount').value || '0'),
+          note: document.getElementById('cash-note').value.trim()
+        }),
+        extraReset: () => { document.getElementById('cash-date').value = '2026-02-02'; },
+        exportHeaders: ['Date', 'Account', 'Type', 'Amount', 'Note'],
+        exportRow: (row) => [row.date, row.account, row.type, row.amount, row.note]
+      });
+
+      updateTotals();
+      document.getElementById('cash-form').addEventListener('submit', updateTotals);
+      document.getElementById('cash-table-body').addEventListener('click', updateTotals);
+    };
+
+    const initFixedAssets = () => {
+      bindEditableTable({
+        data: assets,
+        tbodyId: 'assets-table-body',
+        formId: 'assets-form',
+        editIndexId: 'assets-edit-index',
+        cancelId: 'assets-cancel',
+        addNewId: 'assets-add-new',
+        exportId: 'assets-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.name}</td>
+            <td>${row.category}</td>
+            <td>${row.date}</td>
+            <td>${formatMoney(row.cost)}</td>
+            <td>${row.method}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Maintenance' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('assets-name').value = row.name;
+          document.getElementById('assets-category').value = row.category;
+          document.getElementById('assets-date').value = row.date;
+          document.getElementById('assets-cost').value = row.cost;
+          document.getElementById('assets-method').value = row.method;
+          document.getElementById('assets-status').value = row.status;
+        },
+        extractForm: () => ({
+          name: document.getElementById('assets-name').value.trim(),
+          category: document.getElementById('assets-category').value.trim(),
+          date: document.getElementById('assets-date').value,
+          cost: parseFloat(document.getElementById('assets-cost').value || '0'),
+          method: document.getElementById('assets-method').value,
+          status: document.getElementById('assets-status').value
+        }),
+        extraReset: () => { document.getElementById('assets-date').value = '2026-01-15'; },
+        exportHeaders: ['Asset', 'Category', 'Purchase Date', 'Cost', 'Method', 'Status'],
+        exportRow: (row) => [row.name, row.category, row.date, row.cost, row.method, row.status]
+      });
+    };
+
+    const initTaxManagement = () => {
+      bindEditableTable({
+        data: taxCodes,
+        tbodyId: 'tax-table-body',
+        formId: 'tax-form',
+        editIndexId: 'tax-edit-index',
+        cancelId: 'tax-cancel',
+        addNewId: 'tax-add-new',
+        exportId: 'tax-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.code}</td>
+            <td>${row.rate}%</td>
+            <td>${row.type}</td>
+            <td>${row.jurisdiction}</td>
+            <td>${row.date}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('tax-code').value = row.code;
+          document.getElementById('tax-rate').value = row.rate;
+          document.getElementById('tax-type').value = row.type;
+          document.getElementById('tax-jurisdiction').value = row.jurisdiction;
+          document.getElementById('tax-date').value = row.date;
+        },
+        extractForm: () => ({
+          code: document.getElementById('tax-code').value.trim(),
+          rate: parseFloat(document.getElementById('tax-rate').value || '0'),
+          type: document.getElementById('tax-type').value,
+          jurisdiction: document.getElementById('tax-jurisdiction').value.trim(),
+          date: document.getElementById('tax-date').value
+        }),
+        extraReset: () => { document.getElementById('tax-date').value = '2026-01-01'; },
+        exportHeaders: ['Tax Code', 'Rate', 'Type', 'Jurisdiction', 'Effective Date'],
+        exportRow: (row) => [row.code, row.rate, row.type, row.jurisdiction, row.date]
+      });
+    };
+
+    const initCostCenters = () => {
+      bindEditableTable({
+        data: costCenters,
+        tbodyId: 'costcenter-table-body',
+        formId: 'costcenter-form',
+        editIndexId: 'costcenter-edit-index',
+        cancelId: 'costcenter-cancel',
+        addNewId: 'costcenter-add-new',
+        exportId: 'costcenter-export',
+        renderRow: (row, index) => {
+          const variance = row.budget - row.actual;
+          const varianceClass = variance >= 0 ? 'badge-success' : 'badge-danger';
+          return `
+            <tr>
+              <td>${row.name}</td>
+              <td>${row.project}</td>
+              <td>${row.owner}</td>
+              <td>${formatMoney(row.budget)}</td>
+              <td>${formatMoney(row.actual)}</td>
+              <td><span class="badge ${varianceClass}">${variance >= 0 ? '+' : ''}${formatMoney(variance)}</span></td>
+              <td>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+              </td>
+            </tr>
+          `;
+        },
+        hydrateForm: (row) => {
+          document.getElementById('costcenter-name').value = row.name;
+          document.getElementById('costcenter-project').value = row.project;
+          document.getElementById('costcenter-owner').value = row.owner;
+          document.getElementById('costcenter-budget').value = row.budget;
+          document.getElementById('costcenter-actual').value = row.actual;
+        },
+        extractForm: () => ({
+          name: document.getElementById('costcenter-name').value.trim(),
+          project: document.getElementById('costcenter-project').value.trim(),
+          owner: document.getElementById('costcenter-owner').value.trim(),
+          budget: parseFloat(document.getElementById('costcenter-budget').value || '0'),
+          actual: parseFloat(document.getElementById('costcenter-actual').value || '0')
+        }),
+        exportHeaders: ['Cost Center', 'Project', 'Owner', 'Budget', 'Actual', 'Variance'],
+        exportRow: (row) => [row.name, row.project, row.owner, row.budget, row.actual, row.budget - row.actual]
+      });
+    };
+
+    const initPayroll = () => {
+      bindEditableTable({
+        data: payrollRuns,
+        tbodyId: 'payroll-table-body',
+        formId: 'payroll-form',
+        editIndexId: 'payroll-edit-index',
+        cancelId: 'payroll-cancel',
+        addNewId: 'payroll-add-new',
+        exportId: 'payroll-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.period}</td>
+            <td>${row.employees}</td>
+            <td>${formatMoney(row.gross)}</td>
+            <td>${formatMoney(row.deductions)}</td>
+            <td>${formatMoney(row.gross - row.deductions)}</td>
+            <td><span class="badge ${row.status === 'Processed' ? 'badge-success' : row.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('payroll-period').value = row.period;
+          document.getElementById('payroll-employees').value = row.employees;
+          document.getElementById('payroll-gross').value = row.gross;
+          document.getElementById('payroll-deductions').value = row.deductions;
+          document.getElementById('payroll-status').value = row.status;
+        },
+        extractForm: () => ({
+          period: document.getElementById('payroll-period').value.trim(),
+          employees: parseInt(document.getElementById('payroll-employees').value || '0', 10),
+          gross: parseFloat(document.getElementById('payroll-gross').value || '0'),
+          deductions: parseFloat(document.getElementById('payroll-deductions').value || '0'),
+          status: document.getElementById('payroll-status').value
+        }),
+        exportHeaders: ['Period', 'Employees', 'Gross', 'Deductions', 'Net', 'Status'],
+        exportRow: (row) => [row.period, row.employees, row.gross, row.deductions, row.gross - row.deductions, row.status]
+      });
+    };
+
+    const initBankReconciliation = () => {
+      bindEditableTable({
+        data: bankRecs,
+        tbodyId: 'bankrec-table-body',
+        formId: 'bankrec-form',
+        editIndexId: 'bankrec-edit-index',
+        cancelId: 'bankrec-cancel',
+        addNewId: 'bankrec-add-new',
+        exportId: 'bankrec-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.date}</td>
+            <td>${row.bank}</td>
+            <td>${row.id}</td>
+            <td>${formatMoney(row.amount)}</td>
+            <td><span class="badge ${row.status === 'Matched' ? 'badge-success' : row.status === 'Unmatched' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('bankrec-date').value = row.date;
+          document.getElementById('bankrec-bank').value = row.bank;
+          document.getElementById('bankrec-id').value = row.id;
+          document.getElementById('bankrec-amount').value = row.amount;
+          document.getElementById('bankrec-status').value = row.status;
+        },
+        extractForm: () => ({
+          date: document.getElementById('bankrec-date').value,
+          bank: document.getElementById('bankrec-bank').value.trim(),
+          id: document.getElementById('bankrec-id').value.trim(),
+          amount: parseFloat(document.getElementById('bankrec-amount').value || '0'),
+          status: document.getElementById('bankrec-status').value
+        }),
+        extraReset: () => { document.getElementById('bankrec-date').value = '2026-02-01'; },
+        exportHeaders: ['Date', 'Bank', 'Statement ID', 'Amount', 'Status'],
+        exportRow: (row) => [row.date, row.bank, row.id, row.amount, row.status]
+      });
+    };
+
+    const initLoans = () => {
+      bindEditableTable({
+        data: loans,
+        tbodyId: 'loans-table-body',
+        formId: 'loans-form',
+        editIndexId: 'loans-edit-index',
+        cancelId: 'loans-cancel',
+        addNewId: 'loans-add-new',
+        exportId: 'loans-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.lender}</td>
+            <td>${row.id}</td>
+            <td>${formatMoney(row.principal)}</td>
+            <td>${row.rate}%</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-secondary'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('loans-lender').value = row.lender;
+          document.getElementById('loans-id').value = row.id;
+          document.getElementById('loans-principal').value = row.principal;
+          document.getElementById('loans-rate').value = row.rate;
+          document.getElementById('loans-date').value = row.date;
+          document.getElementById('loans-status').value = row.status;
+        },
+        extractForm: () => ({
+          lender: document.getElementById('loans-lender').value.trim(),
+          id: document.getElementById('loans-id').value.trim(),
+          principal: parseFloat(document.getElementById('loans-principal').value || '0'),
+          rate: parseFloat(document.getElementById('loans-rate').value || '0'),
+          date: document.getElementById('loans-date').value,
+          status: document.getElementById('loans-status').value
+        }),
+        extraReset: () => { document.getElementById('loans-date').value = '2026-01-01'; },
+        exportHeaders: ['Lender', 'Loan ID', 'Principal', 'Rate', 'Start Date', 'Status'],
+        exportRow: (row) => [row.lender, row.id, row.principal, row.rate, row.date, row.status]
+      });
+    };
+
+    const initRetention = () => {
+      bindEditableTable({
+        data: retentionEntries,
+        tbodyId: 'retention-table-body',
+        formId: 'retention-form',
+        editIndexId: 'retention-edit-index',
+        cancelId: 'retention-cancel',
+        addNewId: 'retention-add-new',
+        exportId: 'retention-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.project}</td>
+            <td>${row.type}</td>
+            <td>${formatMoney(row.amount)}</td>
+            <td>${row.date}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-warning' : row.status === 'Released' ? 'badge-success' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('retention-project').value = row.project;
+          document.getElementById('retention-type').value = row.type;
+          document.getElementById('retention-amount').value = row.amount;
+          document.getElementById('retention-date').value = row.date;
+          document.getElementById('retention-status').value = row.status;
+        },
+        extractForm: () => ({
+          project: document.getElementById('retention-project').value.trim(),
+          type: document.getElementById('retention-type').value,
+          amount: parseFloat(document.getElementById('retention-amount').value || '0'),
+          date: document.getElementById('retention-date').value,
+          status: document.getElementById('retention-status').value
+        }),
+        extraReset: () => { document.getElementById('retention-date').value = '2026-03-01'; },
+        exportHeaders: ['Project', 'Type', 'Amount', 'Due Date', 'Status'],
+        exportRow: (row) => [row.project, row.type, row.amount, row.date, row.status]
+      });
+    };
+
+    const initExpenses = () => {
+      bindEditableTable({
+        data: expenses,
+        tbodyId: 'expense-table-body',
+        formId: 'expense-form',
+        editIndexId: 'expense-edit-index',
+        cancelId: 'expense-cancel',
+        addNewId: 'expense-add-new',
+        exportId: 'expense-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.date}</td>
+            <td>${row.employee}</td>
+            <td>${row.category}</td>
+            <td>${formatMoney(row.amount)}</td>
+            <td><span class="badge ${row.status === 'Approved' ? 'badge-success' : row.status === 'Submitted' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('expense-date').value = row.date;
+          document.getElementById('expense-employee').value = row.employee;
+          document.getElementById('expense-category').value = row.category;
+          document.getElementById('expense-amount').value = row.amount;
+          document.getElementById('expense-status').value = row.status;
+        },
+        extractForm: () => ({
+          date: document.getElementById('expense-date').value,
+          employee: document.getElementById('expense-employee').value.trim(),
+          category: document.getElementById('expense-category').value.trim(),
+          amount: parseFloat(document.getElementById('expense-amount').value || '0'),
+          status: document.getElementById('expense-status').value
+        }),
+        extraReset: () => { document.getElementById('expense-date').value = '2026-02-01'; },
+        exportHeaders: ['Date', 'Employee', 'Category', 'Amount', 'Status'],
+        exportRow: (row) => [row.date, row.employee, row.category, row.amount, row.status]
+      });
+    };
+
+    const initProjectCosting = () => {
+      bindEditableTable({
+        data: projectCosts,
+        tbodyId: 'costing-table-body',
+        formId: 'costing-form',
+        editIndexId: 'costing-edit-index',
+        cancelId: 'costing-cancel',
+        addNewId: 'costing-add-new',
+        exportId: 'costing-export',
+        renderRow: (row, index) => {
+          const variance = row.budget - row.actual;
+          return `
+            <tr>
+              <td>${row.project}</td>
+              <td>${row.head}</td>
+              <td>${formatMoney(row.budget)}</td>
+              <td>${formatMoney(row.committed)}</td>
+              <td>${formatMoney(row.actual)}</td>
+              <td><span class="badge ${variance >= 0 ? 'badge-success' : 'badge-danger'}">${variance >= 0 ? '+' : ''}${formatMoney(variance)}</span></td>
+              <td>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+              </td>
+            </tr>
+          `;
+        },
+        hydrateForm: (row) => {
+          document.getElementById('costing-project').value = row.project;
+          document.getElementById('costing-head').value = row.head;
+          document.getElementById('costing-budget').value = row.budget;
+          document.getElementById('costing-committed').value = row.committed;
+          document.getElementById('costing-actual').value = row.actual;
+        },
+        extractForm: () => ({
+          project: document.getElementById('costing-project').value.trim(),
+          head: document.getElementById('costing-head').value.trim(),
+          budget: parseFloat(document.getElementById('costing-budget').value || '0'),
+          committed: parseFloat(document.getElementById('costing-committed').value || '0'),
+          actual: parseFloat(document.getElementById('costing-actual').value || '0')
+        }),
+        exportHeaders: ['Project', 'Cost Head', 'Budget', 'Committed', 'Actual', 'Variance'],
+        exportRow: (row) => [row.project, row.head, row.budget, row.committed, row.actual, row.budget - row.actual]
+      });
+    };
+
+    const initConsolidation = () => {
+      bindEditableTable({
+        data: consolidationRows,
+        tbodyId: 'consolidation-table-body',
+        formId: 'consolidation-form',
+        editIndexId: 'consolidation-edit-index',
+        cancelId: 'consolidation-cancel',
+        addNewId: 'consolidation-add-new',
+        exportId: 'consolidation-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.entity}</td>
+            <td>${row.period}</td>
+            <td>${formatMoney(row.revenue)}</td>
+            <td>${formatMoney(row.expenses)}</td>
+            <td>${formatMoney(row.profit)}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('consolidation-entity').value = row.entity;
+          document.getElementById('consolidation-revenue').value = row.revenue;
+          document.getElementById('consolidation-expenses').value = row.expenses;
+          document.getElementById('consolidation-profit').value = row.profit;
+          document.getElementById('consolidation-period').value = row.period;
+        },
+        extractForm: () => ({
+          entity: document.getElementById('consolidation-entity').value.trim(),
+          revenue: parseFloat(document.getElementById('consolidation-revenue').value || '0'),
+          expenses: parseFloat(document.getElementById('consolidation-expenses').value || '0'),
+          profit: parseFloat(document.getElementById('consolidation-profit').value || '0'),
+          period: document.getElementById('consolidation-period').value.trim()
+        }),
+        exportHeaders: ['Entity', 'Period', 'Revenue', 'Expenses', 'Profit'],
+        exportRow: (row) => [row.entity, row.period, row.revenue, row.expenses, row.profit]
+      });
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initGeneralLedger();
+      initCashTreasury();
+      initFixedAssets();
+      initTaxManagement();
+      initCostCenters();
+      initPayroll();
+      initBankReconciliation();
+      initLoans();
+      initRetention();
+      initExpenses();
+      initProjectCosting();
+      initConsolidation();
     });
   </script>
 </body>

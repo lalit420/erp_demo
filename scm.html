@@ -50,6 +50,42 @@
               <li>
                 <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'deliveryTracking')">Delivery Tracking</button>
               </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'contracts')">Contracts & Rate Agreements</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'bidComparison')">Bid Comparison</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'subcontractors')">Subcontractor Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'supplierPerformance')">Supplier Performance</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'expediting')">Expediting & Follow-ups</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'logistics')">Import & Logistics</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'vendorOnboarding')">Vendor Onboarding</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'spendAnalysis')">Spend Analysis</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'categoryManagement')">Category Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'catalogs')">E-Procurement Catalogs</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'tenders')">Tender Management</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchSCMTab(event, 'claims')">Claims & Disputes</button>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -798,6 +834,1420 @@
               </div>
             </div>
           </div>
+
+          <!-- Contracts & Rate Agreements Tab -->
+          <div id="contracts" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Contracts & Rate Agreements</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Manage contract terms, validity, and negotiated rate cards.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Contract Repository</h4>
+                    <button class="btn btn-secondary" id="contract-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="contract-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="contract-edit-index" value="">
+                    <div class="form-group">
+                      <label for="contract-no">Contract No</label>
+                      <input type="text" id="contract-no" required placeholder="CN-2026-011">
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-vendor">Vendor</label>
+                      <input type="text" id="contract-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-type">Type</label>
+                      <select id="contract-type" class="form-select" required>
+                        <option value="Material">Material</option>
+                        <option value="Services">Services</option>
+                        <option value="Subcontract">Subcontract</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-value">Value (₹)</label>
+                      <input type="number" id="contract-value" required min="0" step="0.01" placeholder="2500000">
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-start">Start Date</label>
+                      <input type="text" id="contract-start" required placeholder="Jan 01, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-end">End Date</label>
+                      <input type="text" id="contract-end" required placeholder="Dec 31, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="contract-status">Status</label>
+                      <select id="contract-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="contract-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Contract</th>
+                          <th>Vendor</th>
+                          <th>Type</th>
+                          <th>Value</th>
+                          <th>Start</th>
+                          <th>End</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="contract-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="contract-export" type="button">Export Contracts</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Rate Cards</h4>
+                    <button class="btn btn-secondary" id="rate-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="rate-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="rate-edit-index" value="">
+                    <div class="form-group">
+                      <label for="rate-item">Item</label>
+                      <input type="text" id="rate-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-vendor">Vendor</label>
+                      <input type="text" id="rate-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-price">Rate (₹)</label>
+                      <input type="number" id="rate-price" required min="0" step="0.01" placeholder="450">
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-uom">UOM</label>
+                      <select id="rate-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Tons">Tons</option>
+                        <option value="Pieces">Pieces</option>
+                        <option value="Liters">Liters</option>
+                        <option value="Cubic Ft">Cubic Ft</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-start">Effective From</label>
+                      <input type="text" id="rate-start" required placeholder="Jan 01, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-end">Effective To</label>
+                      <input type="text" id="rate-end" required placeholder="Dec 31, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="rate-status">Status</label>
+                      <select id="rate-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="rate-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Vendor</th>
+                          <th>Rate</th>
+                          <th>UOM</th>
+                          <th>From</th>
+                          <th>To</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="rate-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="rate-export" type="button">Export Rates</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bid Comparison Tab -->
+          <div id="bidComparison" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Bid Comparison</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Compare vendor quotes side‑by‑side and select winners.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Bid Register</h4>
+                    <button class="btn btn-secondary" id="bid-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="bid-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="bid-edit-index" value="">
+                    <div class="form-group">
+                      <label for="bid-rfq">RFQ No</label>
+                      <input type="text" id="bid-rfq" required placeholder="RFQ-2026-018">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-vendor">Vendor</label>
+                      <input type="text" id="bid-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-item">Item</label>
+                      <input type="text" id="bid-item" required placeholder="Cement (OPC 53)">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-qty">Qty</label>
+                      <input type="number" id="bid-qty" required min="1" placeholder="100">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-price">Unit Price (₹)</label>
+                      <input type="number" id="bid-price" required min="0" step="0.01" placeholder="450">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-freight">Freight (₹)</label>
+                      <input type="number" id="bid-freight" required min="0" step="0.01" placeholder="12000">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-technical">Technical Score</label>
+                      <input type="number" id="bid-technical" required min="0" max="100" placeholder="85">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-commercial">Commercial Score</label>
+                      <input type="number" id="bid-commercial" required min="0" max="100" placeholder="78">
+                    </div>
+                    <div class="form-group">
+                      <label for="bid-status">Status</label>
+                      <select id="bid-status" class="form-select" required>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Shortlisted">Shortlisted</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Awarded">Awarded</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="bid-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>RFQ</th>
+                          <th>Vendor</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Unit Price</th>
+                          <th>Landed Cost</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bid-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="bid-export" type="button">Export Bids</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Comparison Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Lowest Landed</span>
+                      <strong id="bid-lowest">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Shortlisted</span>
+                      <strong id="bid-shortlisted-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Awarded</span>
+                      <strong id="bid-awarded-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Total Score</th>
+                          <th>Rank</th>
+                        </tr>
+                      </thead>
+                      <tbody id="bid-rank-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subcontractor Management Tab -->
+          <div id="subcontractors" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Subcontractor Management</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Onboard, track performance, and manage work packages.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Work Orders</h4>
+                    <button class="btn btn-secondary" id="subc-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="subc-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="subc-edit-index" value="">
+                    <div class="form-group">
+                      <label for="subc-wo">WO No</label>
+                      <input type="text" id="subc-wo" required placeholder="WO-2026-042">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-name">Subcontractor</label>
+                      <input type="text" id="subc-name" required placeholder="BuildMate Services">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-package">Work Package</label>
+                      <input type="text" id="subc-package" required placeholder="Masonry Works">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-site">Site</label>
+                      <input type="text" id="subc-site" required placeholder="Apollo Site">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-value">WO Value (₹)</label>
+                      <input type="number" id="subc-value" required min="0" step="0.01" placeholder="1800000">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-progress">Progress (%)</label>
+                      <input type="number" id="subc-progress" required min="0" max="100" placeholder="45">
+                    </div>
+                    <div class="form-group">
+                      <label for="subc-status">Status</label>
+                      <select id="subc-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="On Hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="subc-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>WO</th>
+                          <th>Subcontractor</th>
+                          <th>Package</th>
+                          <th>Site</th>
+                          <th>Value</th>
+                          <th>Progress</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="subc-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="subc-export" type="button">Export WOs</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Milestones & Compliance</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Active</span>
+                      <strong id="subc-active-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">On Hold</span>
+                      <strong id="subc-hold-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Completed</span>
+                      <strong id="subc-completed-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>WO</th>
+                          <th>Milestone</th>
+                          <th>Compliance</th>
+                        </tr>
+                      </thead>
+                      <tbody id="subc-milestone-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supplier Performance Tab -->
+          <div id="supplierPerformance" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Supplier Performance</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Scorecard vendors on quality, delivery, and cost.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Supplier Scorecards</h4>
+                    <button class="btn btn-secondary" id="perf-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="perf-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="perf-edit-index" value="">
+                    <div class="form-group">
+                      <label for="perf-vendor">Vendor</label>
+                      <input type="text" id="perf-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="perf-otd">OTD (%)</label>
+                      <input type="number" id="perf-otd" required min="0" max="100" placeholder="92">
+                    </div>
+                    <div class="form-group">
+                      <label for="perf-defect">Defect Rate (%)</label>
+                      <input type="number" id="perf-defect" required min="0" max="100" step="0.1" placeholder="1.5">
+                    </div>
+                    <div class="form-group">
+                      <label for="perf-variance">Price Variance (%)</label>
+                      <input type="number" id="perf-variance" required min="-100" max="100" step="0.1" placeholder="-1.2">
+                    </div>
+                    <div class="form-group">
+                      <label for="perf-score">Overall Score</label>
+                      <input type="number" id="perf-score" required min="0" max="100" placeholder="86">
+                    </div>
+                    <div class="form-group">
+                      <label for="perf-status">Status</label>
+                      <select id="perf-status" class="form-select" required>
+                        <option value="Preferred">Preferred</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Watchlist">Watchlist</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="perf-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>OTD</th>
+                          <th>Defect</th>
+                          <th>Variance</th>
+                          <th>Score</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="perf-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="perf-export" type="button">Export Scorecards</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Improvement Plans</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Preferred</span>
+                      <strong id="perf-preferred-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Approved</span>
+                      <strong id="perf-approved-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Watchlist</span>
+                      <strong id="perf-watchlist-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Action</th>
+                          <th>Owner</th>
+                        </tr>
+                      </thead>
+                      <tbody id="perf-action-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Expediting Tab -->
+          <div id="expediting" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Expediting & Follow-ups</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Track critical items and send automated follow-ups.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Expediting Watchlist</h4>
+                    <button class="btn btn-secondary" id="exp-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="exp-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="exp-edit-index" value="">
+                    <div class="form-group">
+                      <label for="exp-po">PO No</label>
+                      <input type="text" id="exp-po" required placeholder="PO-2026-121">
+                    </div>
+                    <div class="form-group">
+                      <label for="exp-vendor">Vendor</label>
+                      <input type="text" id="exp-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="exp-item">Item</label>
+                      <input type="text" id="exp-item" required placeholder="Steel TMT Bars">
+                    </div>
+                    <div class="form-group">
+                      <label for="exp-eta">ETA</label>
+                      <input type="text" id="exp-eta" required placeholder="Feb 10, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="exp-priority">Priority</label>
+                      <select id="exp-priority" class="form-select" required>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exp-status">Status</label>
+                      <select id="exp-status" class="form-select" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Follow-up">Follow-up</option>
+                        <option value="Escalated">Escalated</option>
+                        <option value="Resolved">Resolved</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="exp-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>PO</th>
+                          <th>Vendor</th>
+                          <th>Item</th>
+                          <th>ETA</th>
+                          <th>Priority</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="exp-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="exp-export" type="button">Export Watchlist</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Follow-up Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Pending</span>
+                      <strong id="exp-pending-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Follow-up</span>
+                      <strong id="exp-followup-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Escalated</span>
+                      <strong id="exp-escalated-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>PO</th>
+                          <th>Last Follow-up</th>
+                          <th>Owner</th>
+                        </tr>
+                      </thead>
+                      <tbody id="exp-followup-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Import & Logistics Tab -->
+          <div id="logistics" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Import & Logistics</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Handle INCOTERMS, customs, and freight tracking.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Shipment Tracker</h4>
+                    <button class="btn btn-secondary" id="log-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="log-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="log-edit-index" value="">
+                    <div class="form-group">
+                      <label for="log-shipment">Shipment No</label>
+                      <input type="text" id="log-shipment" required placeholder="SHIP-2026-009">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-vendor">Vendor</label>
+                      <input type="text" id="log-vendor" required placeholder="Global Freight Co">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-incoterm">INCOTERM</label>
+                      <select id="log-incoterm" class="form-select" required>
+                        <option value="FOB">FOB</option>
+                        <option value="CIF">CIF</option>
+                        <option value="EXW">EXW</option>
+                        <option value="DAP">DAP</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="log-port">Port</label>
+                      <input type="text" id="log-port" required placeholder="Nhava Sheva">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-eta">ETA</label>
+                      <input type="text" id="log-eta" required placeholder="Feb 18, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-duty">Duty (₹)</label>
+                      <input type="number" id="log-duty" required min="0" step="0.01" placeholder="120000">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-freight">Freight (₹)</label>
+                      <input type="number" id="log-freight" required min="0" step="0.01" placeholder="250000">
+                    </div>
+                    <div class="form-group">
+                      <label for="log-status">Status</label>
+                      <select id="log-status" class="form-select" required>
+                        <option value="In Transit">In Transit</option>
+                        <option value="Customs">Customs</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Hold">Hold</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="log-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Shipment</th>
+                          <th>Vendor</th>
+                          <th>INCOTERM</th>
+                          <th>Port</th>
+                          <th>ETA</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="log-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="log-export" type="button">Export Logistics</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Freight & Duty Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Total Freight</span>
+                      <strong id="log-freight-total">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Total Duty</span>
+                      <strong id="log-duty-total">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">In Transit</span>
+                      <strong id="log-transit-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Shipment</th>
+                          <th>Cost</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="log-cost-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vendor Onboarding Tab -->
+          <div id="vendorOnboarding" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Vendor Onboarding</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">KYC, document verification, and risk checks.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Onboarding Queue</h4>
+                    <button class="btn btn-secondary" id="onboard-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="onboard-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="onboard-edit-index" value="">
+                    <div class="form-group">
+                      <label for="onboard-vendor">Vendor Name</label>
+                      <input type="text" id="onboard-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="onboard-category">Category</label>
+                      <select id="onboard-category" class="form-select" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Services">Services</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="onboard-kyc">KYC Status</label>
+                      <select id="onboard-kyc" class="form-select" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="onboard-bank">Bank Verification</label>
+                      <select id="onboard-bank" class="form-select" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="onboard-risk">Risk Rating</label>
+                      <select id="onboard-risk" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="onboard-status">Approval Status</label>
+                      <select id="onboard-status" class="form-select" required>
+                        <option value="In Review">In Review</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="onboard-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Category</th>
+                          <th>KYC</th>
+                          <th>Bank</th>
+                          <th>Risk</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="onboard-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="onboard-export" type="button">Export Vendors</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Approval Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">In Review</span>
+                      <strong id="onboard-review-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Approved</span>
+                      <strong id="onboard-approved-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Rejected</span>
+                      <strong id="onboard-rejected-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Risk</th>
+                          <th>Owner</th>
+                        </tr>
+                      </thead>
+                      <tbody id="onboard-owner-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spend Analysis Tab -->
+          <div id="spendAnalysis" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Spend Analysis</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Analyze spend by project, vendor, and category.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Spend Register</h4>
+                    <button class="btn btn-secondary" id="spend-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="spend-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="spend-edit-index" value="">
+                    <div class="form-group">
+                      <label for="spend-category">Category</label>
+                      <input type="text" id="spend-category" required placeholder="Raw Materials">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-vendor">Vendor</label>
+                      <input type="text" id="spend-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-project">Project</label>
+                      <input type="text" id="spend-project" required placeholder="Apollo Tower">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-budget">Budget (₹)</label>
+                      <input type="number" id="spend-budget" required min="0" step="0.01" placeholder="2500000">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-actual">Actual (₹)</label>
+                      <input type="number" id="spend-actual" required min="0" step="0.01" placeholder="2300000">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-period">Period</label>
+                      <input type="text" id="spend-period" required placeholder="Jan 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="spend-status">Status</label>
+                      <select id="spend-status" class="form-select" required>
+                        <option value="Within Budget">Within Budget</option>
+                        <option value="Over Budget">Over Budget</option>
+                        <option value="Under Budget">Under Budget</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="spend-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Vendor</th>
+                          <th>Project</th>
+                          <th>Budget</th>
+                          <th>Actual</th>
+                          <th>Variance</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="spend-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="spend-export" type="button">Export Spend</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Spend Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Total Budget</span>
+                      <strong id="spend-budget-total">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Total Actual</span>
+                      <strong id="spend-actual-total">₹0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Over Budget</span>
+                      <strong id="spend-over-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Spend</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="spend-category-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category Management Tab -->
+          <div id="categoryManagement" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Category Management</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Define sourcing strategies and preferred vendors.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Category Register</h4>
+                    <button class="btn btn-secondary" id="cat-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="cat-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="cat-edit-index" value="">
+                    <div class="form-group">
+                      <label for="cat-name">Category</label>
+                      <input type="text" id="cat-name" required placeholder="Raw Materials">
+                    </div>
+                    <div class="form-group">
+                      <label for="cat-strategy">Strategy</label>
+                      <select id="cat-strategy" class="form-select" required>
+                        <option value="Competitive">Competitive</option>
+                        <option value="Strategic">Strategic</option>
+                        <option value="Single Source">Single Source</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="cat-owner">Owner</label>
+                      <input type="text" id="cat-owner" required placeholder="Procurement Lead">
+                    </div>
+                    <div class="form-group">
+                      <label for="cat-vendors">Preferred Vendors</label>
+                      <input type="text" id="cat-vendors" required placeholder="ABC Supplies, XYZ Cement">
+                    </div>
+                    <div class="form-group">
+                      <label for="cat-benchmark">Benchmark (₹)</label>
+                      <input type="number" id="cat-benchmark" required min="0" step="0.01" placeholder="450">
+                    </div>
+                    <div class="form-group">
+                      <label for="cat-status">Status</label>
+                      <select id="cat-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="Review">Review</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="cat-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Strategy</th>
+                          <th>Owner</th>
+                          <th>Vendors</th>
+                          <th>Benchmark</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cat-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="cat-export" type="button">Export Categories</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Category Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Active</span>
+                      <strong id="cat-active-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Review</span>
+                      <strong id="cat-review-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Inactive</span>
+                      <strong id="cat-inactive-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Benchmark</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cat-summary-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Catalogs Tab -->
+          <div id="catalogs" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">E‑Procurement Catalogs</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Enable punch‑out catalogs and guided buying.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Catalog Register</h4>
+                    <button class="btn btn-secondary" id="catalog-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="catalog-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="catalog-edit-index" value="">
+                    <div class="form-group">
+                      <label for="catalog-name">Catalog</label>
+                      <input type="text" id="catalog-name" required placeholder="ABC Supplies - Cement">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-type">Type</label>
+                      <select id="catalog-type" class="form-select" required>
+                        <option value="Hosted">Hosted</option>
+                        <option value="Punch‑Out">Punch‑Out</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-vendor">Vendor</label>
+                      <input type="text" id="catalog-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-category">Category</label>
+                      <input type="text" id="catalog-category" required placeholder="Raw Materials">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-items">Items</label>
+                      <input type="number" id="catalog-items" required min="0" step="1" placeholder="120">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-version">Price List Version</label>
+                      <input type="text" id="catalog-version" required placeholder="v2026.02">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-last-sync">Last Sync</label>
+                      <input type="text" id="catalog-last-sync" required placeholder="Feb 02, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="catalog-status">Status</label>
+                      <select id="catalog-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="Review">Review</option>
+                        <option value="Paused">Paused</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="catalog-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Catalog</th>
+                          <th>Type</th>
+                          <th>Vendor</th>
+                          <th>Category</th>
+                          <th>Items</th>
+                          <th>Version</th>
+                          <th>Last Sync</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="catalog-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="catalog-export" type="button">Export Catalogs</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Catalog Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Active</span>
+                      <strong id="catalog-active-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Review</span>
+                      <strong id="catalog-review-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Paused</span>
+                      <strong id="catalog-paused-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Vendor</th>
+                          <th>Type</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="catalog-summary-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tenders Tab -->
+          <div id="tenders" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Tender Management</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Create and manage tenders with sealed bids and evaluations.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Tender Register</h4>
+                    <button class="btn btn-secondary" id="tender-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="tender-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="tender-edit-index" value="">
+                    <div class="form-group">
+                      <label for="tender-no">Tender No</label>
+                      <input type="text" id="tender-no" required placeholder="TN-2026-014">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-project">Project</label>
+                      <input type="text" id="tender-project" required placeholder="Metro Plaza">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-category">Category</label>
+                      <input type="text" id="tender-category" required placeholder="Raw Materials">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-budget">Budget (₹)</label>
+                      <input type="number" id="tender-budget" required min="0" step="0.01" placeholder="2500000">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-open">Open Date</label>
+                      <input type="text" id="tender-open" required placeholder="Feb 05, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-close">Close Date</label>
+                      <input type="text" id="tender-close" required placeholder="Feb 15, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-invites">Invited Vendors</label>
+                      <input type="number" id="tender-invites" required min="0" step="1" placeholder="8">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-received">Bids Received</label>
+                      <input type="number" id="tender-received" required min="0" step="1" placeholder="5">
+                    </div>
+                    <div class="form-group">
+                      <label for="tender-status">Status</label>
+                      <select id="tender-status" class="form-select" required>
+                        <option value="Open">Open</option>
+                        <option value="Evaluation">Evaluation</option>
+                        <option value="Awarded">Awarded</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="tender-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Tender</th>
+                          <th>Project</th>
+                          <th>Category</th>
+                          <th>Budget</th>
+                          <th>Open</th>
+                          <th>Close</th>
+                          <th>Invites</th>
+                          <th>Bids</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tender-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="tender-export" type="button">Export Tenders</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Tender Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Open</span>
+                      <strong id="tender-open-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Evaluation</span>
+                      <strong id="tender-eval-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Awarded</span>
+                      <strong id="tender-awarded-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Tender</th>
+                          <th>Bids</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tender-summary-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Claims & Disputes Tab -->
+          <div id="claims" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Claims & Disputes</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Track vendor claims, penalties, and dispute resolutions.</p>
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Claim Register</h4>
+                    <button class="btn btn-secondary" id="claim-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="claim-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="claim-edit-index" value="">
+                    <div class="form-group">
+                      <label for="claim-ref">Claim Ref</label>
+                      <input type="text" id="claim-ref" required placeholder="CLM-2026-021">
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-vendor">Vendor</label>
+                      <input type="text" id="claim-vendor" required placeholder="ABC Supplies">
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-type">Type</label>
+                      <select id="claim-type" class="form-select" required>
+                        <option value="Delay">Delay</option>
+                        <option value="Quality">Quality</option>
+                        <option value="Damage">Damage</option>
+                        <option value="Commercial">Commercial</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-amount">Amount (₹)</label>
+                      <input type="number" id="claim-amount" required min="0" step="0.01" placeholder="120000">
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-raised">Raised On</label>
+                      <input type="text" id="claim-raised" required placeholder="Feb 01, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-owner">Owner</label>
+                      <input type="text" id="claim-owner" required placeholder="SCM Lead">
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-status">Status</label>
+                      <select id="claim-status" class="form-select" required>
+                        <option value="Open">Open</option>
+                        <option value="In Review">In Review</option>
+                        <option value="Resolved">Resolved</option>
+                        <option value="Rejected">Rejected</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="claim-resolution">Resolution</label>
+                      <select id="claim-resolution" class="form-select" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Partial">Partial</option>
+                        <option value="Settled">Settled</option>
+                        <option value="Denied">Denied</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="claim-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Claim Ref</th>
+                          <th>Vendor</th>
+                          <th>Type</th>
+                          <th>Amount</th>
+                          <th>Raised</th>
+                          <th>Status</th>
+                          <th>Resolution</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="claim-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="claim-export" type="button">Export Claims</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <h4 style="margin-bottom: 12px;">Resolution Summary</h4>
+                  <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Open</span>
+                      <strong id="claim-open-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">In Review</span>
+                      <strong id="claim-review-count">0</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-secondary); font-size: 13px;">Resolved</span>
+                      <strong id="claim-resolved-count">0</strong>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 16px;" class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Claim Ref</th>
+                          <th>Owner</th>
+                          <th>Resolution</th>
+                        </tr>
+                      </thead>
+                      <tbody id="claim-summary-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -1029,6 +2479,1782 @@
         window.applyAllTableFilters();
       }
     }
+
+    const contractsData = [
+      { contract: 'CN-2026-011', vendor: 'ABC Supplies', type: 'Material', value: 2500000, start: 'Jan 01, 2026', end: 'Dec 31, 2026', status: 'Active' },
+      { contract: 'CN-2026-012', vendor: 'MegaSteel Pvt Ltd', type: 'Material', value: 1800000, start: 'Feb 01, 2026', end: 'Jan 31, 2027', status: 'Active' },
+      { contract: 'CN-2026-013', vendor: 'ElectroCare Solutions', type: 'Services', value: 950000, start: 'Jan 15, 2026', end: 'Jul 15, 2026', status: 'Pending' },
+      { contract: 'CN-2025-087', vendor: 'BuildMate Traders', type: 'Subcontract', value: 1200000, start: 'Jul 01, 2025', end: 'Dec 31, 2025', status: 'Expired' }
+    ];
+
+    const rateCards = [
+      { item: 'Cement (OPC 53)', vendor: 'ABC Supplies', rate: 450, uom: 'Bags', start: 'Jan 01, 2026', end: 'Dec 31, 2026', status: 'Active' },
+      { item: 'Steel TMT Bars', vendor: 'MegaSteel Pvt Ltd', rate: 48000, uom: 'Tons', start: 'Feb 01, 2026', end: 'Jan 31, 2027', status: 'Active' },
+      { item: 'Electrical Cables', vendor: 'ElectroCare Solutions', rate: 120, uom: 'Meters', start: 'Jan 15, 2026', end: 'Jun 30, 2026', status: 'Draft' },
+      { item: 'Sand (River Sand)', vendor: 'BuildMate Traders', rate: 45, uom: 'Cubic Ft', start: 'Jul 01, 2025', end: 'Dec 31, 2025', status: 'Expired' }
+    ];
+
+    const bidComparisons = [
+      { rfq: 'RFQ-2026-018', vendor: 'ABC Supplies', item: 'Cement (OPC 53)', qty: 100, unitPrice: 450, freight: 12000, techScore: 85, commScore: 78, status: 'Shortlisted' },
+      { rfq: 'RFQ-2026-018', vendor: 'XYZ Cement', item: 'Cement (OPC 53)', qty: 100, unitPrice: 455, freight: 9000, techScore: 88, commScore: 75, status: 'Under Review' },
+      { rfq: 'RFQ-2026-018', vendor: 'BuildMate Traders', item: 'Cement (OPC 53)', qty: 100, unitPrice: 470, freight: 8000, techScore: 80, commScore: 70, status: 'Rejected' },
+      { rfq: 'RFQ-2026-019', vendor: 'MegaSteel Pvt Ltd', item: 'Steel TMT Bars', qty: 5, unitPrice: 48000, freight: 15000, techScore: 90, commScore: 82, status: 'Awarded' }
+    ];
+
+    const subcontractorWorkOrders = [
+      { wo: 'WO-2026-042', name: 'BuildMate Services', package: 'Masonry Works', site: 'Apollo Site', value: 1800000, progress: 45, status: 'Active', milestone: 'Phase 1', compliance: 'Valid' },
+      { wo: 'WO-2026-043', name: 'PrimeBuild Co', package: 'Electrical & MEP', site: 'Metro Site', value: 2200000, progress: 30, status: 'Active', milestone: 'Phase 1', compliance: 'Valid' },
+      { wo: 'WO-2026-044', name: 'Skyline Interiors', package: 'Finishing Works', site: 'Apollo Site', value: 950000, progress: 10, status: 'On Hold', milestone: 'Pre-start', compliance: 'Pending' },
+      { wo: 'WO-2026-041', name: 'GroundWorks Ltd', package: 'Excavation', site: 'Metro Site', value: 1300000, progress: 100, status: 'Completed', milestone: 'Closeout', compliance: 'Valid' }
+    ];
+
+    const supplierPerformance = [
+      { vendor: 'ABC Supplies', otd: 92, defect: 1.5, variance: -1.2, score: 88, status: 'Preferred', action: 'Maintain SLA', owner: 'SCM Lead' },
+      { vendor: 'XYZ Cement', otd: 89, defect: 2.1, variance: 0.8, score: 82, status: 'Approved', action: 'Quarterly review', owner: 'Procurement' },
+      { vendor: 'MegaSteel Pvt Ltd', otd: 84, defect: 3.5, variance: 1.8, score: 74, status: 'Watchlist', action: 'Corrective plan', owner: 'Quality' },
+      { vendor: 'ElectroCare Solutions', otd: 95, defect: 1.0, variance: -0.5, score: 90, status: 'Preferred', action: 'Expand scope', owner: 'SCM Lead' }
+    ];
+
+    const expeditingWatchlist = [
+      { po: 'PO-2026-121', vendor: 'ABC Supplies', item: 'Steel TMT Bars', eta: 'Feb 10, 2026', priority: 'High', status: 'Follow-up', lastFollowup: 'Feb 02, 2026', owner: 'SCM Lead' },
+      { po: 'PO-2026-122', vendor: 'MegaSteel Pvt Ltd', item: 'Structural Steel', eta: 'Feb 08, 2026', priority: 'High', status: 'Escalated', lastFollowup: 'Feb 02, 2026', owner: 'Procurement' },
+      { po: 'PO-2026-123', vendor: 'XYZ Cement', item: 'Cement (OPC 53)', eta: 'Feb 12, 2026', priority: 'Medium', status: 'Pending', lastFollowup: 'Feb 01, 2026', owner: 'SCM Lead' },
+      { po: 'PO-2026-124', vendor: 'BuildMate Traders', item: 'Sand (River Sand)', eta: 'Feb 09, 2026', priority: 'Low', status: 'Resolved', lastFollowup: 'Jan 31, 2026', owner: 'Store' }
+    ];
+
+    const importLogistics = [
+      { shipment: 'SHIP-2026-009', vendor: 'Global Freight Co', incoterm: 'CIF', port: 'Nhava Sheva', eta: 'Feb 18, 2026', duty: 120000, freight: 250000, status: 'In Transit' },
+      { shipment: 'SHIP-2026-010', vendor: 'Oceanic Logistics', incoterm: 'FOB', port: 'Chennai', eta: 'Feb 12, 2026', duty: 90000, freight: 180000, status: 'Customs' },
+      { shipment: 'SHIP-2026-011', vendor: 'Skyline Freight', incoterm: 'DAP', port: 'Mumbai', eta: 'Feb 05, 2026', duty: 65000, freight: 120000, status: 'Delivered' },
+      { shipment: 'SHIP-2026-012', vendor: 'Global Freight Co', incoterm: 'EXW', port: 'Kolkata', eta: 'Feb 20, 2026', duty: 140000, freight: 260000, status: 'Hold' }
+    ];
+
+    const vendorOnboarding = [
+      { vendor: 'ABC Supplies', category: 'Raw Materials', kyc: 'Verified', bank: 'Verified', risk: 'Low', status: 'Approved', owner: 'SCM Lead' },
+      { vendor: 'MegaSteel Pvt Ltd', category: 'Raw Materials', kyc: 'Pending', bank: 'Pending', risk: 'Medium', status: 'In Review', owner: 'Procurement' },
+      { vendor: 'ElectroCare Solutions', category: 'Services', kyc: 'Verified', bank: 'Verified', risk: 'Low', status: 'Approved', owner: 'SCM Lead' },
+      { vendor: 'QuickFix Services', category: 'Services', kyc: 'Rejected', bank: 'Pending', risk: 'High', status: 'Rejected', owner: 'Compliance' }
+    ];
+
+    const categoryManagementData = [
+      { category: 'Raw Materials', strategy: 'Strategic', owner: 'Procurement Lead', vendors: 'ABC Supplies, XYZ Cement', benchmark: 450, status: 'Active' },
+      { category: 'Equipment', strategy: 'Competitive', owner: 'SCM Lead', vendors: 'MegaSteel Pvt Ltd, SteelSmart Co', benchmark: 48000, status: 'Review' },
+      { category: 'Services', strategy: 'Single Source', owner: 'Operations', vendors: 'ElectroCare Solutions', benchmark: 120, status: 'Active' },
+      { category: 'Logistics', strategy: 'Competitive', owner: 'Logistics', vendors: 'Global Freight Co, Oceanic Logistics', benchmark: 250000, status: 'Inactive' }
+    ];
+
+    const eprocCatalogs = [
+      { catalog: 'ABC Supplies - Cement', type: 'Hosted', vendor: 'ABC Supplies', category: 'Raw Materials', items: 120, version: 'v2026.02', lastSync: 'Feb 02, 2026', status: 'Active' },
+      { catalog: 'MegaSteel Punch‑Out', type: 'Punch‑Out', vendor: 'MegaSteel Pvt Ltd', category: 'Equipment', items: 340, version: 'v2026.01', lastSync: 'Feb 01, 2026', status: 'Review' },
+      { catalog: 'ElectroCare Services', type: 'Hosted', vendor: 'ElectroCare Solutions', category: 'Services', items: 58, version: 'v2025.12', lastSync: 'Jan 28, 2026', status: 'Active' },
+      { catalog: 'Global Freight Punch‑Out', type: 'Punch‑Out', vendor: 'Global Freight Co', category: 'Logistics', items: 42, version: 'v2026.02', lastSync: 'Feb 03, 2026', status: 'Paused' }
+    ];
+
+    const tenderManagementData = [
+      { tender: 'TN-2026-014', project: 'Metro Plaza', category: 'Raw Materials', budget: 2500000, open: 'Feb 05, 2026', close: 'Feb 15, 2026', invites: 8, bids: 5, status: 'Open' },
+      { tender: 'TN-2026-015', project: 'Apollo Tower', category: 'MEP Services', budget: 1800000, open: 'Jan 28, 2026', close: 'Feb 08, 2026', invites: 6, bids: 4, status: 'Evaluation' },
+      { tender: 'TN-2026-013', project: 'Metro Plaza', category: 'Steel & Rebar', budget: 3200000, open: 'Jan 10, 2026', close: 'Jan 25, 2026', invites: 9, bids: 7, status: 'Awarded' },
+      { tender: 'TN-2026-012', project: 'River Bridge', category: 'Logistics', budget: 900000, open: 'Dec 18, 2025', close: 'Jan 05, 2026', invites: 5, bids: 3, status: 'Closed' }
+    ];
+
+    const claimsDisputesData = [
+      { ref: 'CLM-2026-021', vendor: 'ABC Supplies', type: 'Delay', amount: 120000, raised: 'Feb 01, 2026', owner: 'SCM Lead', status: 'Open', resolution: 'Pending' },
+      { ref: 'CLM-2026-020', vendor: 'MegaSteel Pvt Ltd', type: 'Quality', amount: 180000, raised: 'Jan 26, 2026', owner: 'Quality', status: 'In Review', resolution: 'Partial' },
+      { ref: 'CLM-2026-019', vendor: 'ElectroCare Solutions', type: 'Commercial', amount: 95000, raised: 'Jan 15, 2026', owner: 'Procurement', status: 'Resolved', resolution: 'Settled' },
+      { ref: 'CLM-2026-018', vendor: 'Global Freight Co', type: 'Damage', amount: 65000, raised: 'Jan 10, 2026', owner: 'Logistics', status: 'Rejected', resolution: 'Denied' }
+    ];
+
+    const spendAnalysisData = [
+      { category: 'Raw Materials', vendor: 'ABC Supplies', project: 'Apollo Tower', budget: 2500000, actual: 2300000, period: 'Jan 2026', status: 'Within Budget' },
+      { category: 'Equipment', vendor: 'MegaSteel Pvt Ltd', project: 'Metro Line', budget: 1800000, actual: 1950000, period: 'Jan 2026', status: 'Over Budget' },
+      { category: 'Services', vendor: 'ElectroCare Solutions', project: 'Apollo Tower', budget: 900000, actual: 820000, period: 'Jan 2026', status: 'Under Budget' },
+      { category: 'Raw Materials', vendor: 'XYZ Cement', project: 'Metro Line', budget: 1500000, actual: 1480000, period: 'Jan 2026', status: 'Within Budget' }
+    ];
+
+    const initContractsRateAgreements = () => {
+      const contractBody = document.getElementById('contract-table-body');
+      const contractForm = document.getElementById('contract-form');
+      const contractEditIndex = document.getElementById('contract-edit-index');
+      const contractCancel = document.getElementById('contract-cancel');
+      const contractAddNew = document.getElementById('contract-add-new');
+      const contractExport = document.getElementById('contract-export');
+
+      const rateBody = document.getElementById('rate-table-body');
+      const rateForm = document.getElementById('rate-form');
+      const rateEditIndex = document.getElementById('rate-edit-index');
+      const rateCancel = document.getElementById('rate-cancel');
+      const rateAddNew = document.getElementById('rate-add-new');
+      const rateExport = document.getElementById('rate-export');
+
+      if (!contractBody || !contractForm || !rateBody || !rateForm) {
+        return;
+      }
+
+      const renderContracts = () => {
+        contractBody.innerHTML = contractsData.map((row, index) => `
+          <tr>
+            <td>${row.contract}</td>
+            <td>${row.vendor}</td>
+            <td>${row.type}</td>
+            <td>₹${row.value.toLocaleString('en-IN')}</td>
+            <td>${row.start}</td>
+            <td>${row.end}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No contracts found.</td></tr>';
+      };
+
+      const renderRates = () => {
+        rateBody.innerHTML = rateCards.map((row, index) => `
+          <tr>
+            <td>${row.item}</td>
+            <td>${row.vendor}</td>
+            <td>₹${row.rate.toLocaleString('en-IN')}</td>
+            <td>${row.uom}</td>
+            <td>${row.start}</td>
+            <td>${row.end}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Draft' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No rate cards found.</td></tr>';
+      };
+
+      const renderAll = () => {
+        renderContracts();
+        renderRates();
+      };
+
+      const resetContractForm = () => {
+        contractForm.reset();
+        contractEditIndex.value = '';
+        contractCancel.style.display = 'none';
+      };
+
+      const resetRateForm = () => {
+        rateForm.reset();
+        rateEditIndex.value = '';
+        rateCancel.style.display = 'none';
+      };
+
+      contractForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          contract: document.getElementById('contract-no').value.trim(),
+          vendor: document.getElementById('contract-vendor').value.trim(),
+          type: document.getElementById('contract-type').value,
+          value: parseFloat(document.getElementById('contract-value').value || '0'),
+          start: document.getElementById('contract-start').value.trim(),
+          end: document.getElementById('contract-end').value.trim(),
+          status: document.getElementById('contract-status').value
+        };
+
+        if (contractEditIndex.value !== '') {
+          contractsData[parseInt(contractEditIndex.value, 10)] = row;
+        } else {
+          contractsData.unshift(row);
+        }
+
+        renderAll();
+        resetContractForm();
+      });
+
+      contractCancel.addEventListener('click', resetContractForm);
+      contractAddNew.addEventListener('click', resetContractForm);
+
+      contractBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = contractsData[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          contractEditIndex.value = index.toString();
+          document.getElementById('contract-no').value = row.contract;
+          document.getElementById('contract-vendor').value = row.vendor;
+          document.getElementById('contract-type').value = row.type;
+          document.getElementById('contract-value').value = row.value;
+          document.getElementById('contract-start').value = row.start;
+          document.getElementById('contract-end').value = row.end;
+          document.getElementById('contract-status').value = row.status;
+          contractCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this contract?')) return;
+          contractsData.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      rateForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          item: document.getElementById('rate-item').value.trim(),
+          vendor: document.getElementById('rate-vendor').value.trim(),
+          rate: parseFloat(document.getElementById('rate-price').value || '0'),
+          uom: document.getElementById('rate-uom').value,
+          start: document.getElementById('rate-start').value.trim(),
+          end: document.getElementById('rate-end').value.trim(),
+          status: document.getElementById('rate-status').value
+        };
+
+        if (rateEditIndex.value !== '') {
+          rateCards[parseInt(rateEditIndex.value, 10)] = row;
+        } else {
+          rateCards.unshift(row);
+        }
+
+        renderAll();
+        resetRateForm();
+      });
+
+      rateCancel.addEventListener('click', resetRateForm);
+      rateAddNew.addEventListener('click', resetRateForm);
+
+      rateBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = rateCards[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          rateEditIndex.value = index.toString();
+          document.getElementById('rate-item').value = row.item;
+          document.getElementById('rate-vendor').value = row.vendor;
+          document.getElementById('rate-price').value = row.rate;
+          document.getElementById('rate-uom').value = row.uom;
+          document.getElementById('rate-start').value = row.start;
+          document.getElementById('rate-end').value = row.end;
+          document.getElementById('rate-status').value = row.status;
+          rateCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this rate card?')) return;
+          rateCards.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      contractExport.addEventListener('click', () => {
+        const header = ['Contract', 'Vendor', 'Type', 'Value', 'Start', 'End', 'Status'];
+        const rows = contractsData.map((row) => [row.contract, row.vendor, row.type, row.value, row.start, row.end, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'contracts.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      rateExport.addEventListener('click', () => {
+        const header = ['Item', 'Vendor', 'Rate', 'UOM', 'From', 'To', 'Status'];
+        const rows = rateCards.map((row) => [row.item, row.vendor, row.rate, row.uom, row.start, row.end, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'rate-cards.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      renderAll();
+    };
+
+    const initBidComparison = () => {
+      const tbody = document.getElementById('bid-table-body');
+      const rankBody = document.getElementById('bid-rank-body');
+      const form = document.getElementById('bid-form');
+      const editIndex = document.getElementById('bid-edit-index');
+      const cancel = document.getElementById('bid-cancel');
+      const addNew = document.getElementById('bid-add-new');
+      const exportBtn = document.getElementById('bid-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const lowestEl = document.getElementById('bid-lowest');
+      const shortlistedEl = document.getElementById('bid-shortlisted-count');
+      const awardedEl = document.getElementById('bid-awarded-count');
+
+      const landedCost = (row) => (row.qty * row.unitPrice) + row.freight;
+      const totalScore = (row) => row.techScore + row.commScore;
+
+      const updateSummary = () => {
+        const lowest = bidComparisons.length ? Math.min(...bidComparisons.map(landedCost)) : 0;
+        const shortlistedCount = bidComparisons.filter((row) => row.status === 'Shortlisted').length;
+        const awardedCount = bidComparisons.filter((row) => row.status === 'Awarded').length;
+
+        if (lowestEl) lowestEl.textContent = `₹${lowest.toLocaleString('en-IN')}`;
+        if (shortlistedEl) shortlistedEl.textContent = shortlistedCount.toString();
+        if (awardedEl) awardedEl.textContent = awardedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = bidComparisons.map((row, index) => `
+          <tr>
+            <td>${row.rfq}</td>
+            <td>${row.vendor}</td>
+            <td>${row.item}</td>
+            <td>${row.qty}</td>
+            <td>₹${row.unitPrice.toLocaleString('en-IN')}</td>
+            <td><strong>₹${landedCost(row).toLocaleString('en-IN')}</strong></td>
+            <td><span class="badge ${row.status === 'Awarded' ? 'badge-success' : row.status === 'Shortlisted' ? 'badge-warning' : row.status === 'Rejected' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No bids found.</td></tr>';
+
+        if (rankBody) {
+          const ranked = [...bidComparisons].sort((a, b) => totalScore(b) - totalScore(a));
+          rankBody.innerHTML = ranked.map((row, idx) => `
+            <tr>
+              <td>${row.vendor}</td>
+              <td>${totalScore(row)}</td>
+              <td>#${idx + 1}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No ranking data.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          rfq: document.getElementById('bid-rfq').value.trim(),
+          vendor: document.getElementById('bid-vendor').value.trim(),
+          item: document.getElementById('bid-item').value.trim(),
+          qty: parseFloat(document.getElementById('bid-qty').value || '0'),
+          unitPrice: parseFloat(document.getElementById('bid-price').value || '0'),
+          freight: parseFloat(document.getElementById('bid-freight').value || '0'),
+          techScore: parseFloat(document.getElementById('bid-technical').value || '0'),
+          commScore: parseFloat(document.getElementById('bid-commercial').value || '0'),
+          status: document.getElementById('bid-status').value
+        };
+
+        if (editIndex.value !== '') {
+          bidComparisons[parseInt(editIndex.value, 10)] = row;
+        } else {
+          bidComparisons.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = bidComparisons[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('bid-rfq').value = row.rfq;
+          document.getElementById('bid-vendor').value = row.vendor;
+          document.getElementById('bid-item').value = row.item;
+          document.getElementById('bid-qty').value = row.qty;
+          document.getElementById('bid-price').value = row.unitPrice;
+          document.getElementById('bid-freight').value = row.freight;
+          document.getElementById('bid-technical').value = row.techScore;
+          document.getElementById('bid-commercial').value = row.commScore;
+          document.getElementById('bid-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this bid?')) return;
+          bidComparisons.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['RFQ', 'Vendor', 'Item', 'Qty', 'Unit Price', 'Freight', 'Landed Cost', 'Tech Score', 'Comm Score', 'Status'];
+        const rows = bidComparisons.map((row) => [row.rfq, row.vendor, row.item, row.qty, row.unitPrice, row.freight, landedCost(row), row.techScore, row.commScore, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'bid-comparison.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initSubcontractorManagement = () => {
+      const tbody = document.getElementById('subc-table-body');
+      const milestoneBody = document.getElementById('subc-milestone-body');
+      const form = document.getElementById('subc-form');
+      const editIndex = document.getElementById('subc-edit-index');
+      const cancel = document.getElementById('subc-cancel');
+      const addNew = document.getElementById('subc-add-new');
+      const exportBtn = document.getElementById('subc-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const activeCountEl = document.getElementById('subc-active-count');
+      const holdCountEl = document.getElementById('subc-hold-count');
+      const completedCountEl = document.getElementById('subc-completed-count');
+
+      const updateSummary = () => {
+        const activeCount = subcontractorWorkOrders.filter((row) => row.status === 'Active').length;
+        const holdCount = subcontractorWorkOrders.filter((row) => row.status === 'On Hold').length;
+        const completedCount = subcontractorWorkOrders.filter((row) => row.status === 'Completed').length;
+
+        if (activeCountEl) activeCountEl.textContent = activeCount.toString();
+        if (holdCountEl) holdCountEl.textContent = holdCount.toString();
+        if (completedCountEl) completedCountEl.textContent = completedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = subcontractorWorkOrders.map((row, index) => `
+          <tr>
+            <td>${row.wo}</td>
+            <td>${row.name}</td>
+            <td>${row.package}</td>
+            <td>${row.site}</td>
+            <td>₹${row.value.toLocaleString('en-IN')}</td>
+            <td>${row.progress}%</td>
+            <td><span class="badge ${row.status === 'Completed' ? 'badge-success' : row.status === 'On Hold' ? 'badge-warning' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No work orders found.</td></tr>';
+
+        if (milestoneBody) {
+          milestoneBody.innerHTML = subcontractorWorkOrders.map((row) => `
+            <tr>
+              <td>${row.wo}</td>
+              <td>${row.milestone}</td>
+              <td><span class="badge ${row.compliance === 'Valid' ? 'badge-success' : 'badge-warning'}">${row.compliance}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No milestone data.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          wo: document.getElementById('subc-wo').value.trim(),
+          name: document.getElementById('subc-name').value.trim(),
+          package: document.getElementById('subc-package').value.trim(),
+          site: document.getElementById('subc-site').value.trim(),
+          value: parseFloat(document.getElementById('subc-value').value || '0'),
+          progress: parseFloat(document.getElementById('subc-progress').value || '0'),
+          status: document.getElementById('subc-status').value,
+          milestone: 'Phase 1',
+          compliance: 'Valid'
+        };
+
+        if (editIndex.value !== '') {
+          subcontractorWorkOrders[parseInt(editIndex.value, 10)] = { ...subcontractorWorkOrders[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          subcontractorWorkOrders.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = subcontractorWorkOrders[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('subc-wo').value = row.wo;
+          document.getElementById('subc-name').value = row.name;
+          document.getElementById('subc-package').value = row.package;
+          document.getElementById('subc-site').value = row.site;
+          document.getElementById('subc-value').value = row.value;
+          document.getElementById('subc-progress').value = row.progress;
+          document.getElementById('subc-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this work order?')) return;
+          subcontractorWorkOrders.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['WO', 'Subcontractor', 'Package', 'Site', 'Value', 'Progress', 'Status'];
+        const rows = subcontractorWorkOrders.map((row) => [row.wo, row.name, row.package, row.site, row.value, row.progress, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'subcontractor-workorders.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initSupplierPerformance = () => {
+      const tbody = document.getElementById('perf-table-body');
+      const actionBody = document.getElementById('perf-action-body');
+      const form = document.getElementById('perf-form');
+      const editIndex = document.getElementById('perf-edit-index');
+      const cancel = document.getElementById('perf-cancel');
+      const addNew = document.getElementById('perf-add-new');
+      const exportBtn = document.getElementById('perf-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const preferredCountEl = document.getElementById('perf-preferred-count');
+      const approvedCountEl = document.getElementById('perf-approved-count');
+      const watchlistCountEl = document.getElementById('perf-watchlist-count');
+
+      const updateSummary = () => {
+        const preferredCount = supplierPerformance.filter((row) => row.status === 'Preferred').length;
+        const approvedCount = supplierPerformance.filter((row) => row.status === 'Approved').length;
+        const watchlistCount = supplierPerformance.filter((row) => row.status === 'Watchlist').length;
+
+        if (preferredCountEl) preferredCountEl.textContent = preferredCount.toString();
+        if (approvedCountEl) approvedCountEl.textContent = approvedCount.toString();
+        if (watchlistCountEl) watchlistCountEl.textContent = watchlistCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = supplierPerformance.map((row, index) => `
+          <tr>
+            <td>${row.vendor}</td>
+            <td>${row.otd}%</td>
+            <td>${row.defect}%</td>
+            <td>${row.variance}%</td>
+            <td>${row.score}</td>
+            <td><span class="badge ${row.status === 'Preferred' ? 'badge-success' : row.status === 'Approved' ? 'badge-info' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No performance records found.</td></tr>';
+
+        if (actionBody) {
+          actionBody.innerHTML = supplierPerformance.map((row) => `
+            <tr>
+              <td>${row.vendor}</td>
+              <td>${row.action}</td>
+              <td>${row.owner}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No action plans.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          vendor: document.getElementById('perf-vendor').value.trim(),
+          otd: parseFloat(document.getElementById('perf-otd').value || '0'),
+          defect: parseFloat(document.getElementById('perf-defect').value || '0'),
+          variance: parseFloat(document.getElementById('perf-variance').value || '0'),
+          score: parseFloat(document.getElementById('perf-score').value || '0'),
+          status: document.getElementById('perf-status').value,
+          action: 'Review',
+          owner: 'SCM Lead'
+        };
+
+        if (editIndex.value !== '') {
+          supplierPerformance[parseInt(editIndex.value, 10)] = { ...supplierPerformance[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          supplierPerformance.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = supplierPerformance[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('perf-vendor').value = row.vendor;
+          document.getElementById('perf-otd').value = row.otd;
+          document.getElementById('perf-defect').value = row.defect;
+          document.getElementById('perf-variance').value = row.variance;
+          document.getElementById('perf-score').value = row.score;
+          document.getElementById('perf-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this performance entry?')) return;
+          supplierPerformance.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Vendor', 'OTD', 'Defect', 'Variance', 'Score', 'Status'];
+        const rows = supplierPerformance.map((row) => [row.vendor, row.otd, row.defect, row.variance, row.score, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'supplier-performance.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initExpeditingFollowups = () => {
+      const tbody = document.getElementById('exp-table-body');
+      const followupBody = document.getElementById('exp-followup-body');
+      const form = document.getElementById('exp-form');
+      const editIndex = document.getElementById('exp-edit-index');
+      const cancel = document.getElementById('exp-cancel');
+      const addNew = document.getElementById('exp-add-new');
+      const exportBtn = document.getElementById('exp-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const pendingCountEl = document.getElementById('exp-pending-count');
+      const followupCountEl = document.getElementById('exp-followup-count');
+      const escalatedCountEl = document.getElementById('exp-escalated-count');
+
+      const updateSummary = () => {
+        const pendingCount = expeditingWatchlist.filter((row) => row.status === 'Pending').length;
+        const followupCount = expeditingWatchlist.filter((row) => row.status === 'Follow-up').length;
+        const escalatedCount = expeditingWatchlist.filter((row) => row.status === 'Escalated').length;
+
+        if (pendingCountEl) pendingCountEl.textContent = pendingCount.toString();
+        if (followupCountEl) followupCountEl.textContent = followupCount.toString();
+        if (escalatedCountEl) escalatedCountEl.textContent = escalatedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = expeditingWatchlist.map((row, index) => `
+          <tr>
+            <td>${row.po}</td>
+            <td>${row.vendor}</td>
+            <td>${row.item}</td>
+            <td>${row.eta}</td>
+            <td><span class="badge ${row.priority === 'High' ? 'badge-danger' : row.priority === 'Medium' ? 'badge-warning' : 'badge-success'}">${row.priority}</span></td>
+            <td><span class="badge ${row.status === 'Resolved' ? 'badge-success' : row.status === 'Escalated' ? 'badge-danger' : row.status === 'Follow-up' ? 'badge-warning' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No watchlist items.</td></tr>';
+
+        if (followupBody) {
+          followupBody.innerHTML = expeditingWatchlist.map((row) => `
+            <tr>
+              <td>${row.po}</td>
+              <td>${row.lastFollowup}</td>
+              <td>${row.owner}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No follow-ups.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          po: document.getElementById('exp-po').value.trim(),
+          vendor: document.getElementById('exp-vendor').value.trim(),
+          item: document.getElementById('exp-item').value.trim(),
+          eta: document.getElementById('exp-eta').value.trim(),
+          priority: document.getElementById('exp-priority').value,
+          status: document.getElementById('exp-status').value,
+          lastFollowup: 'Feb 03, 2026',
+          owner: 'SCM Lead'
+        };
+
+        if (editIndex.value !== '') {
+          expeditingWatchlist[parseInt(editIndex.value, 10)] = { ...expeditingWatchlist[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          expeditingWatchlist.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = expeditingWatchlist[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('exp-po').value = row.po;
+          document.getElementById('exp-vendor').value = row.vendor;
+          document.getElementById('exp-item').value = row.item;
+          document.getElementById('exp-eta').value = row.eta;
+          document.getElementById('exp-priority').value = row.priority;
+          document.getElementById('exp-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this watchlist item?')) return;
+          expeditingWatchlist.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['PO', 'Vendor', 'Item', 'ETA', 'Priority', 'Status'];
+        const rows = expeditingWatchlist.map((row) => [row.po, row.vendor, row.item, row.eta, row.priority, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'expediting-watchlist.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initImportLogistics = () => {
+      const tbody = document.getElementById('log-table-body');
+      const costBody = document.getElementById('log-cost-body');
+      const form = document.getElementById('log-form');
+      const editIndex = document.getElementById('log-edit-index');
+      const cancel = document.getElementById('log-cancel');
+      const addNew = document.getElementById('log-add-new');
+      const exportBtn = document.getElementById('log-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const freightTotalEl = document.getElementById('log-freight-total');
+      const dutyTotalEl = document.getElementById('log-duty-total');
+      const transitCountEl = document.getElementById('log-transit-count');
+
+      const totalCost = (row) => row.duty + row.freight;
+
+      const updateSummary = () => {
+        const freightTotal = importLogistics.reduce((sum, row) => sum + row.freight, 0);
+        const dutyTotal = importLogistics.reduce((sum, row) => sum + row.duty, 0);
+        const transitCount = importLogistics.filter((row) => row.status === 'In Transit').length;
+
+        if (freightTotalEl) freightTotalEl.textContent = `₹${freightTotal.toLocaleString('en-IN')}`;
+        if (dutyTotalEl) dutyTotalEl.textContent = `₹${dutyTotal.toLocaleString('en-IN')}`;
+        if (transitCountEl) transitCountEl.textContent = transitCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = importLogistics.map((row, index) => `
+          <tr>
+            <td>${row.shipment}</td>
+            <td>${row.vendor}</td>
+            <td>${row.incoterm}</td>
+            <td>${row.port}</td>
+            <td>${row.eta}</td>
+            <td><span class="badge ${row.status === 'Delivered' ? 'badge-success' : row.status === 'Customs' ? 'badge-warning' : row.status === 'Hold' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No shipments found.</td></tr>';
+
+        if (costBody) {
+          costBody.innerHTML = importLogistics.map((row) => `
+            <tr>
+              <td>${row.shipment}</td>
+              <td>₹${totalCost(row).toLocaleString('en-IN')}</td>
+              <td><span class="badge ${row.status === 'Delivered' ? 'badge-success' : row.status === 'Customs' ? 'badge-warning' : row.status === 'Hold' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No cost data.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          shipment: document.getElementById('log-shipment').value.trim(),
+          vendor: document.getElementById('log-vendor').value.trim(),
+          incoterm: document.getElementById('log-incoterm').value,
+          port: document.getElementById('log-port').value.trim(),
+          eta: document.getElementById('log-eta').value.trim(),
+          duty: parseFloat(document.getElementById('log-duty').value || '0'),
+          freight: parseFloat(document.getElementById('log-freight').value || '0'),
+          status: document.getElementById('log-status').value
+        };
+
+        if (editIndex.value !== '') {
+          importLogistics[parseInt(editIndex.value, 10)] = row;
+        } else {
+          importLogistics.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = importLogistics[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('log-shipment').value = row.shipment;
+          document.getElementById('log-vendor').value = row.vendor;
+          document.getElementById('log-incoterm').value = row.incoterm;
+          document.getElementById('log-port').value = row.port;
+          document.getElementById('log-eta').value = row.eta;
+          document.getElementById('log-duty').value = row.duty;
+          document.getElementById('log-freight').value = row.freight;
+          document.getElementById('log-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this shipment?')) return;
+          importLogistics.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Shipment', 'Vendor', 'INCOTERM', 'Port', 'ETA', 'Duty', 'Freight', 'Status'];
+        const rows = importLogistics.map((row) => [row.shipment, row.vendor, row.incoterm, row.port, row.eta, row.duty, row.freight, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'import-logistics.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initVendorOnboarding = () => {
+      const tbody = document.getElementById('onboard-table-body');
+      const ownerBody = document.getElementById('onboard-owner-body');
+      const form = document.getElementById('onboard-form');
+      const editIndex = document.getElementById('onboard-edit-index');
+      const cancel = document.getElementById('onboard-cancel');
+      const addNew = document.getElementById('onboard-add-new');
+      const exportBtn = document.getElementById('onboard-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const reviewCountEl = document.getElementById('onboard-review-count');
+      const approvedCountEl = document.getElementById('onboard-approved-count');
+      const rejectedCountEl = document.getElementById('onboard-rejected-count');
+
+      const updateSummary = () => {
+        const reviewCount = vendorOnboarding.filter((row) => row.status === 'In Review').length;
+        const approvedCount = vendorOnboarding.filter((row) => row.status === 'Approved').length;
+        const rejectedCount = vendorOnboarding.filter((row) => row.status === 'Rejected').length;
+
+        if (reviewCountEl) reviewCountEl.textContent = reviewCount.toString();
+        if (approvedCountEl) approvedCountEl.textContent = approvedCount.toString();
+        if (rejectedCountEl) rejectedCountEl.textContent = rejectedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = vendorOnboarding.map((row, index) => `
+          <tr>
+            <td>${row.vendor}</td>
+            <td>${row.category}</td>
+            <td><span class="badge ${row.kyc === 'Verified' ? 'badge-success' : row.kyc === 'Rejected' ? 'badge-danger' : 'badge-warning'}">${row.kyc}</span></td>
+            <td><span class="badge ${row.bank === 'Verified' ? 'badge-success' : row.bank === 'Rejected' ? 'badge-danger' : 'badge-warning'}">${row.bank}</span></td>
+            <td><span class="badge ${row.risk === 'Low' ? 'badge-success' : row.risk === 'Medium' ? 'badge-warning' : 'badge-danger'}">${row.risk}</span></td>
+            <td><span class="badge ${row.status === 'Approved' ? 'badge-success' : row.status === 'Rejected' ? 'badge-danger' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No vendors found.</td></tr>';
+
+        if (ownerBody) {
+          ownerBody.innerHTML = vendorOnboarding.map((row) => `
+            <tr>
+              <td>${row.vendor}</td>
+              <td>${row.risk}</td>
+              <td>${row.owner}</td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No owners assigned.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          vendor: document.getElementById('onboard-vendor').value.trim(),
+          category: document.getElementById('onboard-category').value,
+          kyc: document.getElementById('onboard-kyc').value,
+          bank: document.getElementById('onboard-bank').value,
+          risk: document.getElementById('onboard-risk').value,
+          status: document.getElementById('onboard-status').value,
+          owner: 'SCM Lead'
+        };
+
+        if (editIndex.value !== '') {
+          vendorOnboarding[parseInt(editIndex.value, 10)] = { ...vendorOnboarding[parseInt(editIndex.value, 10)], ...row };
+        } else {
+          vendorOnboarding.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = vendorOnboarding[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('onboard-vendor').value = row.vendor;
+          document.getElementById('onboard-category').value = row.category;
+          document.getElementById('onboard-kyc').value = row.kyc;
+          document.getElementById('onboard-bank').value = row.bank;
+          document.getElementById('onboard-risk').value = row.risk;
+          document.getElementById('onboard-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this vendor record?')) return;
+          vendorOnboarding.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Vendor', 'Category', 'KYC', 'Bank', 'Risk', 'Status'];
+        const rows = vendorOnboarding.map((row) => [row.vendor, row.category, row.kyc, row.bank, row.risk, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'vendor-onboarding.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initCategoryManagement = () => {
+      const tbody = document.getElementById('cat-table-body');
+      const summaryBody = document.getElementById('cat-summary-body');
+      const form = document.getElementById('cat-form');
+      const editIndex = document.getElementById('cat-edit-index');
+      const cancel = document.getElementById('cat-cancel');
+      const addNew = document.getElementById('cat-add-new');
+      const exportBtn = document.getElementById('cat-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const activeCountEl = document.getElementById('cat-active-count');
+      const reviewCountEl = document.getElementById('cat-review-count');
+      const inactiveCountEl = document.getElementById('cat-inactive-count');
+
+      const updateSummary = () => {
+        const activeCount = categoryManagementData.filter((row) => row.status === 'Active').length;
+        const reviewCount = categoryManagementData.filter((row) => row.status === 'Review').length;
+        const inactiveCount = categoryManagementData.filter((row) => row.status === 'Inactive').length;
+
+        if (activeCountEl) activeCountEl.textContent = activeCount.toString();
+        if (reviewCountEl) reviewCountEl.textContent = reviewCount.toString();
+        if (inactiveCountEl) inactiveCountEl.textContent = inactiveCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = categoryManagementData.map((row, index) => `
+          <tr>
+            <td>${row.category}</td>
+            <td>${row.strategy}</td>
+            <td>${row.owner}</td>
+            <td>${row.vendors}</td>
+            <td>₹${row.benchmark.toLocaleString('en-IN')}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Review' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="7" style="text-align:center; padding: 16px;">No categories found.</td></tr>';
+
+        if (summaryBody) {
+          summaryBody.innerHTML = categoryManagementData.map((row) => `
+            <tr>
+              <td>${row.category}</td>
+              <td>₹${row.benchmark.toLocaleString('en-IN')}</td>
+              <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Review' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No summary available.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          category: document.getElementById('cat-name').value.trim(),
+          strategy: document.getElementById('cat-strategy').value,
+          owner: document.getElementById('cat-owner').value.trim(),
+          vendors: document.getElementById('cat-vendors').value.trim(),
+          benchmark: parseFloat(document.getElementById('cat-benchmark').value || '0'),
+          status: document.getElementById('cat-status').value
+        };
+
+        if (editIndex.value !== '') {
+          categoryManagementData[parseInt(editIndex.value, 10)] = row;
+        } else {
+          categoryManagementData.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = categoryManagementData[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('cat-name').value = row.category;
+          document.getElementById('cat-strategy').value = row.strategy;
+          document.getElementById('cat-owner').value = row.owner;
+          document.getElementById('cat-vendors').value = row.vendors;
+          document.getElementById('cat-benchmark').value = row.benchmark;
+          document.getElementById('cat-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this category?')) return;
+          categoryManagementData.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Category', 'Strategy', 'Owner', 'Vendors', 'Benchmark', 'Status'];
+        const rows = categoryManagementData.map((row) => [row.category, row.strategy, row.owner, row.vendors, row.benchmark, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'category-management.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initEProcurementCatalogs = () => {
+      const tbody = document.getElementById('catalog-table-body');
+      const summaryBody = document.getElementById('catalog-summary-body');
+      const form = document.getElementById('catalog-form');
+      const editIndex = document.getElementById('catalog-edit-index');
+      const cancel = document.getElementById('catalog-cancel');
+      const addNew = document.getElementById('catalog-add-new');
+      const exportBtn = document.getElementById('catalog-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const activeCountEl = document.getElementById('catalog-active-count');
+      const reviewCountEl = document.getElementById('catalog-review-count');
+      const pausedCountEl = document.getElementById('catalog-paused-count');
+
+      const updateSummary = () => {
+        const activeCount = eprocCatalogs.filter((row) => row.status === 'Active').length;
+        const reviewCount = eprocCatalogs.filter((row) => row.status === 'Review').length;
+        const pausedCount = eprocCatalogs.filter((row) => row.status === 'Paused').length;
+
+        if (activeCountEl) activeCountEl.textContent = activeCount.toString();
+        if (reviewCountEl) reviewCountEl.textContent = reviewCount.toString();
+        if (pausedCountEl) pausedCountEl.textContent = pausedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = eprocCatalogs.map((row, index) => `
+          <tr>
+            <td>${row.catalog}</td>
+            <td>${row.type}</td>
+            <td>${row.vendor}</td>
+            <td>${row.category}</td>
+            <td>${row.items}</td>
+            <td>${row.version}</td>
+            <td>${row.lastSync}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Review' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="9" style="text-align:center; padding: 16px;">No catalogs found.</td></tr>';
+
+        if (summaryBody) {
+          summaryBody.innerHTML = eprocCatalogs.map((row) => `
+            <tr>
+              <td>${row.vendor}</td>
+              <td>${row.type}</td>
+              <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Review' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No summary available.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          catalog: document.getElementById('catalog-name').value.trim(),
+          type: document.getElementById('catalog-type').value,
+          vendor: document.getElementById('catalog-vendor').value.trim(),
+          category: document.getElementById('catalog-category').value.trim(),
+          items: parseFloat(document.getElementById('catalog-items').value || '0'),
+          version: document.getElementById('catalog-version').value.trim(),
+          lastSync: document.getElementById('catalog-last-sync').value.trim(),
+          status: document.getElementById('catalog-status').value
+        };
+
+        if (editIndex.value !== '') {
+          eprocCatalogs[parseInt(editIndex.value, 10)] = row;
+        } else {
+          eprocCatalogs.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = eprocCatalogs[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('catalog-name').value = row.catalog;
+          document.getElementById('catalog-type').value = row.type;
+          document.getElementById('catalog-vendor').value = row.vendor;
+          document.getElementById('catalog-category').value = row.category;
+          document.getElementById('catalog-items').value = row.items;
+          document.getElementById('catalog-version').value = row.version;
+          document.getElementById('catalog-last-sync').value = row.lastSync;
+          document.getElementById('catalog-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this catalog?')) return;
+          eprocCatalogs.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Catalog', 'Type', 'Vendor', 'Category', 'Items', 'Version', 'Last Sync', 'Status'];
+        const rows = eprocCatalogs.map((row) => [row.catalog, row.type, row.vendor, row.category, row.items, row.version, row.lastSync, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'eprocurement-catalogs.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initTenderManagement = () => {
+      const tbody = document.getElementById('tender-table-body');
+      const summaryBody = document.getElementById('tender-summary-body');
+      const form = document.getElementById('tender-form');
+      const editIndex = document.getElementById('tender-edit-index');
+      const cancel = document.getElementById('tender-cancel');
+      const addNew = document.getElementById('tender-add-new');
+      const exportBtn = document.getElementById('tender-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const openCountEl = document.getElementById('tender-open-count');
+      const evalCountEl = document.getElementById('tender-eval-count');
+      const awardedCountEl = document.getElementById('tender-awarded-count');
+
+      const updateSummary = () => {
+        const openCount = tenderManagementData.filter((row) => row.status === 'Open').length;
+        const evalCount = tenderManagementData.filter((row) => row.status === 'Evaluation').length;
+        const awardedCount = tenderManagementData.filter((row) => row.status === 'Awarded').length;
+
+        if (openCountEl) openCountEl.textContent = openCount.toString();
+        if (evalCountEl) evalCountEl.textContent = evalCount.toString();
+        if (awardedCountEl) awardedCountEl.textContent = awardedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = tenderManagementData.map((row, index) => `
+          <tr>
+            <td>${row.tender}</td>
+            <td>${row.project}</td>
+            <td>${row.category}</td>
+            <td>₹${row.budget.toLocaleString('en-IN')}</td>
+            <td>${row.open}</td>
+            <td>${row.close}</td>
+            <td>${row.invites}</td>
+            <td>${row.bids}</td>
+            <td><span class="badge ${row.status === 'Awarded' ? 'badge-success' : row.status === 'Evaluation' ? 'badge-warning' : row.status === 'Closed' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="10" style="text-align:center; padding: 16px;">No tenders found.</td></tr>';
+
+        if (summaryBody) {
+          summaryBody.innerHTML = tenderManagementData.map((row) => `
+            <tr>
+              <td>${row.tender}</td>
+              <td>${row.bids}</td>
+              <td><span class="badge ${row.status === 'Awarded' ? 'badge-success' : row.status === 'Evaluation' ? 'badge-warning' : row.status === 'Closed' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No summary available.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          tender: document.getElementById('tender-no').value.trim(),
+          project: document.getElementById('tender-project').value.trim(),
+          category: document.getElementById('tender-category').value.trim(),
+          budget: parseFloat(document.getElementById('tender-budget').value || '0'),
+          open: document.getElementById('tender-open').value.trim(),
+          close: document.getElementById('tender-close').value.trim(),
+          invites: parseFloat(document.getElementById('tender-invites').value || '0'),
+          bids: parseFloat(document.getElementById('tender-received').value || '0'),
+          status: document.getElementById('tender-status').value
+        };
+
+        if (editIndex.value !== '') {
+          tenderManagementData[parseInt(editIndex.value, 10)] = row;
+        } else {
+          tenderManagementData.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = tenderManagementData[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('tender-no').value = row.tender;
+          document.getElementById('tender-project').value = row.project;
+          document.getElementById('tender-category').value = row.category;
+          document.getElementById('tender-budget').value = row.budget;
+          document.getElementById('tender-open').value = row.open;
+          document.getElementById('tender-close').value = row.close;
+          document.getElementById('tender-invites').value = row.invites;
+          document.getElementById('tender-received').value = row.bids;
+          document.getElementById('tender-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this tender?')) return;
+          tenderManagementData.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Tender', 'Project', 'Category', 'Budget', 'Open', 'Close', 'Invites', 'Bids', 'Status'];
+        const rows = tenderManagementData.map((row) => [row.tender, row.project, row.category, row.budget, row.open, row.close, row.invites, row.bids, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'tender-management.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initClaimsDisputes = () => {
+      const tbody = document.getElementById('claim-table-body');
+      const summaryBody = document.getElementById('claim-summary-body');
+      const form = document.getElementById('claim-form');
+      const editIndex = document.getElementById('claim-edit-index');
+      const cancel = document.getElementById('claim-cancel');
+      const addNew = document.getElementById('claim-add-new');
+      const exportBtn = document.getElementById('claim-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const openCountEl = document.getElementById('claim-open-count');
+      const reviewCountEl = document.getElementById('claim-review-count');
+      const resolvedCountEl = document.getElementById('claim-resolved-count');
+
+      const updateSummary = () => {
+        const openCount = claimsDisputesData.filter((row) => row.status === 'Open').length;
+        const reviewCount = claimsDisputesData.filter((row) => row.status === 'In Review').length;
+        const resolvedCount = claimsDisputesData.filter((row) => row.status === 'Resolved').length;
+
+        if (openCountEl) openCountEl.textContent = openCount.toString();
+        if (reviewCountEl) reviewCountEl.textContent = reviewCount.toString();
+        if (resolvedCountEl) resolvedCountEl.textContent = resolvedCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = claimsDisputesData.map((row, index) => `
+          <tr>
+            <td>${row.ref}</td>
+            <td>${row.vendor}</td>
+            <td>${row.type}</td>
+            <td>₹${row.amount.toLocaleString('en-IN')}</td>
+            <td>${row.raised}</td>
+            <td><span class="badge ${row.status === 'Resolved' ? 'badge-success' : row.status === 'In Review' ? 'badge-warning' : row.status === 'Rejected' ? 'badge-danger' : 'badge-info'}">${row.status}</span></td>
+            <td><span class="badge ${row.resolution === 'Settled' ? 'badge-success' : row.resolution === 'Partial' ? 'badge-warning' : row.resolution === 'Denied' ? 'badge-danger' : 'badge-info'}">${row.resolution}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No claims found.</td></tr>';
+
+        if (summaryBody) {
+          summaryBody.innerHTML = claimsDisputesData.map((row) => `
+            <tr>
+              <td>${row.ref}</td>
+              <td>${row.owner}</td>
+              <td><span class="badge ${row.resolution === 'Settled' ? 'badge-success' : row.resolution === 'Partial' ? 'badge-warning' : row.resolution === 'Denied' ? 'badge-danger' : 'badge-info'}">${row.resolution}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No resolutions available.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          ref: document.getElementById('claim-ref').value.trim(),
+          vendor: document.getElementById('claim-vendor').value.trim(),
+          type: document.getElementById('claim-type').value,
+          amount: parseFloat(document.getElementById('claim-amount').value || '0'),
+          raised: document.getElementById('claim-raised').value.trim(),
+          owner: document.getElementById('claim-owner').value.trim(),
+          status: document.getElementById('claim-status').value,
+          resolution: document.getElementById('claim-resolution').value
+        };
+
+        if (editIndex.value !== '') {
+          claimsDisputesData[parseInt(editIndex.value, 10)] = row;
+        } else {
+          claimsDisputesData.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = claimsDisputesData[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('claim-ref').value = row.ref;
+          document.getElementById('claim-vendor').value = row.vendor;
+          document.getElementById('claim-type').value = row.type;
+          document.getElementById('claim-amount').value = row.amount;
+          document.getElementById('claim-raised').value = row.raised;
+          document.getElementById('claim-owner').value = row.owner;
+          document.getElementById('claim-status').value = row.status;
+          document.getElementById('claim-resolution').value = row.resolution;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this claim?')) return;
+          claimsDisputesData.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Claim Ref', 'Vendor', 'Type', 'Amount', 'Raised', 'Owner', 'Status', 'Resolution'];
+        const rows = claimsDisputesData.map((row) => [row.ref, row.vendor, row.type, row.amount, row.raised, row.owner, row.status, row.resolution]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'claims-disputes.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initSpendAnalysis = () => {
+      const tbody = document.getElementById('spend-table-body');
+      const categoryBody = document.getElementById('spend-category-body');
+      const form = document.getElementById('spend-form');
+      const editIndex = document.getElementById('spend-edit-index');
+      const cancel = document.getElementById('spend-cancel');
+      const addNew = document.getElementById('spend-add-new');
+      const exportBtn = document.getElementById('spend-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const budgetTotalEl = document.getElementById('spend-budget-total');
+      const actualTotalEl = document.getElementById('spend-actual-total');
+      const overCountEl = document.getElementById('spend-over-count');
+
+      const varianceValue = (row) => row.actual - row.budget;
+
+      const updateSummary = () => {
+        const budgetTotal = spendAnalysisData.reduce((sum, row) => sum + row.budget, 0);
+        const actualTotal = spendAnalysisData.reduce((sum, row) => sum + row.actual, 0);
+        const overCount = spendAnalysisData.filter((row) => row.status === 'Over Budget').length;
+
+        if (budgetTotalEl) budgetTotalEl.textContent = `₹${budgetTotal.toLocaleString('en-IN')}`;
+        if (actualTotalEl) actualTotalEl.textContent = `₹${actualTotal.toLocaleString('en-IN')}`;
+        if (overCountEl) overCountEl.textContent = overCount.toString();
+      };
+
+      const render = () => {
+        tbody.innerHTML = spendAnalysisData.map((row, index) => `
+          <tr>
+            <td>${row.category}</td>
+            <td>${row.vendor}</td>
+            <td>${row.project}</td>
+            <td>₹${row.budget.toLocaleString('en-IN')}</td>
+            <td>₹${row.actual.toLocaleString('en-IN')}</td>
+            <td>₹${varianceValue(row).toLocaleString('en-IN')}</td>
+            <td><span class="badge ${row.status === 'Over Budget' ? 'badge-danger' : row.status === 'Under Budget' ? 'badge-success' : 'badge-info'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="8" style="text-align:center; padding: 16px;">No spend data found.</td></tr>';
+
+        if (categoryBody) {
+          const grouped = spendAnalysisData.reduce((acc, row) => {
+            acc[row.category] = (acc[row.category] || 0) + row.actual;
+            return acc;
+          }, {});
+
+          categoryBody.innerHTML = Object.entries(grouped).map(([category, value]) => `
+            <tr>
+              <td>${category}</td>
+              <td>₹${value.toLocaleString('en-IN')}</td>
+              <td><span class="badge badge-info">Tracked</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="3" style="text-align:center; padding: 16px;">No category totals.</td></tr>';
+        }
+
+        updateSummary();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          category: document.getElementById('spend-category').value.trim(),
+          vendor: document.getElementById('spend-vendor').value.trim(),
+          project: document.getElementById('spend-project').value.trim(),
+          budget: parseFloat(document.getElementById('spend-budget').value || '0'),
+          actual: parseFloat(document.getElementById('spend-actual').value || '0'),
+          period: document.getElementById('spend-period').value.trim(),
+          status: document.getElementById('spend-status').value
+        };
+
+        if (editIndex.value !== '') {
+          spendAnalysisData[parseInt(editIndex.value, 10)] = row;
+        } else {
+          spendAnalysisData.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = spendAnalysisData[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('spend-category').value = row.category;
+          document.getElementById('spend-vendor').value = row.vendor;
+          document.getElementById('spend-project').value = row.project;
+          document.getElementById('spend-budget').value = row.budget;
+          document.getElementById('spend-actual').value = row.actual;
+          document.getElementById('spend-period').value = row.period;
+          document.getElementById('spend-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this spend entry?')) return;
+          spendAnalysisData.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Category', 'Vendor', 'Project', 'Budget', 'Actual', 'Variance', 'Status', 'Period'];
+        const rows = spendAnalysisData.map((row) => [row.category, row.vendor, row.project, row.budget, row.actual, varianceValue(row), row.status, row.period]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'spend-analysis.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initContractsRateAgreements();
+      initBidComparison();
+      initSubcontractorManagement();
+      initSupplierPerformance();
+      initExpeditingFollowups();
+      initImportLogistics();
+      initVendorOnboarding();
+      initCategoryManagement();
+      initEProcurementCatalogs();
+      initTenderManagement();
+      initClaimsDisputes();
+      initSpendAnalysis();
+    });
 
     // Show RFQ Comparison Modal
     function showRFQComparison(rfqNumber) {

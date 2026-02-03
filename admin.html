@@ -41,6 +41,33 @@
               <li>
                 <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'reports')">Reports</button>
               </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'masterData')">Master Data</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'workflow')">Workflow Approvals</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'auditLogs')">Audit Logs</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'integrations')">Integrations</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'notifications')">Notifications & Alerts</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'backup')">Backup & Retention</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'analytics')">System Health & Analytics</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'compliance')">Compliance & Risk</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchAdminTab(event, 'licensing')">Licensing & Subscription</button>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -728,6 +755,1036 @@
               </div>
             </div>
           </div>
+
+          <!-- Master Data Tab -->
+          <div id="masterData" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Master Data Management</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Maintain core catalogs and partner masters (static demo data).</p>
+                </div>
+                <button class="btn btn-secondary" id="md-export-all">Export All</button>
+              </div>
+
+              <div class="grid grid-2" style="gap: 20px;">
+                <div class="card" style="margin: 0; padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4>Item & Material Codes</h4>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-secondary" id="md-items-export">Export</button>
+                      <button class="btn btn-primary" id="md-items-add">+ Add</button>
+                    </div>
+                  </div>
+                  <form id="md-items-form" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end;">
+                    <input type="hidden" id="md-items-edit-index" value="">
+                    <div>
+                      <label class="form-label">Code</label>
+                      <input class="form-input" id="md-items-code" placeholder="ITM-001" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Name</label>
+                      <input class="form-input" id="md-items-name" placeholder="Cement (OPC 53)" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Category</label>
+                      <input class="form-input" id="md-items-category" placeholder="Raw Materials" required>
+                    </div>
+                    <div>
+                      <label class="form-label">UOM</label>
+                      <input class="form-input" id="md-items-uom" placeholder="Bags" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Status</label>
+                      <select class="form-select" id="md-items-status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="md-items-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+                  <div class="table-container" style="margin-top: 12px;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Name</th>
+                          <th>Category</th>
+                          <th>UOM</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="md-items-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0; padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4>Cost Codes & BOQ</h4>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-secondary" id="md-cost-export">Export</button>
+                      <button class="btn btn-primary" id="md-cost-add">+ Add</button>
+                    </div>
+                  </div>
+                  <form id="md-cost-form" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end;">
+                    <input type="hidden" id="md-cost-edit-index" value="">
+                    <div>
+                      <label class="form-label">Code</label>
+                      <input class="form-input" id="md-cost-code" placeholder="CC-100" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Description</label>
+                      <input class="form-input" id="md-cost-desc" placeholder="Concrete Works" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Category</label>
+                      <input class="form-input" id="md-cost-category" placeholder="Civil" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Budget (₹)</label>
+                      <input class="form-input" type="number" id="md-cost-budget" min="0" step="0.01" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Status</label>
+                      <select class="form-select" id="md-cost-status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="md-cost-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+                  <div class="table-container" style="margin-top: 12px;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Budget</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="md-cost-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0; padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4>Units of Measure</h4>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-secondary" id="md-uom-export">Export</button>
+                      <button class="btn btn-primary" id="md-uom-add">+ Add</button>
+                    </div>
+                  </div>
+                  <form id="md-uom-form" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-items: end;">
+                    <input type="hidden" id="md-uom-edit-index" value="">
+                    <div>
+                      <label class="form-label">Code</label>
+                      <input class="form-input" id="md-uom-code" placeholder="BAG" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Name</label>
+                      <input class="form-input" id="md-uom-name" placeholder="Bags" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Type</label>
+                      <input class="form-input" id="md-uom-type" placeholder="Weight" required>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="md-uom-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+                  <div class="table-container" style="margin-top: 12px;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Code</th>
+                          <th>Name</th>
+                          <th>Type</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="md-uom-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0; padding: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h4>Business Partners</h4>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-secondary" id="md-partners-export">Export</button>
+                      <button class="btn btn-primary" id="md-partners-add">+ Add</button>
+                    </div>
+                  </div>
+                  <form id="md-partners-form" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end;">
+                    <input type="hidden" id="md-partners-edit-index" value="">
+                    <div>
+                      <label class="form-label">Type</label>
+                      <select class="form-select" id="md-partners-type">
+                        <option value="Vendor">Vendor</option>
+                        <option value="Client">Client</option>
+                        <option value="Subcontractor">Subcontractor</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="form-label">Name</label>
+                      <input class="form-input" id="md-partners-name" placeholder="ABC Supplies" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Contact</label>
+                      <input class="form-input" id="md-partners-contact" placeholder="9876543210" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Email</label>
+                      <input class="form-input" id="md-partners-email" placeholder="contact@vendor.com" required>
+                    </div>
+                    <div>
+                      <label class="form-label">Status</label>
+                      <select class="form-select" id="md-partners-status">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="md-partners-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+                  <div class="table-container" style="margin-top: 12px;">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Name</th>
+                          <th>Contact</th>
+                          <th>Email</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="md-partners-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow Approvals Tab -->
+          <div id="workflow" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Workflow Approvals</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Configure approval chains and delegation rules (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="wf-export">Export CSV</button>
+                  <button class="btn btn-primary" id="wf-add-new">+ Add Workflow</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Workflow</h4>
+                <form id="wf-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="wf-edit-index" value="">
+                  <div>
+                    <label class="form-label">Module</label>
+                    <input class="form-input" id="wf-module" placeholder="Purchase Orders" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Threshold (₹)</label>
+                    <input class="form-input" id="wf-threshold" type="number" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Level 1</label>
+                    <input class="form-input" id="wf-level1" placeholder="Project Manager" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Level 2</label>
+                    <input class="form-input" id="wf-level2" placeholder="Finance Manager">
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="wf-status">
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="wf-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Module</th>
+                      <th>Threshold</th>
+                      <th>Level 1</th>
+                      <th>Level 2</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="wf-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audit Logs Tab -->
+          <div id="auditLogs" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Audit Logs</h3>
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Timestamp</th>
+                      <th>User</th>
+                      <th>Module</th>
+                      <th>Action</th>
+                      <th>Record</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Feb 02, 2026 09:42</td>
+                      <td>John Doe</td>
+                      <td>SCM</td>
+                      <td>Approved Purchase Order</td>
+                      <td>PO-1287</td>
+                      <td><span class="badge badge-success">Success</span></td>
+                    </tr>
+                    <tr>
+                      <td>Feb 02, 2026 09:18</td>
+                      <td>Sarah Williams</td>
+                      <td>Accounts</td>
+                      <td>Issued Invoice</td>
+                      <td>INV-2026-0205</td>
+                      <td><span class="badge badge-info">Logged</span></td>
+                    </tr>
+                    <tr>
+                      <td>Feb 02, 2026 08:55</td>
+                      <td>Mike Johnson</td>
+                      <td>Store</td>
+                      <td>Adjusted Stock</td>
+                      <td>ITM-001</td>
+                      <td><span class="badge badge-warning">Review</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integrations Tab -->
+          <div id="integrations" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Integrations</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Manage external system connections (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="int-export">Export CSV</button>
+                  <button class="btn btn-primary" id="int-add-new">+ Add Integration</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Integration</h4>
+                <form id="int-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="int-edit-index" value="">
+                  <div>
+                    <label class="form-label">Name</label>
+                    <input class="form-input" id="int-name" placeholder="Accounting" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <input class="form-input" id="int-type" placeholder="Finance" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Provider</label>
+                    <input class="form-input" id="int-provider" placeholder="Tally / QuickBooks" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="int-status">
+                      <option value="Connected">Connected</option>
+                      <option value="Disconnected">Disconnected</option>
+                      <option value="Error">Error</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Last Sync</label>
+                    <input class="form-input" id="int-sync" placeholder="Feb 02, 2026 09:10" required>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="int-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th>Provider</th>
+                      <th>Status</th>
+                      <th>Last Sync</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="int-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div id="notifications" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Notifications & Alerts</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Configure alert rules and delivery channels (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="alerts-export">Export CSV</button>
+                  <button class="btn btn-primary" id="alerts-add-new">+ Add Alert Rule</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Alert Rule</h4>
+                <form id="alerts-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="alerts-edit-index" value="">
+                  <div>
+                    <label class="form-label">Rule Name</label>
+                    <input class="form-input" id="alerts-name" placeholder="Low Stock" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Module</label>
+                    <input class="form-input" id="alerts-module" placeholder="Store" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Condition</label>
+                    <input class="form-input" id="alerts-condition" placeholder="Stock &lt; Min" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Channel</label>
+                    <select class="form-select" id="alerts-channel">
+                      <option value="In-App">In-App</option>
+                      <option value="Email">Email</option>
+                      <option value="SMS">SMS</option>
+                      <option value="Webhook">Webhook</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="alerts-status">
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="alerts-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Rule</th>
+                      <th>Module</th>
+                      <th>Condition</th>
+                      <th>Channel</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="alerts-table-body"></tbody>
+                </table>
+              </div>
+
+              <div class="card" style="margin: 20px 0 0 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Delivery Channels</h4>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Channel</th>
+                        <th>Provider</th>
+                        <th>Endpoint</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="alerts-channels-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Backup & Retention Tab -->
+          <div id="backup" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">Backup & Retention</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Plan backups and data retention (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="backup-export">Export CSV</button>
+                  <button class="btn btn-primary" id="backup-add-new">+ Add Schedule</button>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Backup Schedule</h4>
+                <form id="backup-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="backup-edit-index" value="">
+                  <div>
+                    <label class="form-label">Schedule Name</label>
+                    <input class="form-input" id="backup-name" placeholder="Daily Incremental" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Frequency</label>
+                    <select class="form-select" id="backup-frequency">
+                      <option value="Daily">Daily</option>
+                      <option value="Weekly">Weekly</option>
+                      <option value="Monthly">Monthly</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Type</label>
+                    <select class="form-select" id="backup-type">
+                      <option value="Incremental">Incremental</option>
+                      <option value="Full">Full</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Retention (Days)</label>
+                    <input class="form-input" id="backup-retention" type="number" min="1" step="1" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="backup-status">
+                      <option value="Active">Active</option>
+                      <option value="Paused">Paused</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="backup-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Schedule</th>
+                      <th>Frequency</th>
+                      <th>Type</th>
+                      <th>Retention</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="backup-table-body"></tbody>
+                </table>
+              </div>
+
+              <div class="card" style="margin: 20px 0 0 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Retention Policies</h4>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Policy</th>
+                        <th>Data Type</th>
+                        <th>Retention</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="retention-policy-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Health & Analytics Tab -->
+          <div id="analytics" class="tab-content">
+            <div style="padding-top: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div>
+                  <h3 style="margin-bottom: 6px;">System Health & Analytics</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary);">Track platform usage and health metrics (static demo data).</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-secondary" id="analytics-export">Export CSV</button>
+                  <button class="btn btn-primary" id="analytics-add-new">+ Add Metric</button>
+                </div>
+              </div>
+
+              <div class="grid grid-3" style="margin-bottom: 20px;">
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Avg. Response Time</div>
+                  <div id="analytics-avg-response" style="font-size: 22px; font-weight: 700; color: var(--primary-color);">0 ms</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Error Rate</div>
+                  <div id="analytics-error-rate" style="font-size: 22px; font-weight: 700; color: var(--danger-color);">0%</div>
+                </div>
+                <div style="padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+                  <div style="font-size: 13px; color: var(--text-secondary);">Active Users</div>
+                  <div id="analytics-active-users" style="font-size: 22px; font-weight: 700; color: var(--success-color);">0</div>
+                </div>
+              </div>
+
+              <div class="card" style="margin: 0 0 20px 0; padding: 16px;">
+                <h4 style="margin-bottom: 12px;">Add / Edit Metric</h4>
+                <form id="analytics-form" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end;">
+                  <input type="hidden" id="analytics-edit-index" value="">
+                  <div>
+                    <label class="form-label">Metric</label>
+                    <input class="form-input" id="analytics-metric" placeholder="API Response Time" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Value</label>
+                    <input class="form-input" id="analytics-value" type="number" min="0" step="0.01" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Unit</label>
+                    <input class="form-input" id="analytics-unit" placeholder="ms / % / users" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="analytics-category">
+                      <option value="Performance">Performance</option>
+                      <option value="Usage">Usage</option>
+                      <option value="Capacity">Capacity</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="analytics-status">
+                      <option value="Healthy">Healthy</option>
+                      <option value="Warning">Warning</option>
+                      <option value="Critical">Critical</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="analytics-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Metric</th>
+                      <th>Value</th>
+                      <th>Unit</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="analytics-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compliance & Risk Tab -->
+          <div id="compliance" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Compliance & Risk</h3>
+              <div class="grid grid-4">
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Compliance Score</div>
+                      <div class="stat-value" id="compliance-score">92%</div>
+                      <div class="stat-change positive">Target ≥ 90%</div>
+                    </div>
+                    <div class="stat-icon green">✅</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Open Risks</div>
+                      <div class="stat-value" id="compliance-open-risks">5</div>
+                      <div class="stat-change">High impact: 2</div>
+                    </div>
+                    <div class="stat-icon orange">⚠️</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Audits Due</div>
+                      <div class="stat-value" id="compliance-audits">3</div>
+                      <div class="stat-change">Next 30 days</div>
+                    </div>
+                    <div class="stat-icon blue">🗓️</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Open Issues</div>
+                      <div class="stat-value" id="compliance-issues">2</div>
+                      <div class="stat-change">Overdue actions</div>
+                    </div>
+                    <div class="stat-icon red">🚩</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Compliance Checklist</h4>
+                    <button class="btn btn-secondary" id="compliance-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="compliance-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="compliance-edit-index" value="">
+                    <div class="form-group">
+                      <label for="compliance-item">Checklist Item</label>
+                      <input type="text" id="compliance-item" required placeholder="GST Filing, Safety Audit...">
+                    </div>
+                    <div class="form-group">
+                      <label for="compliance-category">Category</label>
+                      <select id="compliance-category" class="form-select" required>
+                        <option value="Tax">Tax</option>
+                        <option value="Safety">Safety</option>
+                        <option value="Security">Security</option>
+                        <option value="Privacy">Privacy</option>
+                        <option value="Environment">Environment</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="compliance-owner">Owner</label>
+                      <input type="text" id="compliance-owner" required placeholder="Finance Lead">
+                    </div>
+                    <div class="form-group">
+                      <label for="compliance-due">Due Date</label>
+                      <input type="text" id="compliance-due" required placeholder="Feb 15, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="compliance-status">Status</label>
+                      <select id="compliance-status" class="form-select" required>
+                        <option value="Compliant">Compliant</option>
+                        <option value="Due">Due</option>
+                        <option value="Overdue">Overdue</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="compliance-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th>Category</th>
+                          <th>Owner</th>
+                          <th>Due Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="compliance-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="compliance-export" type="button">Export Checklist</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Risk Register</h4>
+                    <button class="btn btn-secondary" id="risk-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="risk-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="risk-edit-index" value="">
+                    <div class="form-group">
+                      <label for="risk-name">Risk</label>
+                      <input type="text" id="risk-name" required placeholder="Supplier delay, Safety incident...">
+                    </div>
+                    <div class="form-group">
+                      <label for="risk-impact">Impact</label>
+                      <select id="risk-impact" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="risk-likelihood">Likelihood</label>
+                      <select id="risk-likelihood" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="risk-owner">Owner</label>
+                      <input type="text" id="risk-owner" required placeholder="SCM Lead">
+                    </div>
+                    <div class="form-group">
+                      <label for="risk-mitigation">Mitigation</label>
+                      <input type="text" id="risk-mitigation" required placeholder="Dual sourcing, PPE checks">
+                    </div>
+                    <div class="form-group">
+                      <label for="risk-status">Status</label>
+                      <select id="risk-status" class="form-select" required>
+                        <option value="Open">Open</option>
+                        <option value="Mitigated">Mitigated</option>
+                        <option value="Closed">Closed</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="risk-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Risk</th>
+                          <th>Impact</th>
+                          <th>Likelihood</th>
+                          <th>Owner</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="risk-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="risk-export" type="button">Export Risks</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Licensing Tab -->
+          <div id="licensing" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 20px;">Licensing & Subscription</h3>
+              <div class="grid grid-4">
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Active Plan</div>
+                      <div class="stat-value" id="license-plan-name">Enterprise</div>
+                      <div class="stat-change">Renews in <span id="license-renew-days">28</span> days</div>
+                    </div>
+                    <div class="stat-icon blue">🏷️</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Seats Used</div>
+                      <div class="stat-value" id="license-seats-used">124</div>
+                      <div class="stat-change">of <span id="license-seats-total">150</span></div>
+                    </div>
+                    <div class="stat-icon green">👥</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Storage Used</div>
+                      <div class="stat-value" id="license-storage-used">45 GB</div>
+                      <div class="stat-change">of <span id="license-storage-total">100 GB</span></div>
+                    </div>
+                    <div class="stat-icon orange">💾</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-header">
+                    <div>
+                      <div class="stat-label">Integrations</div>
+                      <div class="stat-value" id="license-integrations-used">6</div>
+                      <div class="stat-change">of <span id="license-integrations-total">10</span></div>
+                    </div>
+                    <div class="stat-icon red">🔌</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Subscription Plans</h4>
+                    <button class="btn btn-secondary" id="license-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="license-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="license-edit-index" value="">
+                    <div class="form-group">
+                      <label for="license-plan">Plan Name</label>
+                      <input type="text" id="license-plan" required placeholder="Enterprise, Pro...">
+                    </div>
+                    <div class="form-group">
+                      <label for="license-status">Status</label>
+                      <select id="license-status" class="form-select" required>
+                        <option value="Active">Active</option>
+                        <option value="Trial">Trial</option>
+                        <option value="Expired">Expired</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="license-seats">Seats</label>
+                      <input type="number" id="license-seats" required min="1" placeholder="150">
+                    </div>
+                    <div class="form-group">
+                      <label for="license-renewal">Renewal Date</label>
+                      <input type="text" id="license-renewal" required placeholder="Mar 01, 2026">
+                    </div>
+                    <div class="form-group">
+                      <label for="license-billing">Billing Cycle</label>
+                      <select id="license-billing" class="form-select" required>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Yearly">Yearly</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="license-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Plan</th>
+                          <th>Status</th>
+                          <th>Seats</th>
+                          <th>Renewal</th>
+                          <th>Billing</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="license-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="license-export" type="button">Export Subscriptions</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <h4 class="card-title">Usage Limits</h4>
+                    <button class="btn btn-secondary" id="usage-add-new" type="button">+ New</button>
+                  </div>
+
+                  <form id="usage-form" class="form-grid" style="margin-bottom: 16px;">
+                    <input type="hidden" id="usage-edit-index" value="">
+                    <div class="form-group">
+                      <label for="usage-metric">Metric</label>
+                      <input type="text" id="usage-metric" required placeholder="Seats, Storage...">
+                    </div>
+                    <div class="form-group">
+                      <label for="usage-used">Used</label>
+                      <input type="number" id="usage-used" required min="0" placeholder="124">
+                    </div>
+                    <div class="form-group">
+                      <label for="usage-limit">Limit</label>
+                      <input type="number" id="usage-limit" required min="0" placeholder="150">
+                    </div>
+                    <div class="form-group">
+                      <label for="usage-unit">Unit</label>
+                      <input type="text" id="usage-unit" required placeholder="Users, GB">
+                    </div>
+                    <div class="form-group">
+                      <label for="usage-status">Status</label>
+                      <select id="usage-status" class="form-select" required>
+                        <option value="Normal">Normal</option>
+                        <option value="Warning">Warning</option>
+                        <option value="Exceeded">Exceeded</option>
+                      </select>
+                    </div>
+                    <div style="display: flex; gap: 8px; align-items: flex-end;">
+                      <button class="btn btn-primary" type="submit">Save</button>
+                      <button class="btn btn-secondary" type="button" id="usage-cancel" style="display: none;">Cancel</button>
+                    </div>
+                  </form>
+
+                  <div class="table-container">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Metric</th>
+                          <th>Used</th>
+                          <th>Limit</th>
+                          <th>Unit</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="usage-table-body"></tbody>
+                    </table>
+                  </div>
+
+                  <div style="margin-top: 12px;">
+                    <button class="btn btn-secondary" id="usage-export" type="button">Export Usage</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -749,6 +1806,1356 @@
         window.applyAllTableFilters();
       }
     }
+
+    const mdItems = [
+      { code: 'ITM-001', name: 'Cement (OPC 53)', category: 'Raw Materials', uom: 'Bags', status: 'Active' },
+      { code: 'ITM-014', name: 'Steel TMT Bars', category: 'Raw Materials', uom: 'Tons', status: 'Active' },
+      { code: 'ITM-101', name: 'Safety Helmets', category: 'Safety', uom: 'Nos', status: 'Inactive' }
+    ];
+
+    const mdCostCodes = [
+      { code: 'CC-100', desc: 'Concrete Works', category: 'Civil', budget: 3200000, status: 'Active' },
+      { code: 'CC-220', desc: 'Electrical & MEP', category: 'MEP', budget: 1850000, status: 'Active' },
+      { code: 'CC-310', desc: 'Finishing & Interiors', category: 'Finishes', budget: 2100000, status: 'Inactive' }
+    ];
+
+    const mdUom = [
+      { code: 'BAG', name: 'Bags', type: 'Weight' },
+      { code: 'NOS', name: 'Numbers', type: 'Count' },
+      { code: 'TON', name: 'Tons', type: 'Weight' }
+    ];
+
+    const mdPartners = [
+      { type: 'Vendor', name: 'ABC Supplies', contact: '9876543210', email: 'sales@abcsupplies.com', status: 'Active' },
+      { type: 'Client', name: 'Smart City Corp', contact: '9811122233', email: 'accounts@smartcity.com', status: 'Active' },
+      { type: 'Subcontractor', name: 'BuildMate Services', contact: '9898989898', email: 'ops@buildmate.in', status: 'Inactive' }
+    ];
+
+    const wfFlows = [
+      { module: 'Purchase Orders', threshold: 500000, level1: 'Project Manager', level2: 'Finance Manager', status: 'Active' },
+      { module: 'RFQs', threshold: 250000, level1: 'Procurement Manager', level2: 'Director', status: 'Active' },
+      { module: 'Invoices', threshold: 300000, level1: 'Accounts Lead', level2: 'CFO', status: 'Inactive' }
+    ];
+
+    const integrations = [
+      { name: 'Accounting', type: 'Finance', provider: 'Tally Prime', status: 'Connected', lastSync: 'Feb 02, 2026 09:10' },
+      { name: 'HR & Payroll', type: 'HR', provider: 'Zoho People', status: 'Connected', lastSync: 'Feb 01, 2026 18:30' },
+      { name: 'Email & SMS', type: 'Messaging', provider: 'Twilio', status: 'Error', lastSync: 'Jan 31, 2026 14:05' }
+    ];
+
+    const alertRules = [
+      { name: 'Low Stock', module: 'Store', condition: 'Stock < Min', channel: 'In-App', status: 'Active' },
+      { name: 'Budget Overrun', module: 'Accounts', condition: 'Actual > Budget', channel: 'Email', status: 'Active' },
+      { name: 'Delayed Delivery', module: 'SCM', condition: 'ETA > 3 days', channel: 'SMS', status: 'Inactive' }
+    ];
+
+    const alertChannels = [
+      { channel: 'In-App', provider: 'BuildPro', endpoint: 'internal', status: 'Active' },
+      { channel: 'Email', provider: 'SendGrid', endpoint: 'smtp.sendgrid.net', status: 'Active' },
+      { channel: 'SMS', provider: 'Twilio', endpoint: '+12025550184', status: 'Active' },
+      { channel: 'Webhook', provider: 'Custom', endpoint: 'https://hooks.buildpro.local', status: 'Inactive' }
+    ];
+
+    const backupSchedules = [
+      { name: 'Daily Incremental', frequency: 'Daily', type: 'Incremental', retention: 30, status: 'Active' },
+      { name: 'Weekly Full', frequency: 'Weekly', type: 'Full', retention: 90, status: 'Active' },
+      { name: 'Monthly Archive', frequency: 'Monthly', type: 'Full', retention: 365, status: 'Paused' }
+    ];
+
+    const retentionPolicies = [
+      { name: 'Closed Projects', dataType: 'Projects', retention: '7 years', status: 'Active' },
+      { name: 'Invoices', dataType: 'Finance', retention: '10 years', status: 'Active' },
+      { name: 'Audit Logs', dataType: 'Security', retention: '5 years', status: 'Active' }
+    ];
+
+    const analyticsMetrics = [
+      { metric: 'API Response Time', value: 320, unit: 'ms', category: 'Performance', status: 'Healthy' },
+      { metric: 'Error Rate', value: 1.2, unit: '%', category: 'Performance', status: 'Warning' },
+      { metric: 'Active Users', value: 142, unit: 'users', category: 'Usage', status: 'Healthy' },
+      { metric: 'Storage Utilization', value: 68, unit: '%', category: 'Capacity', status: 'Warning' }
+    ];
+
+    const complianceItems = [
+      { item: 'GST & Tax Filing', category: 'Tax', owner: 'Finance Lead', due: 'Feb 10, 2026', status: 'Due' },
+      { item: 'Safety Training Records', category: 'Safety', owner: 'HSE Manager', due: 'Feb 05, 2026', status: 'Compliant' },
+      { item: 'Vendor Due Diligence', category: 'Security', owner: 'SCM Lead', due: 'Feb 15, 2026', status: 'Due' },
+      { item: 'Data Privacy Review', category: 'Privacy', owner: 'IT Admin', due: 'Jan 25, 2026', status: 'Overdue' }
+    ];
+
+    const riskRegister = [
+      { risk: 'Supplier delay for steel', impact: 'High', likelihood: 'Medium', owner: 'SCM Lead', mitigation: 'Dual sourcing', status: 'Open' },
+      { risk: 'Site safety incident', impact: 'High', likelihood: 'Low', owner: 'HSE Manager', mitigation: 'Daily toolbox talks', status: 'Mitigated' },
+      { risk: 'Cash flow shortfall', impact: 'Medium', likelihood: 'Medium', owner: 'Finance Lead', mitigation: 'Staggered billing', status: 'Open' },
+      { risk: 'IT outage', impact: 'Medium', likelihood: 'Low', owner: 'IT Admin', mitigation: 'Redundant backups', status: 'Closed' }
+    ];
+
+    const licenseSubscriptions = [
+      { plan: 'Enterprise', status: 'Active', seats: 150, renewal: 'Mar 01, 2026', billing: 'Yearly' },
+      { plan: 'Site Add-on', status: 'Active', seats: 50, renewal: 'Mar 01, 2026', billing: 'Yearly' },
+      { plan: 'Analytics Pack', status: 'Trial', seats: 150, renewal: 'Feb 15, 2026', billing: 'Monthly' }
+    ];
+
+    const licenseUsage = [
+      { metric: 'Seats', used: 124, limit: 150, unit: 'Users', status: 'Normal' },
+      { metric: 'Storage', used: 45, limit: 100, unit: 'GB', status: 'Normal' },
+      { metric: 'Integrations', used: 6, limit: 10, unit: 'Apps', status: 'Normal' },
+      { metric: 'API Calls', used: 82000, limit: 100000, unit: 'Calls', status: 'Warning' }
+    ];
+
+    const formatMoney = (value) => `₹${Number(value || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
+
+    const bindMasterData = ({
+      data,
+      tbodyId,
+      formId,
+      editIndexId,
+      cancelId,
+      addNewId,
+      exportId,
+      renderRow,
+      hydrateForm,
+      extractForm,
+      exportHeaders,
+      exportRow
+    }) => {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      const form = document.getElementById(formId);
+      const editIndex = document.getElementById(editIndexId);
+      const cancel = document.getElementById(cancelId);
+      const addNew = document.getElementById(addNewId);
+      const exportBtn = document.getElementById(exportId);
+
+      const render = () => {
+        tbody.innerHTML = data.map((row, index) => renderRow(row, index)).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No records found.</td></tr>';
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = extractForm();
+        if (editIndex.value !== '') {
+          data[parseInt(editIndex.value, 10)] = row;
+        } else {
+          data.unshift(row);
+        }
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = data[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          hydrateForm(row);
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this record?')) return;
+          data.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = exportHeaders;
+        const rows = data.map(exportRow);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${tbodyId}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initMasterData = () => {
+      bindMasterData({
+        data: mdItems,
+        tbodyId: 'md-items-body',
+        formId: 'md-items-form',
+        editIndexId: 'md-items-edit-index',
+        cancelId: 'md-items-cancel',
+        addNewId: 'md-items-add',
+        exportId: 'md-items-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.code}</td>
+            <td>${row.name}</td>
+            <td>${row.category}</td>
+            <td>${row.uom}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('md-items-code').value = row.code;
+          document.getElementById('md-items-name').value = row.name;
+          document.getElementById('md-items-category').value = row.category;
+          document.getElementById('md-items-uom').value = row.uom;
+          document.getElementById('md-items-status').value = row.status;
+        },
+        extractForm: () => ({
+          code: document.getElementById('md-items-code').value.trim(),
+          name: document.getElementById('md-items-name').value.trim(),
+          category: document.getElementById('md-items-category').value.trim(),
+          uom: document.getElementById('md-items-uom').value.trim(),
+          status: document.getElementById('md-items-status').value
+        }),
+        exportHeaders: ['Code', 'Name', 'Category', 'UOM', 'Status'],
+        exportRow: (row) => [row.code, row.name, row.category, row.uom, row.status]
+      });
+
+      bindMasterData({
+        data: mdCostCodes,
+        tbodyId: 'md-cost-body',
+        formId: 'md-cost-form',
+        editIndexId: 'md-cost-edit-index',
+        cancelId: 'md-cost-cancel',
+        addNewId: 'md-cost-add',
+        exportId: 'md-cost-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.code}</td>
+            <td>${row.desc}</td>
+            <td>${row.category}</td>
+            <td>${formatMoney(row.budget)}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('md-cost-code').value = row.code;
+          document.getElementById('md-cost-desc').value = row.desc;
+          document.getElementById('md-cost-category').value = row.category;
+          document.getElementById('md-cost-budget').value = row.budget;
+          document.getElementById('md-cost-status').value = row.status;
+        },
+        extractForm: () => ({
+          code: document.getElementById('md-cost-code').value.trim(),
+          desc: document.getElementById('md-cost-desc').value.trim(),
+          category: document.getElementById('md-cost-category').value.trim(),
+          budget: parseFloat(document.getElementById('md-cost-budget').value || '0'),
+          status: document.getElementById('md-cost-status').value
+        }),
+        exportHeaders: ['Code', 'Description', 'Category', 'Budget', 'Status'],
+        exportRow: (row) => [row.code, row.desc, row.category, row.budget, row.status]
+      });
+
+      bindMasterData({
+        data: mdUom,
+        tbodyId: 'md-uom-body',
+        formId: 'md-uom-form',
+        editIndexId: 'md-uom-edit-index',
+        cancelId: 'md-uom-cancel',
+        addNewId: 'md-uom-add',
+        exportId: 'md-uom-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.code}</td>
+            <td>${row.name}</td>
+            <td>${row.type}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('md-uom-code').value = row.code;
+          document.getElementById('md-uom-name').value = row.name;
+          document.getElementById('md-uom-type').value = row.type;
+        },
+        extractForm: () => ({
+          code: document.getElementById('md-uom-code').value.trim(),
+          name: document.getElementById('md-uom-name').value.trim(),
+          type: document.getElementById('md-uom-type').value.trim()
+        }),
+        exportHeaders: ['Code', 'Name', 'Type'],
+        exportRow: (row) => [row.code, row.name, row.type]
+      });
+
+      bindMasterData({
+        data: mdPartners,
+        tbodyId: 'md-partners-body',
+        formId: 'md-partners-form',
+        editIndexId: 'md-partners-edit-index',
+        cancelId: 'md-partners-cancel',
+        addNewId: 'md-partners-add',
+        exportId: 'md-partners-export',
+        renderRow: (row, index) => `
+          <tr>
+            <td>${row.type}</td>
+            <td>${row.name}</td>
+            <td>${row.contact}</td>
+            <td>${row.email}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `,
+        hydrateForm: (row) => {
+          document.getElementById('md-partners-type').value = row.type;
+          document.getElementById('md-partners-name').value = row.name;
+          document.getElementById('md-partners-contact').value = row.contact;
+          document.getElementById('md-partners-email').value = row.email;
+          document.getElementById('md-partners-status').value = row.status;
+        },
+        extractForm: () => ({
+          type: document.getElementById('md-partners-type').value,
+          name: document.getElementById('md-partners-name').value.trim(),
+          contact: document.getElementById('md-partners-contact').value.trim(),
+          email: document.getElementById('md-partners-email').value.trim(),
+          status: document.getElementById('md-partners-status').value
+        }),
+        exportHeaders: ['Type', 'Name', 'Contact', 'Email', 'Status'],
+        exportRow: (row) => [row.type, row.name, row.contact, row.email, row.status]
+      });
+
+      document.getElementById('md-export-all').addEventListener('click', () => {
+        const sections = [
+          { name: 'items', data: mdItems, headers: ['Code', 'Name', 'Category', 'UOM', 'Status'] },
+          { name: 'cost-codes', data: mdCostCodes, headers: ['Code', 'Description', 'Category', 'Budget', 'Status'] },
+          { name: 'uom', data: mdUom, headers: ['Code', 'Name', 'Type'] },
+          { name: 'partners', data: mdPartners, headers: ['Type', 'Name', 'Contact', 'Email', 'Status'] }
+        ];
+        const csvContent = sections.map((section) => {
+          const rows = section.data.map((row) => Object.values(row));
+          return [section.headers, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        }).join('\n\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'master-data.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+    };
+
+    const initWorkflowApprovals = () => {
+      const tbody = document.getElementById('wf-table-body');
+      const form = document.getElementById('wf-form');
+      const editIndex = document.getElementById('wf-edit-index');
+      const cancel = document.getElementById('wf-cancel');
+      const addNew = document.getElementById('wf-add-new');
+      const exportBtn = document.getElementById('wf-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const render = () => {
+        tbody.innerHTML = wfFlows.map((row, index) => `
+          <tr>
+            <td>${row.module}</td>
+            <td>${formatMoney(row.threshold)}</td>
+            <td>${row.level1}</td>
+            <td>${row.level2 || '-'}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No workflows found.</td></tr>';
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          module: document.getElementById('wf-module').value.trim(),
+          threshold: parseFloat(document.getElementById('wf-threshold').value || '0'),
+          level1: document.getElementById('wf-level1').value.trim(),
+          level2: document.getElementById('wf-level2').value.trim(),
+          status: document.getElementById('wf-status').value
+        };
+
+        if (editIndex.value !== '') {
+          wfFlows[parseInt(editIndex.value, 10)] = row;
+        } else {
+          wfFlows.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = wfFlows[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('wf-module').value = row.module;
+          document.getElementById('wf-threshold').value = row.threshold;
+          document.getElementById('wf-level1').value = row.level1;
+          document.getElementById('wf-level2').value = row.level2;
+          document.getElementById('wf-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this workflow?')) return;
+          wfFlows.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Module', 'Threshold', 'Level 1', 'Level 2', 'Status'];
+        const rows = wfFlows.map((row) => [row.module, row.threshold, row.level1, row.level2, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'workflow-approvals.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initIntegrations = () => {
+      const tbody = document.getElementById('int-table-body');
+      const form = document.getElementById('int-form');
+      const editIndex = document.getElementById('int-edit-index');
+      const cancel = document.getElementById('int-cancel');
+      const addNew = document.getElementById('int-add-new');
+      const exportBtn = document.getElementById('int-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const render = () => {
+        tbody.innerHTML = integrations.map((row, index) => `
+          <tr>
+            <td>${row.name}</td>
+            <td>${row.type}</td>
+            <td>${row.provider}</td>
+            <td><span class="badge ${row.status === 'Connected' ? 'badge-success' : row.status === 'Disconnected' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>${row.lastSync}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No integrations found.</td></tr>';
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          name: document.getElementById('int-name').value.trim(),
+          type: document.getElementById('int-type').value.trim(),
+          provider: document.getElementById('int-provider').value.trim(),
+          status: document.getElementById('int-status').value,
+          lastSync: document.getElementById('int-sync').value.trim()
+        };
+
+        if (editIndex.value !== '') {
+          integrations[parseInt(editIndex.value, 10)] = row;
+        } else {
+          integrations.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = integrations[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('int-name').value = row.name;
+          document.getElementById('int-type').value = row.type;
+          document.getElementById('int-provider').value = row.provider;
+          document.getElementById('int-status').value = row.status;
+          document.getElementById('int-sync').value = row.lastSync;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this integration?')) return;
+          integrations.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Name', 'Type', 'Provider', 'Status', 'Last Sync'];
+        const rows = integrations.map((row) => [row.name, row.type, row.provider, row.status, row.lastSync]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'integrations.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initNotificationsAlerts = () => {
+      const tbody = document.getElementById('alerts-table-body');
+      const channelsBody = document.getElementById('alerts-channels-body');
+      const form = document.getElementById('alerts-form');
+      const editIndex = document.getElementById('alerts-edit-index');
+      const cancel = document.getElementById('alerts-cancel');
+      const addNew = document.getElementById('alerts-add-new');
+      const exportBtn = document.getElementById('alerts-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const render = () => {
+        tbody.innerHTML = alertRules.map((row, index) => `
+          <tr>
+            <td>${row.name}</td>
+            <td>${row.module}</td>
+            <td>${row.condition}</td>
+            <td>${row.channel}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No alert rules found.</td></tr>';
+
+        if (channelsBody) {
+          channelsBody.innerHTML = alertChannels.map((row) => `
+            <tr>
+              <td>${row.channel}</td>
+              <td>${row.provider}</td>
+              <td>${row.endpoint}</td>
+              <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="4" style="text-align:center; padding: 16px;">No channels configured.</td></tr>';
+        }
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          name: document.getElementById('alerts-name').value.trim(),
+          module: document.getElementById('alerts-module').value.trim(),
+          condition: document.getElementById('alerts-condition').value.trim(),
+          channel: document.getElementById('alerts-channel').value,
+          status: document.getElementById('alerts-status').value
+        };
+
+        if (editIndex.value !== '') {
+          alertRules[parseInt(editIndex.value, 10)] = row;
+        } else {
+          alertRules.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = alertRules[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('alerts-name').value = row.name;
+          document.getElementById('alerts-module').value = row.module;
+          document.getElementById('alerts-condition').value = row.condition;
+          document.getElementById('alerts-channel').value = row.channel;
+          document.getElementById('alerts-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this alert rule?')) return;
+          alertRules.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Rule', 'Module', 'Condition', 'Channel', 'Status'];
+        const rows = alertRules.map((row) => [row.name, row.module, row.condition, row.channel, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'alerts.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initBackupRetention = () => {
+      const tbody = document.getElementById('backup-table-body');
+      const policyBody = document.getElementById('retention-policy-body');
+      const form = document.getElementById('backup-form');
+      const editIndex = document.getElementById('backup-edit-index');
+      const cancel = document.getElementById('backup-cancel');
+      const addNew = document.getElementById('backup-add-new');
+      const exportBtn = document.getElementById('backup-export');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const render = () => {
+        tbody.innerHTML = backupSchedules.map((row, index) => `
+          <tr>
+            <td>${row.name}</td>
+            <td>${row.frequency}</td>
+            <td>${row.type}</td>
+            <td>${row.retention} days</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No backup schedules found.</td></tr>';
+
+        if (policyBody) {
+          policyBody.innerHTML = retentionPolicies.map((row) => `
+            <tr>
+              <td>${row.name}</td>
+              <td>${row.dataType}</td>
+              <td>${row.retention}</td>
+              <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+            </tr>
+          `).join('') || '<tr><td colspan="4" style="text-align:center; padding: 16px;">No retention policies found.</td></tr>';
+        }
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          name: document.getElementById('backup-name').value.trim(),
+          frequency: document.getElementById('backup-frequency').value,
+          type: document.getElementById('backup-type').value,
+          retention: parseInt(document.getElementById('backup-retention').value || '0', 10),
+          status: document.getElementById('backup-status').value
+        };
+
+        if (editIndex.value !== '') {
+          backupSchedules[parseInt(editIndex.value, 10)] = row;
+        } else {
+          backupSchedules.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = backupSchedules[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('backup-name').value = row.name;
+          document.getElementById('backup-frequency').value = row.frequency;
+          document.getElementById('backup-type').value = row.type;
+          document.getElementById('backup-retention').value = row.retention;
+          document.getElementById('backup-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this backup schedule?')) return;
+          backupSchedules.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Schedule', 'Frequency', 'Type', 'Retention (Days)', 'Status'];
+        const rows = backupSchedules.map((row) => [row.name, row.frequency, row.type, row.retention, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'backup-schedules.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    const initComplianceRisk = () => {
+      const complianceBody = document.getElementById('compliance-table-body');
+      const complianceForm = document.getElementById('compliance-form');
+      const complianceEditIndex = document.getElementById('compliance-edit-index');
+      const complianceCancel = document.getElementById('compliance-cancel');
+      const complianceAddNew = document.getElementById('compliance-add-new');
+      const complianceExport = document.getElementById('compliance-export');
+
+      const riskBody = document.getElementById('risk-table-body');
+      const riskForm = document.getElementById('risk-form');
+      const riskEditIndex = document.getElementById('risk-edit-index');
+      const riskCancel = document.getElementById('risk-cancel');
+      const riskAddNew = document.getElementById('risk-add-new');
+      const riskExport = document.getElementById('risk-export');
+
+      if (!complianceBody || !complianceForm || !riskBody || !riskForm) {
+        return;
+      }
+
+      const scoreEl = document.getElementById('compliance-score');
+      const openRisksEl = document.getElementById('compliance-open-risks');
+      const auditsEl = document.getElementById('compliance-audits');
+      const issuesEl = document.getElementById('compliance-issues');
+
+      const updateHighlights = () => {
+        const total = complianceItems.length || 1;
+        const compliantCount = complianceItems.filter((row) => row.status === 'Compliant').length;
+        const score = Math.round((compliantCount / total) * 100);
+        const dueCount = complianceItems.filter((row) => row.status === 'Due').length;
+        const overdueCount = complianceItems.filter((row) => row.status === 'Overdue').length;
+        const openRisks = riskRegister.filter((row) => row.status === 'Open').length;
+        const highRisks = riskRegister.filter((row) => row.status !== 'Closed' && row.impact === 'High').length;
+
+        if (scoreEl) scoreEl.textContent = `${score}%`;
+        if (auditsEl) auditsEl.textContent = (dueCount + overdueCount).toString();
+        if (issuesEl) issuesEl.textContent = overdueCount.toString();
+        if (openRisksEl) {
+          openRisksEl.textContent = openRisks.toString();
+          const changeEl = openRisksEl.closest('.stat-card')?.querySelector('.stat-change');
+          if (changeEl) {
+            changeEl.textContent = `High impact: ${highRisks}`;
+          }
+        }
+      };
+
+      const renderCompliance = () => {
+        complianceBody.innerHTML = complianceItems.map((row, index) => `
+          <tr>
+            <td>${row.item}</td>
+            <td>${row.category}</td>
+            <td>${row.owner}</td>
+            <td>${row.due}</td>
+            <td><span class="badge ${row.status === 'Compliant' ? 'badge-success' : row.status === 'Due' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No compliance items found.</td></tr>';
+      };
+
+      const renderRisks = () => {
+        riskBody.innerHTML = riskRegister.map((row, index) => `
+          <tr>
+            <td>${row.risk}</td>
+            <td><span class="badge ${row.impact === 'High' ? 'badge-danger' : row.impact === 'Medium' ? 'badge-warning' : 'badge-success'}">${row.impact}</span></td>
+            <td><span class="badge ${row.likelihood === 'High' ? 'badge-danger' : row.likelihood === 'Medium' ? 'badge-warning' : 'badge-success'}">${row.likelihood}</span></td>
+            <td>${row.owner}</td>
+            <td><span class="badge ${row.status === 'Closed' ? 'badge-success' : row.status === 'Mitigated' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No risks found.</td></tr>';
+      };
+
+      const renderAll = () => {
+        renderCompliance();
+        renderRisks();
+        updateHighlights();
+      };
+
+      const resetComplianceForm = () => {
+        complianceForm.reset();
+        complianceEditIndex.value = '';
+        complianceCancel.style.display = 'none';
+      };
+
+      const resetRiskForm = () => {
+        riskForm.reset();
+        riskEditIndex.value = '';
+        riskCancel.style.display = 'none';
+      };
+
+      complianceForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          item: document.getElementById('compliance-item').value.trim(),
+          category: document.getElementById('compliance-category').value,
+          owner: document.getElementById('compliance-owner').value.trim(),
+          due: document.getElementById('compliance-due').value.trim(),
+          status: document.getElementById('compliance-status').value
+        };
+
+        if (complianceEditIndex.value !== '') {
+          complianceItems[parseInt(complianceEditIndex.value, 10)] = row;
+        } else {
+          complianceItems.unshift(row);
+        }
+
+        renderAll();
+        resetComplianceForm();
+      });
+
+      complianceCancel.addEventListener('click', resetComplianceForm);
+      complianceAddNew.addEventListener('click', resetComplianceForm);
+
+      complianceBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = complianceItems[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          complianceEditIndex.value = index.toString();
+          document.getElementById('compliance-item').value = row.item;
+          document.getElementById('compliance-category').value = row.category;
+          document.getElementById('compliance-owner').value = row.owner;
+          document.getElementById('compliance-due').value = row.due;
+          document.getElementById('compliance-status').value = row.status;
+          complianceCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this compliance item?')) return;
+          complianceItems.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      riskForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          risk: document.getElementById('risk-name').value.trim(),
+          impact: document.getElementById('risk-impact').value,
+          likelihood: document.getElementById('risk-likelihood').value,
+          owner: document.getElementById('risk-owner').value.trim(),
+          mitigation: document.getElementById('risk-mitigation').value.trim(),
+          status: document.getElementById('risk-status').value
+        };
+
+        if (riskEditIndex.value !== '') {
+          riskRegister[parseInt(riskEditIndex.value, 10)] = row;
+        } else {
+          riskRegister.unshift(row);
+        }
+
+        renderAll();
+        resetRiskForm();
+      });
+
+      riskCancel.addEventListener('click', resetRiskForm);
+      riskAddNew.addEventListener('click', resetRiskForm);
+
+      riskBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = riskRegister[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          riskEditIndex.value = index.toString();
+          document.getElementById('risk-name').value = row.risk;
+          document.getElementById('risk-impact').value = row.impact;
+          document.getElementById('risk-likelihood').value = row.likelihood;
+          document.getElementById('risk-owner').value = row.owner;
+          document.getElementById('risk-mitigation').value = row.mitigation;
+          document.getElementById('risk-status').value = row.status;
+          riskCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this risk?')) return;
+          riskRegister.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      complianceExport.addEventListener('click', () => {
+        const header = ['Item', 'Category', 'Owner', 'Due Date', 'Status'];
+        const rows = complianceItems.map((row) => [row.item, row.category, row.owner, row.due, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'compliance-checklist.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      riskExport.addEventListener('click', () => {
+        const header = ['Risk', 'Impact', 'Likelihood', 'Owner', 'Mitigation', 'Status'];
+        const rows = riskRegister.map((row) => [row.risk, row.impact, row.likelihood, row.owner, row.mitigation, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'risk-register.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      renderAll();
+    };
+
+    const initLicensingSubscriptions = () => {
+      const licenseBody = document.getElementById('license-table-body');
+      const licenseForm = document.getElementById('license-form');
+      const licenseEditIndex = document.getElementById('license-edit-index');
+      const licenseCancel = document.getElementById('license-cancel');
+      const licenseAddNew = document.getElementById('license-add-new');
+      const licenseExport = document.getElementById('license-export');
+
+      const usageBody = document.getElementById('usage-table-body');
+      const usageForm = document.getElementById('usage-form');
+      const usageEditIndex = document.getElementById('usage-edit-index');
+      const usageCancel = document.getElementById('usage-cancel');
+      const usageAddNew = document.getElementById('usage-add-new');
+      const usageExport = document.getElementById('usage-export');
+
+      if (!licenseBody || !licenseForm || !usageBody || !usageForm) {
+        return;
+      }
+
+      const planNameEl = document.getElementById('license-plan-name');
+      const renewDaysEl = document.getElementById('license-renew-days');
+      const seatsUsedEl = document.getElementById('license-seats-used');
+      const seatsTotalEl = document.getElementById('license-seats-total');
+      const storageUsedEl = document.getElementById('license-storage-used');
+      const storageTotalEl = document.getElementById('license-storage-total');
+      const integrationsUsedEl = document.getElementById('license-integrations-used');
+      const integrationsTotalEl = document.getElementById('license-integrations-total');
+
+      const updateHighlights = () => {
+        const activePlan = licenseSubscriptions.find((row) => row.status === 'Active') || licenseSubscriptions[0];
+        if (planNameEl && activePlan) {
+          planNameEl.textContent = activePlan.plan;
+        }
+
+        const seatsUsage = licenseUsage.find((row) => row.metric.toLowerCase() === 'seats');
+        const storageUsage = licenseUsage.find((row) => row.metric.toLowerCase() === 'storage');
+        const integrationsUsage = licenseUsage.find((row) => row.metric.toLowerCase() === 'integrations');
+
+        if (seatsUsage) {
+          if (seatsUsedEl) seatsUsedEl.textContent = seatsUsage.used.toString();
+          if (seatsTotalEl) seatsTotalEl.textContent = seatsUsage.limit.toString();
+        }
+        if (storageUsage) {
+          if (storageUsedEl) storageUsedEl.textContent = `${storageUsage.used} ${storageUsage.unit}`;
+          if (storageTotalEl) storageTotalEl.textContent = `${storageUsage.limit} ${storageUsage.unit}`;
+        }
+        if (integrationsUsage) {
+          if (integrationsUsedEl) integrationsUsedEl.textContent = integrationsUsage.used.toString();
+          if (integrationsTotalEl) integrationsTotalEl.textContent = integrationsUsage.limit.toString();
+        }
+
+        if (renewDaysEl && activePlan) {
+          renewDaysEl.textContent = activePlan.status === 'Active' ? '28' : '0';
+        }
+      };
+
+      const renderLicenses = () => {
+        licenseBody.innerHTML = licenseSubscriptions.map((row, index) => `
+          <tr>
+            <td>${row.plan}</td>
+            <td><span class="badge ${row.status === 'Active' ? 'badge-success' : row.status === 'Trial' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>${row.seats}</td>
+            <td>${row.renewal}</td>
+            <td>${row.billing}</td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No subscriptions found.</td></tr>';
+      };
+
+      const renderUsage = () => {
+        usageBody.innerHTML = licenseUsage.map((row, index) => `
+          <tr>
+            <td>${row.metric}</td>
+            <td>${row.used}</td>
+            <td>${row.limit}</td>
+            <td>${row.unit}</td>
+            <td><span class="badge ${row.status === 'Normal' ? 'badge-success' : row.status === 'Warning' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No usage metrics found.</td></tr>';
+      };
+
+      const renderAll = () => {
+        renderLicenses();
+        renderUsage();
+        updateHighlights();
+      };
+
+      const resetLicenseForm = () => {
+        licenseForm.reset();
+        licenseEditIndex.value = '';
+        licenseCancel.style.display = 'none';
+      };
+
+      const resetUsageForm = () => {
+        usageForm.reset();
+        usageEditIndex.value = '';
+        usageCancel.style.display = 'none';
+      };
+
+      licenseForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          plan: document.getElementById('license-plan').value.trim(),
+          status: document.getElementById('license-status').value,
+          seats: parseInt(document.getElementById('license-seats').value || '0', 10),
+          renewal: document.getElementById('license-renewal').value.trim(),
+          billing: document.getElementById('license-billing').value
+        };
+
+        if (licenseEditIndex.value !== '') {
+          licenseSubscriptions[parseInt(licenseEditIndex.value, 10)] = row;
+        } else {
+          licenseSubscriptions.unshift(row);
+        }
+
+        renderAll();
+        resetLicenseForm();
+      });
+
+      licenseCancel.addEventListener('click', resetLicenseForm);
+      licenseAddNew.addEventListener('click', resetLicenseForm);
+
+      licenseBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = licenseSubscriptions[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          licenseEditIndex.value = index.toString();
+          document.getElementById('license-plan').value = row.plan;
+          document.getElementById('license-status').value = row.status;
+          document.getElementById('license-seats').value = row.seats;
+          document.getElementById('license-renewal').value = row.renewal;
+          document.getElementById('license-billing').value = row.billing;
+          licenseCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this subscription?')) return;
+          licenseSubscriptions.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      usageForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          metric: document.getElementById('usage-metric').value.trim(),
+          used: parseInt(document.getElementById('usage-used').value || '0', 10),
+          limit: parseInt(document.getElementById('usage-limit').value || '0', 10),
+          unit: document.getElementById('usage-unit').value.trim(),
+          status: document.getElementById('usage-status').value
+        };
+
+        if (usageEditIndex.value !== '') {
+          licenseUsage[parseInt(usageEditIndex.value, 10)] = row;
+        } else {
+          licenseUsage.unshift(row);
+        }
+
+        renderAll();
+        resetUsageForm();
+      });
+
+      usageCancel.addEventListener('click', resetUsageForm);
+      usageAddNew.addEventListener('click', resetUsageForm);
+
+      usageBody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = licenseUsage[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          usageEditIndex.value = index.toString();
+          document.getElementById('usage-metric').value = row.metric;
+          document.getElementById('usage-used').value = row.used;
+          document.getElementById('usage-limit').value = row.limit;
+          document.getElementById('usage-unit').value = row.unit;
+          document.getElementById('usage-status').value = row.status;
+          usageCancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this usage metric?')) return;
+          licenseUsage.splice(index, 1);
+          renderAll();
+        }
+      });
+
+      licenseExport.addEventListener('click', () => {
+        const header = ['Plan', 'Status', 'Seats', 'Renewal', 'Billing'];
+        const rows = licenseSubscriptions.map((row) => [row.plan, row.status, row.seats, row.renewal, row.billing]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'subscriptions.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      usageExport.addEventListener('click', () => {
+        const header = ['Metric', 'Used', 'Limit', 'Unit', 'Status'];
+        const rows = licenseUsage.map((row) => [row.metric, row.used, row.limit, row.unit, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'usage-limits.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      renderAll();
+    };
+
+    const initSystemAnalytics = () => {
+      const tbody = document.getElementById('analytics-table-body');
+      const form = document.getElementById('analytics-form');
+      const editIndex = document.getElementById('analytics-edit-index');
+      const cancel = document.getElementById('analytics-cancel');
+      const addNew = document.getElementById('analytics-add-new');
+      const exportBtn = document.getElementById('analytics-export');
+      const avgResponse = document.getElementById('analytics-avg-response');
+      const errorRate = document.getElementById('analytics-error-rate');
+      const activeUsers = document.getElementById('analytics-active-users');
+
+      if (!tbody || !form) {
+        return;
+      }
+
+      const updateHighlights = () => {
+        const responseMetric = analyticsMetrics.find((row) => row.metric.toLowerCase().includes('response'));
+        const errorMetric = analyticsMetrics.find((row) => row.metric.toLowerCase().includes('error'));
+        const usersMetric = analyticsMetrics.find((row) => row.metric.toLowerCase().includes('active users'));
+        if (avgResponse && responseMetric) {
+          avgResponse.textContent = `${responseMetric.value} ${responseMetric.unit}`;
+        }
+        if (errorRate && errorMetric) {
+          errorRate.textContent = `${errorMetric.value}${errorMetric.unit}`;
+        }
+        if (activeUsers && usersMetric) {
+          activeUsers.textContent = `${usersMetric.value}`;
+        }
+      };
+
+      const render = () => {
+        tbody.innerHTML = analyticsMetrics.map((row, index) => `
+          <tr>
+            <td>${row.metric}</td>
+            <td>${row.value}</td>
+            <td>${row.unit}</td>
+            <td>${row.category}</td>
+            <td><span class="badge ${row.status === 'Healthy' ? 'badge-success' : row.status === 'Warning' ? 'badge-warning' : 'badge-danger'}">${row.status}</span></td>
+            <td>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="edit" data-row-index="${index}">📝</button>
+              <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-row-action="delete" data-row-index="${index}">🗑️</button>
+            </td>
+          </tr>
+        `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No metrics found.</td></tr>';
+        updateHighlights();
+      };
+
+      const resetForm = () => {
+        form.reset();
+        editIndex.value = '';
+        cancel.style.display = 'none';
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const row = {
+          metric: document.getElementById('analytics-metric').value.trim(),
+          value: parseFloat(document.getElementById('analytics-value').value || '0'),
+          unit: document.getElementById('analytics-unit').value.trim(),
+          category: document.getElementById('analytics-category').value,
+          status: document.getElementById('analytics-status').value
+        };
+
+        if (editIndex.value !== '') {
+          analyticsMetrics[parseInt(editIndex.value, 10)] = row;
+        } else {
+          analyticsMetrics.unshift(row);
+        }
+
+        render();
+        resetForm();
+      });
+
+      cancel.addEventListener('click', resetForm);
+      addNew.addEventListener('click', resetForm);
+
+      tbody.addEventListener('click', (event) => {
+        const actionButton = event.target.closest('button[data-row-action]');
+        if (!actionButton) return;
+        const index = parseInt(actionButton.dataset.rowIndex, 10);
+        const action = actionButton.dataset.rowAction;
+        const row = analyticsMetrics[index];
+        if (!row) return;
+
+        if (action === 'edit') {
+          editIndex.value = index.toString();
+          document.getElementById('analytics-metric').value = row.metric;
+          document.getElementById('analytics-value').value = row.value;
+          document.getElementById('analytics-unit').value = row.unit;
+          document.getElementById('analytics-category').value = row.category;
+          document.getElementById('analytics-status').value = row.status;
+          cancel.style.display = 'inline-flex';
+        }
+
+        if (action === 'delete') {
+          if (!confirm('Delete this metric?')) return;
+          analyticsMetrics.splice(index, 1);
+          render();
+        }
+      });
+
+      exportBtn.addEventListener('click', () => {
+        const header = ['Metric', 'Value', 'Unit', 'Category', 'Status'];
+        const rows = analyticsMetrics.map((row) => [row.metric, row.value, row.unit, row.category, row.status]);
+        const csvContent = [header, ...rows].map(row => row.map(value => `"${value}"`).join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'system-analytics.csv';
+        link.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render();
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initMasterData();
+      initWorkflowApprovals();
+      initIntegrations();
+      initNotificationsAlerts();
+      initBackupRetention();
+      initComplianceRisk();
+      initLicensingSubscriptions();
+      initSystemAnalytics();
+    });
 
     // User Activity Chart
     const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
