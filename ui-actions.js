@@ -15,9 +15,20 @@
 
   const publicPages = ['login.html', 'signup.html', 'forgot-password.html', 'reset-password.html', 'index.html'];
 
+  const normalizePath = (value) => {
+    if (!value) return '';
+    try {
+      const url = new URL(value, window.location.origin);
+      const file = url.pathname.split('/').pop();
+      return file || 'index.html';
+    } catch (error) {
+      return value.toString().split('/').pop() || 'index.html';
+    }
+  };
+
   const getRoleFromQuery = () => {
     const params = new URLSearchParams(window.location.search);
-    const role = params.get('role');
+    const role = normalize(params.get('role'));
     return role && roleRoutes[role] ? role : '';
   };
 
@@ -38,11 +49,7 @@
     }
   };
 
-  const getCurrentPage = () => {
-    const path = window.location.pathname || '';
-    const file = path.split('/').pop();
-    return file || 'index.html';
-  };
+  const getCurrentPage = () => normalizePath(window.location.href);
 
   const applyRoleAccess = () => {
     const roleFromQuery = getRoleFromQuery();
@@ -79,7 +86,7 @@
     document.querySelectorAll('.nav-menu .nav-link').forEach((link) => {
       const href = link.getAttribute('href');
       if (!href) return;
-      const normalizedHref = href.replace(/^\/+/, '');
+      const normalizedHref = normalizePath(href).replace(/^\/+/, '');
       const item = link.closest('.nav-item');
       if (!item) return;
       item.style.display = allowed.includes(normalizedHref) ? '' : 'none';
