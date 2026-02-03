@@ -425,7 +425,8 @@
       }
 
       alert('Login successful! Redirecting to your module...');
-      window.location.href = roleRoutes[role] || 'admin.html';
+      const route = roleRoutes[role] || 'admin.html';
+      window.location.href = `${route}?role=${encodeURIComponent(role)}`;
     }
   </script>
 </body>

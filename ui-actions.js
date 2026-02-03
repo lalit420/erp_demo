@@ -15,6 +15,29 @@
 
   const publicPages = ['login.html', 'signup.html', 'forgot-password.html', 'reset-password.html', 'index.html'];
 
+  const getRoleFromQuery = () => {
+    const params = new URLSearchParams(window.location.search);
+    const role = params.get('role');
+    return role && roleRoutes[role] ? role : '';
+  };
+
+  const getStoredRole = () => {
+    try {
+      return localStorage.getItem('erpRole') || sessionStorage.getItem('erpRole') || '';
+    } catch (error) {
+      return '';
+    }
+  };
+
+  const persistRole = (role) => {
+    try {
+      localStorage.setItem('erpRole', role);
+      sessionStorage.setItem('erpRole', role);
+    } catch (error) {
+      // Ignore storage errors
+    }
+  };
+
   const getCurrentPage = () => {
     const path = window.location.pathname || '';
     const file = path.split('/').pop();
@@ -22,13 +45,12 @@
   };
 
   const applyRoleAccess = () => {
-    const role = (() => {
-      try {
-        return localStorage.getItem('erpRole') || '';
-      } catch (error) {
-        return '';
-      }
-    })();
+    const roleFromQuery = getRoleFromQuery();
+    const role = roleFromQuery || getStoredRole();
+
+    if (roleFromQuery) {
+      persistRole(roleFromQuery);
+    }
 
     const currentPage = getCurrentPage();
     if (publicPages.includes(currentPage)) {
@@ -49,9 +71,10 @@
     document.querySelectorAll('.nav-menu .nav-link').forEach((link) => {
       const href = link.getAttribute('href');
       if (!href) return;
+      const normalizedHref = href.replace(/^\/+/, '');
       const item = link.closest('.nav-item');
       if (!item) return;
-      item.style.display = allowed.includes(href) ? '' : 'none';
+      item.style.display = allowed.includes(normalizedHref) ? '' : 'none';
     });
   };
 
