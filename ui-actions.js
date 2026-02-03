@@ -5,6 +5,56 @@
 
   const normalize = (text) => (text || '').toString().toLowerCase().trim();
 
+  const roleRoutes = {
+    admin: ['admin.html'],
+    store: ['store.html'],
+    scm: ['scm.html'],
+    planning: ['planning-billing.html'],
+    accounts: ['accounts-banking.html']
+  };
+
+  const publicPages = ['login.html', 'signup.html', 'forgot-password.html', 'reset-password.html', 'index.html'];
+
+  const getCurrentPage = () => {
+    const path = window.location.pathname || '';
+    const file = path.split('/').pop();
+    return file || 'index.html';
+  };
+
+  const applyRoleAccess = () => {
+    const role = (() => {
+      try {
+        return localStorage.getItem('erpRole') || '';
+      } catch (error) {
+        return '';
+      }
+    })();
+
+    const currentPage = getCurrentPage();
+    if (publicPages.includes(currentPage)) {
+      return;
+    }
+
+    if (!role || !roleRoutes[role]) {
+      window.location.href = 'login.html';
+      return;
+    }
+
+    const allowed = roleRoutes[role];
+    if (!allowed.includes(currentPage)) {
+      window.location.href = allowed[0];
+      return;
+    }
+
+    document.querySelectorAll('.nav-menu .nav-link').forEach((link) => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const item = link.closest('.nav-item');
+      if (!item) return;
+      item.style.display = allowed.includes(href) ? '' : 'none';
+    });
+  };
+
   const ensureToastContainer = () => {
     let container = document.querySelector('.toast-container');
     if (!container) {
@@ -2977,6 +3027,7 @@
   window.toggleUserRow = toggleUserRow;
 
   document.addEventListener('DOMContentLoaded', () => {
+    applyRoleAccess();
     initFilters();
     initButtons();
 

@@ -323,10 +323,23 @@
             <label class="input-label">Email Address</label>
             <input 
               type="email" 
+              id="emailInput"
               class="input-field" 
               placeholder="Enter your email"
+              value="a@a.com"
               required
             >
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Role</label>
+            <select id="roleSelect" class="input-field" required>
+              <option value="admin">Administrator</option>
+              <option value="store">Store Manager</option>
+              <option value="scm">SCM Manager</option>
+              <option value="planning">Project Manager</option>
+              <option value="accounts">Accounts Manager</option>
+            </select>
           </div>
           
           <div class="input-group">
@@ -337,6 +350,7 @@
                 class="input-field" 
                 id="passwordInput"
                 placeholder="Enter your password"
+                value="1"
                 required
               >
               <button type="button" class="password-toggle" onclick="togglePassword()">
@@ -385,9 +399,33 @@
     
     function handleLogin(event) {
       event.preventDefault();
-      // Simulate login - in production, this would call your API
-      alert('Login successful! Redirecting to admin...');
-      window.location.href = 'admin.html';
+      const email = document.getElementById('emailInput').value.trim();
+      const role = document.getElementById('roleSelect').value;
+      const roleLabels = {
+        admin: 'Administrator',
+        store: 'Store Manager',
+        scm: 'SCM Manager',
+        planning: 'Project Manager',
+        accounts: 'Accounts Manager'
+      };
+      const roleRoutes = {
+        admin: 'admin.html',
+        store: 'store.html',
+        scm: 'scm.html',
+        planning: 'planning-billing.html',
+        accounts: 'accounts-banking.html'
+      };
+
+      try {
+        localStorage.setItem('erpRole', role);
+        localStorage.setItem('erpRoleLabel', roleLabels[role] || 'User');
+        localStorage.setItem('erpUserEmail', email);
+      } catch (error) {
+        // Ignore storage errors
+      }
+
+      alert('Login successful! Redirecting to your module...');
+      window.location.href = roleRoutes[role] || 'admin.html';
     }
   </script>
 </body>
