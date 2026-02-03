@@ -57,12 +57,20 @@
       return;
     }
 
+    let inferredRole = '';
     if (!role || !roleRoutes[role]) {
-      window.location.href = 'login.html';
-      return;
+      inferredRole = Object.keys(roleRoutes).find((key) => roleRoutes[key].includes(currentPage)) || '';
+      if (inferredRole) {
+        persistRole(inferredRole);
+      } else {
+        window.location.href = 'login.html';
+        return;
+      }
     }
 
-    const allowed = roleRoutes[role];
+    const effectiveRole = role && roleRoutes[role] ? role : inferredRole || getStoredRole();
+    const allowed = roleRoutes[effectiveRole] || [currentPage];
+
     if (!allowed.includes(currentPage)) {
       window.location.href = allowed[0];
       return;
