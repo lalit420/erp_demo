@@ -2550,11 +2550,21 @@
     return null;
   };
 
+  const isFilterControl = (element) => {
+    if (!element) {
+      return false;
+    }
+    if (element.dataset.filter === 'true') {
+      return true;
+    }
+    return !element.closest('form');
+  };
+
   const getFilterControls = (container) => {
     return {
-      selects: Array.from(container.querySelectorAll('select.form-select')),
-      monthInputs: Array.from(container.querySelectorAll('input[type="month"]')),
-      dateInputs: Array.from(container.querySelectorAll('input[type="date"]'))
+      selects: Array.from(container.querySelectorAll('select.form-select')).filter(isFilterControl),
+      monthInputs: Array.from(container.querySelectorAll('input[type="month"]')).filter(isFilterControl),
+      dateInputs: Array.from(container.querySelectorAll('input[type="date"]')).filter(isFilterControl)
     };
   };
 

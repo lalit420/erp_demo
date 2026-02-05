@@ -1884,6 +1884,12 @@
 
       document.getElementById(tabName).classList.add('active');
       event.target.classList.add('active');
+      if (tabName === 'masterData' && window.refreshMasterData) {
+        window.refreshMasterData();
+      }
+      if (tabName === 'compliance' && window.refreshComplianceRisk) {
+        window.refreshComplianceRisk();
+      }
       if (window.applyAllTableFilters) {
         window.applyAllTableFilters();
       }
@@ -2068,10 +2074,13 @@
       });
 
       render();
+
+      return render;
     };
 
     const initMasterData = () => {
-      bindMasterData({
+      const masterDataRenders = [];
+      masterDataRenders.push(bindMasterData({
         data: mdItems,
         tbodyId: 'md-items-body',
         formId: 'md-items-form',
@@ -2108,9 +2117,9 @@
         }),
         exportHeaders: ['Code', 'Name', 'Category', 'UOM', 'Status'],
         exportRow: (row) => [row.code, row.name, row.category, row.uom, row.status]
-      });
+      }));
 
-      bindMasterData({
+      masterDataRenders.push(bindMasterData({
         data: mdCostCodes,
         tbodyId: 'md-cost-body',
         formId: 'md-cost-form',
@@ -2147,9 +2156,9 @@
         }),
         exportHeaders: ['Code', 'Description', 'Category', 'Budget', 'Status'],
         exportRow: (row) => [row.code, row.desc, row.category, row.budget, row.status]
-      });
+      }));
 
-      bindMasterData({
+      masterDataRenders.push(bindMasterData({
         data: mdUom,
         tbodyId: 'md-uom-body',
         formId: 'md-uom-form',
@@ -2180,9 +2189,9 @@
         }),
         exportHeaders: ['Code', 'Name', 'Type'],
         exportRow: (row) => [row.code, row.name, row.type]
-      });
+      }));
 
-      bindMasterData({
+      masterDataRenders.push(bindMasterData({
         data: mdPartners,
         tbodyId: 'md-partners-body',
         formId: 'md-partners-form',
@@ -2219,7 +2228,18 @@
         }),
         exportHeaders: ['Type', 'Name', 'Contact', 'Email', 'Status'],
         exportRow: (row) => [row.type, row.name, row.contact, row.email, row.status]
-      });
+      }));
+
+      const renderAllMasterData = () => {
+        masterDataRenders.forEach((renderFn) => {
+          if (typeof renderFn === 'function') {
+            renderFn();
+          }
+        });
+      };
+
+      window.refreshMasterData = renderAllMasterData;
+      renderAllMasterData();
 
       document.getElementById('md-export-all').addEventListener('click', () => {
         const sections = [
@@ -2954,7 +2974,22 @@
         URL.revokeObjectURL(url);
       });
 
+      window.refreshComplianceRisk = renderAll;
       renderAll();
+
+      const complianceTab = document.getElementById('compliance');
+      if (complianceTab) {
+        const observer = new MutationObserver(() => {
+          if (complianceTab.classList.contains('active')) {
+            renderAll();
+          }
+        });
+        observer.observe(complianceTab, { attributes: true, attributeFilter: ['class'] });
+      }
+
+      requestAnimationFrame(() => {
+        renderAll();
+      });
     };
 
     const initLicensingSubscriptions = () => {
