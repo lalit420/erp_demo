@@ -1356,7 +1356,42 @@
               </div>
 
               <div class="card" style="margin: 20px 0 0 0; padding: 16px;">
-                <h4 style="margin-bottom: 12px;">Retention Policies</h4>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                  <h4 style="margin: 0;">Retention Policies</h4>
+                  <button class="btn btn-secondary" id="retention-policy-add" type="button">+ Add Policy</button>
+                </div>
+                <form id="retention-policy-form" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-items: end; margin-bottom: 12px;">
+                  <input type="hidden" id="retention-policy-edit-index" value="">
+                  <div>
+                    <label class="form-label">Policy</label>
+                    <input class="form-input" id="retention-policy-name" placeholder="Closed Projects" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Data Type</label>
+                    <select class="form-select" id="retention-policy-dataType" required>
+                      <option value="Projects">Projects</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Security">Security</option>
+                      <option value="HR">HR</option>
+                      <option value="Procurement">Procurement</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label">Retention</label>
+                    <input class="form-input" id="retention-policy-retention" placeholder="7 years" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="retention-policy-status">
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <button class="btn btn-secondary" type="button" id="retention-policy-cancel" style="display: none;">Cancel</button>
+                  </div>
+                </form>
                 <div class="table-container">
                   <table>
                     <thead>
@@ -1365,6 +1400,7 @@
                         <th>Data Type</th>
                         <th>Retention</th>
                         <th>Status</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody id="retention-policy-body"></tbody>
@@ -2515,6 +2551,10 @@
     const initBackupRetention = () => {
       const tbody = document.getElementById('backup-table-body');
       const policyBody = document.getElementById('retention-policy-body');
+      const policyForm = document.getElementById('retention-policy-form');
+      const policyEditIndex = document.getElementById('retention-policy-edit-index');
+      const policyCancel = document.getElementById('retention-policy-cancel');
+      const policyAddNew = document.getElementById('retention-policy-add');
       const form = document.getElementById('backup-form');
       const editIndex = document.getElementById('backup-edit-index');
       const cancel = document.getElementById('backup-cancel');
@@ -2541,14 +2581,18 @@
         `).join('') || '<tr><td colspan="6" style="text-align:center; padding: 16px;">No backup schedules found.</td></tr>';
 
         if (policyBody) {
-          policyBody.innerHTML = retentionPolicies.map((row) => `
+          policyBody.innerHTML = retentionPolicies.map((row, index) => `
             <tr>
               <td>${row.name}</td>
               <td>${row.dataType}</td>
               <td>${row.retention}</td>
               <td><span class="badge ${row.status === 'Active' ? 'badge-success' : 'badge-warning'}">${row.status}</span></td>
+              <td>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-policy-action="edit" data-policy-index="${index}">📝</button>
+                <button class="btn btn-secondary btn-icon" style="padding: 6px;" data-policy-action="delete" data-policy-index="${index}">🗑️</button>
+              </td>
             </tr>
-          `).join('') || '<tr><td colspan="4" style="text-align:center; padding: 16px;">No retention policies found.</td></tr>';
+          `).join('') || '<tr><td colspan="5" style="text-align:center; padding: 16px;">No retention policies found.</td></tr>';
         }
       };
 
@@ -2580,6 +2624,75 @@
 
       cancel.addEventListener('click', resetForm);
       addNew.addEventListener('click', resetForm);
+
+      if (policyForm) {
+        const resetPolicyForm = () => {
+          policyForm.reset();
+          if (policyEditIndex) {
+            policyEditIndex.value = '';
+          }
+          if (policyCancel) {
+            policyCancel.style.display = 'none';
+          }
+        };
+
+        policyForm.addEventListener('submit', (event) => {
+          event.preventDefault();
+          const row = {
+            name: document.getElementById('retention-policy-name').value.trim(),
+            dataType: document.getElementById('retention-policy-dataType').value,
+            retention: document.getElementById('retention-policy-retention').value.trim(),
+            status: document.getElementById('retention-policy-status').value
+          };
+
+          if (policyEditIndex && policyEditIndex.value !== '') {
+            retentionPolicies[parseInt(policyEditIndex.value, 10)] = row;
+          } else {
+            retentionPolicies.unshift(row);
+          }
+
+          render();
+          resetPolicyForm();
+        });
+
+        if (policyCancel) {
+          policyCancel.addEventListener('click', resetPolicyForm);
+        }
+
+        if (policyAddNew) {
+          policyAddNew.addEventListener('click', resetPolicyForm);
+        }
+
+        if (policyBody) {
+          policyBody.addEventListener('click', (event) => {
+            const actionButton = event.target.closest('button[data-policy-action]');
+            if (!actionButton) return;
+            const index = parseInt(actionButton.dataset.policyIndex, 10);
+            const action = actionButton.dataset.policyAction;
+            const row = retentionPolicies[index];
+            if (!row) return;
+
+            if (action === 'edit') {
+              if (policyEditIndex) {
+                policyEditIndex.value = index.toString();
+              }
+              document.getElementById('retention-policy-name').value = row.name;
+              document.getElementById('retention-policy-dataType').value = row.dataType;
+              document.getElementById('retention-policy-retention').value = row.retention;
+              document.getElementById('retention-policy-status').value = row.status;
+              if (policyCancel) {
+                policyCancel.style.display = 'inline-flex';
+              }
+            }
+
+            if (action === 'delete') {
+              if (!confirm('Delete this retention policy?')) return;
+              retentionPolicies.splice(index, 1);
+              render();
+            }
+          });
+        }
+      }
 
       tbody.addEventListener('click', (event) => {
         const actionButton = event.target.closest('button[data-row-action]');

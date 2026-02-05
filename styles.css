@@ -885,6 +885,14 @@ tbody tr:hover {
   background: #f8fafc;
 }
 
+tbody tr.empty-row {
+  display: none;
+}
+
+tbody tr.empty-row:only-child {
+  display: table-row;
+}
+
 /* Form Elements */
 .form-group {
   margin-bottom: 20px;

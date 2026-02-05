@@ -113,6 +113,16 @@
     });
   };
 
+  const ensureEmptyTableStates = () => {
+    document.querySelectorAll('table tbody').forEach((tbody) => {
+      if (tbody.children.length > 0) {
+        return;
+      }
+      const columnCount = tbody.closest('table')?.querySelectorAll('thead th').length || 1;
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="${columnCount}" style="text-align:center; padding: 16px;">No records found.</td></tr>`;
+    });
+  };
+
   const ensureToastContainer = () => {
     let container = document.querySelector('.toast-container');
     if (!container) {
@@ -3088,6 +3098,7 @@
     applyRoleAccess();
     initFilters();
     initButtons();
+    ensureEmptyTableStates();
 
     document.querySelectorAll('.notification-btn').forEach((button) => {
       setupNotificationDropdown(button);
