@@ -13,6 +13,12 @@
     accounts: ['accounts-banking.html']
   };
 
+  const projectOptions = ['Apollo Towers', 'Metro Plaza', 'Smart City Complex', 'Green Valley', 'Riverfront Mall', 'Skyline Residency'];
+  const clientOptions = ['Apollo Infra', 'Metro Developers', 'Smart City Corp', 'Tech Corp Ltd', 'Valley Resorts', 'Zenith Realty'];
+  const vendorOptions = ['ABC Supplies', 'BuildMart', 'Prime Steel', 'Global Freight Co', 'BuildMate Services'];
+  const partyOptions = [...clientOptions, ...vendorOptions];
+  const siteOptions = ['Apollo Site', 'Metro Plaza', 'Riverfront Mall', 'Skyline Residency', 'Green Valley'];
+
   const publicPages = ['login.html', 'signup.html', 'forgot-password.html', 'reset-password.html', 'index.html'];
 
   const normalizePath = (value) => {
@@ -854,7 +860,7 @@
       submitLabel: 'Create RFQ',
       fields: [
         { name: 'rfqNo', label: 'RFQ No.', placeholder: '#RFQ-XXXX' },
-        { name: 'project', label: 'Project', placeholder: 'Project name' },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions },
         { name: 'items', label: 'Items', placeholder: 'Item list' },
         { name: 'vendors', label: 'Vendors', placeholder: 'Number of vendors' },
         { name: 'deadline', label: 'Deadline', type: 'date' },
@@ -933,7 +939,7 @@
       submitLabel: 'Update RFQ',
       fields: [
         { name: 'rfqNo', label: 'RFQ No.', value: row.cells[0]?.textContent.trim() || '' },
-        { name: 'project', label: 'Project', value: row.cells[1]?.textContent.trim() || '' },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions, value: row.cells[1]?.textContent.trim() || '' },
         { name: 'items', label: 'Items', value: row.cells[2]?.textContent.trim() || '' },
         { name: 'vendors', label: 'Vendors', value: row.cells[3]?.textContent.trim() || '' },
         { name: 'deadline', label: 'Deadline', value: row.cells[6]?.textContent.trim() || '' },
@@ -957,8 +963,8 @@
       submitLabel: 'Create PO',
       fields: [
         { name: 'poNumber', label: 'PO Number', value: prefill.poNumber || '', placeholder: 'PO-2026-XXXX' },
-        { name: 'vendor', label: 'Vendor', value: prefill.vendor || '', placeholder: 'Vendor name' },
-        { name: 'project', label: 'Project', value: prefill.project || '', placeholder: 'Project name' },
+        { name: 'vendor', label: 'Vendor', type: 'select', options: vendorOptions, value: prefill.vendor || '' },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions, value: prefill.project || '' },
         { name: 'items', label: 'Items', value: prefill.items || '', placeholder: 'Items' },
         { name: 'amount', label: 'Amount', value: prefill.amount || '', placeholder: '₹0' },
         { name: 'date', label: 'Date', type: 'date' },
@@ -1031,7 +1037,7 @@
       submitLabel: 'Create Requisition',
       fields: [
         { name: 'reqNo', label: 'Req. No.', placeholder: 'MR-2026-XXXX' },
-        { name: 'project', label: 'Project', placeholder: 'Project name' },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions },
         { name: 'requestedBy', label: 'Requested By', placeholder: 'Name' },
         { name: 'items', label: 'Items', placeholder: 'Item list' },
         { name: 'quantity', label: 'Quantity', placeholder: 'Quantity' },
@@ -1217,7 +1223,7 @@
       fields: [
         { name: 'projectId', label: 'Project ID', value: prefill.projectId || '', placeholder: 'PRJ-001' },
         { name: 'projectName', label: 'Project Name', value: prefill.projectName || '', placeholder: 'Project name' },
-        { name: 'client', label: 'Client', value: prefill.client || '', placeholder: 'Client name' },
+        { name: 'client', label: 'Client', type: 'select', options: clientOptions, value: prefill.client || '' },
         { name: 'location', label: 'Location', value: prefill.location || '', placeholder: 'Location' },
         { name: 'startDate', label: 'Start Date', type: 'date' },
         { name: 'endDate', label: 'End Date', type: 'date' },
@@ -1495,7 +1501,7 @@
         { name: 'workerId', label: 'Worker ID', value: prefill.workerId || '', placeholder: 'WKR-001' },
         { name: 'name', label: 'Name', value: prefill.name || '', placeholder: 'Worker name' },
         { name: 'category', label: 'Category', type: 'select', options: ['Mason', 'Carpenter', 'Electrician', 'Plumber'], value: prefill.category || '' },
-        { name: 'site', label: 'Site', value: prefill.site || '', placeholder: 'Site name' },
+        { name: 'site', label: 'Site', type: 'select', options: siteOptions, value: prefill.site || '' },
         { name: 'phone', label: 'Phone', value: prefill.phone || '', placeholder: 'Phone number' },
         { name: 'dailyRate', label: 'Daily Rate', value: prefill.dailyRate || '', placeholder: '₹0' },
         { name: 'attendance', label: 'Attendance %', value: prefill.attendance || '', placeholder: '0' },
@@ -1717,8 +1723,8 @@
       submitLabel: 'Create Inspection',
       fields: [
         { name: 'inspectionId', label: 'Inspection ID', placeholder: 'INS-2026-XXXX' },
-        { name: 'type', label: 'Type', placeholder: 'Inspection type' },
-        { name: 'project', label: 'Project', placeholder: 'Project name' },
+        { name: 'type', label: 'Type', type: 'select', options: ['Safety', 'Quality', 'Equipment', 'Compliance', 'Environmental'] },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions },
         { name: 'date', label: 'Date', type: 'date' },
         { name: 'inspector', label: 'Inspector', placeholder: 'Inspector name' },
         { name: 'status', label: 'Status', type: 'select', options: ['In Progress', 'Completed'] }
@@ -1807,8 +1813,8 @@
       submitLabel: 'Create Invoice',
       fields: [
         { name: 'invoiceNo', label: 'Invoice No.', placeholder: 'INV-2026-XXXX' },
-        { name: 'client', label: 'Client', placeholder: 'Client name' },
-        { name: 'project', label: 'Project', placeholder: 'Project name' },
+        { name: 'client', label: 'Client', type: 'select', options: clientOptions },
+        { name: 'project', label: 'Project', type: 'select', options: projectOptions },
         { name: 'issueDate', label: 'Issue Date', type: 'date' },
         { name: 'dueDate', label: 'Due Date', type: 'date' },
         { name: 'amount', label: 'Amount', placeholder: '₹0' },
@@ -1919,7 +1925,7 @@
       submitLabel: 'Record',
       fields: [
         { name: 'billNo', label: 'Bill No.', placeholder: 'BILL-2026-XXXX' },
-        { name: 'vendor', label: 'Vendor', placeholder: 'Vendor name' },
+        { name: 'vendor', label: 'Vendor', type: 'select', options: vendorOptions },
         { name: 'description', label: 'Description', placeholder: 'Description' },
         { name: 'billDate', label: 'Bill Date', type: 'date' },
         { name: 'dueDate', label: 'Due Date', type: 'date' },
@@ -2021,7 +2027,7 @@
         { name: 'date', label: 'Date', type: 'date' },
         { name: 'paymentId', label: 'Payment ID', placeholder: 'PAY-XXXX' },
         { name: 'type', label: 'Type', type: 'select', options: ['Received', 'Made'] },
-        { name: 'party', label: 'Party', placeholder: 'Client/Vendor' },
+        { name: 'party', label: 'Party', type: 'select', options: partyOptions },
         { name: 'reference', label: 'Reference', placeholder: 'INV/BILL' },
         { name: 'method', label: 'Method', type: 'select', options: ['Bank Transfer', 'Check', 'Cash', 'Online'] },
         { name: 'amount', label: 'Amount', placeholder: '₹0' },
@@ -2109,7 +2115,7 @@
       submitLabel: 'Add Account',
       fields: [
         { name: 'bankName', label: 'Bank Name', placeholder: 'Bank name' },
-        { name: 'accountType', label: 'Account Type', placeholder: 'Current/Savings' },
+        { name: 'accountType', label: 'Account Type', type: 'select', options: ['Current', 'Savings', 'Overdraft', 'Loan'] },
         { name: 'accountNumber', label: 'Account Number', placeholder: 'XXXX XXXX 1234' },
         { name: 'branch', label: 'Branch', placeholder: 'Branch' },
         { name: 'balance', label: 'Current Balance', placeholder: '₹0' },

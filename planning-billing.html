@@ -1084,7 +1084,13 @@
                     </div>
                     <div class="form-group">
                       <label for="wp-wbs">WBS Code</label>
-                      <input type="text" id="wp-wbs" required placeholder="WBS-01.02">
+                      <select id="wp-wbs" class="form-select" required>
+                        <option value="WBS-01.01">WBS-01.01</option>
+                        <option value="WBS-01.02">WBS-01.02</option>
+                        <option value="WBS-02.01">WBS-02.01</option>
+                        <option value="WBS-02.02">WBS-02.02</option>
+                        <option value="WBS-03.01">WBS-03.01</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="wp-scope">Scope</label>
@@ -1096,7 +1102,14 @@
                     </div>
                     <div class="form-group">
                       <label for="wp-unit">Unit</label>
-                      <input type="text" id="wp-unit" required placeholder="Cum">
+                      <select id="wp-unit" class="form-select" required>
+                        <option value="Cum">Cum</option>
+                        <option value="Sqm">Sqm</option>
+                        <option value="Nos">Nos</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Ton">Ton</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="wp-budget">Budget (₹)</label>
@@ -1192,7 +1205,13 @@
                     </div>
                     <div class="form-group">
                       <label for="schedule-wbs">WBS</label>
-                      <input type="text" id="schedule-wbs" required placeholder="WBS-01.02">
+                      <select id="schedule-wbs" class="form-select" required>
+                        <option value="WBS-01.01">WBS-01.01</option>
+                        <option value="WBS-01.02">WBS-01.02</option>
+                        <option value="WBS-02.01">WBS-02.01</option>
+                        <option value="WBS-02.02">WBS-02.02</option>
+                        <option value="WBS-03.01">WBS-03.01</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="schedule-start">Start</label>
@@ -1312,7 +1331,13 @@
                     </div>
                     <div class="form-group">
                       <label for="boq-category">Category</label>
-                      <input type="text" id="boq-category" required placeholder="Raw Materials">
+                      <select id="boq-category" class="form-select" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Finishes">Finishes</option>
+                        <option value="MEP">MEP</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Subcontract">Subcontract</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="boq-qty">Quantity</label>
@@ -1320,7 +1345,16 @@
                     </div>
                     <div class="form-group">
                       <label for="boq-uom">UOM</label>
-                      <input type="text" id="boq-uom" required placeholder="Bags">
+                      <select id="boq-uom" class="form-select" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Nos">Nos</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Ton">Ton</option>
+                        <option value="Cum">Cum</option>
+                        <option value="Sqm">Sqm</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Liter">Liter</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="boq-rate">Rate (₹)</label>
@@ -1387,7 +1421,12 @@
                     </div>
                     <div class="form-group">
                       <label for="est-project">Project</label>
-                      <input type="text" id="est-project" required placeholder="Apollo Towers">
+                      <select id="est-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="est-prepared">Prepared By</label>
@@ -1485,7 +1524,12 @@
                     </div>
                     <div class="form-group">
                       <label for="ms-project">Project</label>
-                      <input type="text" id="ms-project" required placeholder="Apollo Towers">
+                      <select id="ms-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ms-work">Work Item</label>
@@ -1497,7 +1541,14 @@
                     </div>
                     <div class="form-group">
                       <label for="ms-uom">UOM</label>
-                      <input type="text" id="ms-uom" required placeholder="Ton">
+                      <select id="ms-uom" class="form-select" required>
+                        <option value="Ton">Ton</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Nos">Nos</option>
+                        <option value="Cum">Cum</option>
+                        <option value="Sqm">Sqm</option>
+                        <option value="Meter">Meter</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ms-rate">Rate (₹)</label>
@@ -1564,7 +1615,12 @@
                     </div>
                     <div class="form-group">
                       <label for="ra-project">Project</label>
-                      <input type="text" id="ra-project" required placeholder="Apollo Towers">
+                      <select id="ra-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ra-period">Period</label>
@@ -1661,11 +1717,21 @@
                     </div>
                     <div class="form-group">
                       <label for="co-project">Project</label>
-                      <input type="text" id="co-project" required placeholder="Apollo Towers">
+                      <select id="co-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="co-category">Category</label>
-                      <input type="text" id="co-category" required placeholder="Scope Change">
+                      <select id="co-category" class="form-select" required>
+                        <option value="Scope Change">Scope Change</option>
+                        <option value="Rate Revision">Rate Revision</option>
+                        <option value="Time Extension">Time Extension</option>
+                        <option value="Design Change">Design Change</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="co-description">Description</label>
@@ -1783,11 +1849,21 @@
                     </div>
                     <div class="form-group">
                       <label for="contract-client">Client</label>
-                      <input type="text" id="contract-client" required placeholder="Apollo Infra">
+                      <select id="contract-client" class="form-select" required>
+                        <option value="Apollo Infra">Apollo Infra</option>
+                        <option value="Metro Holdings">Metro Holdings</option>
+                        <option value="Zenith Realty">Zenith Realty</option>
+                        <option value="Skyline Developers">Skyline Developers</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="contract-project">Project</label>
-                      <input type="text" id="contract-project" required placeholder="Apollo Towers">
+                      <select id="contract-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="contract-value">Contract Value (₹)</label>
@@ -1910,11 +1986,22 @@
                     </div>
                     <div class="form-group">
                       <label for="att-site">Site</label>
-                      <input type="text" id="att-site" required placeholder="Apollo Towers">
+                      <select id="att-site" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="att-worker">Worker</label>
-                      <input type="text" id="att-worker" required placeholder="Ravi Kumar">
+                      <select id="att-worker" class="form-select" required>
+                        <option value="Ravi Kumar">Ravi Kumar</option>
+                        <option value="Sandeep Yadav">Sandeep Yadav</option>
+                        <option value="Vijay Singh">Vijay Singh</option>
+                        <option value="Amit Sharma">Amit Sharma</option>
+                        <option value="Priya Singh">Priya Singh</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="att-role">Role</label>
@@ -1980,11 +2067,22 @@
                     <input type="hidden" id="ot-edit-index" value="">
                     <div class="form-group">
                       <label for="ot-worker">Worker</label>
-                      <input type="text" id="ot-worker" required placeholder="Ravi Kumar">
+                      <select id="ot-worker" class="form-select" required>
+                        <option value="Ravi Kumar">Ravi Kumar</option>
+                        <option value="Sandeep Yadav">Sandeep Yadav</option>
+                        <option value="Vijay Singh">Vijay Singh</option>
+                        <option value="Amit Sharma">Amit Sharma</option>
+                        <option value="Priya Singh">Priya Singh</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ot-site">Site</label>
-                      <input type="text" id="ot-site" required placeholder="Apollo Towers">
+                      <select id="ot-site" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ot-date">Date</label>
@@ -2000,7 +2098,12 @@
                     </div>
                     <div class="form-group">
                       <label for="ot-approver">Approver</label>
-                      <input type="text" id="ot-approver" required placeholder="Site Manager">
+                      <select id="ot-approver" class="form-select" required>
+                        <option value="Site Manager">Site Manager</option>
+                        <option value="Site Engineer">Site Engineer</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="Planning Lead">Planning Lead</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ot-status">Status</label>
@@ -2185,7 +2288,12 @@
                     <input type="hidden" id="eac-edit-index" value="">
                     <div class="form-group">
                       <label for="eac-project">Project</label>
-                      <input type="text" id="eac-project" required placeholder="Apollo Towers">
+                      <select id="eac-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="eac-budget">Budget (₹)</label>
@@ -2255,7 +2363,12 @@
                     <input type="hidden" id="cash-edit-index" value="">
                     <div class="form-group">
                       <label for="cash-project">Project</label>
-                      <input type="text" id="cash-project" required placeholder="Apollo Towers">
+                      <select id="cash-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="cash-month">Month</label>
@@ -2346,7 +2459,12 @@
                     <input type="hidden" id="cflow-edit-index" value="">
                     <div class="form-group">
                       <label for="cflow-project">Project</label>
-                      <input type="text" id="cflow-project" required placeholder="Apollo Towers">
+                      <select id="cflow-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="cflow-month">Month</label>
@@ -2464,7 +2582,12 @@
                     </div>
                     <div class="form-group">
                       <label for="ret-project">Project</label>
-                      <input type="text" id="ret-project" required placeholder="Apollo Towers">
+                      <select id="ret-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="ret-ra">RA Bill</label>
@@ -2533,11 +2656,21 @@
                     </div>
                     <div class="form-group">
                       <label for="mob-project">Project</label>
-                      <input type="text" id="mob-project" required placeholder="Apollo Towers">
+                      <select id="mob-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="mob-vendor">Vendor</label>
-                      <input type="text" id="mob-vendor" required placeholder="BuildMate Services">
+                      <select id="mob-vendor" class="form-select" required>
+                        <option value="BuildMate Services">BuildMate Services</option>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="mob-amount">Advance Amount (₹)</label>
@@ -2620,7 +2753,12 @@
                     </div>
                     <div class="form-group">
                       <label for="cert-project">Project</label>
-                      <input type="text" id="cert-project" required placeholder="Apollo Towers">
+                      <select id="cert-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="cert-type">Type</label>

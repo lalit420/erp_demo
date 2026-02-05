@@ -996,7 +996,14 @@
                   </div>
                   <div>
                     <label class="form-label">Account</label>
-                    <input type="text" class="form-input" id="gl-account" placeholder="Cash / Materials" required>
+                    <select class="form-select" id="gl-account" required>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank - HDFC Current">Bank - HDFC Current</option>
+                      <option value="Materials">Materials</option>
+                      <option value="Payroll">Payroll</option>
+                      <option value="Accounts Receivable">Accounts Receivable</option>
+                      <option value="Accounts Payable">Accounts Payable</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Description</label>
@@ -1012,7 +1019,12 @@
                   </div>
                   <div>
                     <label class="form-label">Project</label>
-                    <input type="text" class="form-input" id="gl-project" placeholder="Apollo Towers">
+                    <select class="form-select" id="gl-project">
+                      <option value="Apollo Towers">Apollo Towers</option>
+                      <option value="Metro Plaza">Metro Plaza</option>
+                      <option value="Riverfront Mall">Riverfront Mall</option>
+                      <option value="Skyline Residency">Skyline Residency</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Reference</label>
@@ -1084,7 +1096,12 @@
                   </div>
                   <div>
                     <label class="form-label">Account</label>
-                    <input type="text" class="form-input" id="cash-account" placeholder="HDFC - Current" required>
+                    <select class="form-select" id="cash-account" required>
+                      <option value="HDFC - Current">HDFC - Current</option>
+                      <option value="ICICI - Current">ICICI - Current</option>
+                      <option value="Axis - OD">Axis - OD</option>
+                      <option value="Petty Cash">Petty Cash</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Type</label>
@@ -1150,7 +1167,12 @@
                   </div>
                   <div>
                     <label class="form-label">Category</label>
-                    <input type="text" class="form-input" id="assets-category" placeholder="Power Equipment" required>
+                    <select class="form-select" id="assets-category" required>
+                      <option value="Power Equipment">Power Equipment</option>
+                      <option value="Vehicles">Vehicles</option>
+                      <option value="IT Equipment">IT Equipment</option>
+                      <option value="Office Furniture">Office Furniture</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Purchase Date</label>
@@ -1292,7 +1314,12 @@
                   </div>
                   <div>
                     <label class="form-label">Project</label>
-                    <input type="text" class="form-input" id="costcenter-project" placeholder="Apollo Towers" required>
+                    <select class="form-select" id="costcenter-project" required>
+                      <option value="Apollo Towers">Apollo Towers</option>
+                      <option value="Metro Plaza">Metro Plaza</option>
+                      <option value="Riverfront Mall">Riverfront Mall</option>
+                      <option value="Skyline Residency">Skyline Residency</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Owner</label>
@@ -1558,7 +1585,12 @@
                   <input type="hidden" id="retention-edit-index" value="">
                   <div>
                     <label class="form-label">Project</label>
-                    <input type="text" class="form-input" id="retention-project" placeholder="Apollo Towers" required>
+                    <select class="form-select" id="retention-project" required>
+                      <option value="Apollo Towers">Apollo Towers</option>
+                      <option value="Metro Plaza">Metro Plaza</option>
+                      <option value="Riverfront Mall">Riverfront Mall</option>
+                      <option value="Skyline Residency">Skyline Residency</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Type</label>
@@ -1632,11 +1664,23 @@
                   </div>
                   <div>
                     <label class="form-label">Employee</label>
-                    <input type="text" class="form-input" id="expense-employee" placeholder="Amit Kumar" required>
+                    <select class="form-select" id="expense-employee" required>
+                      <option value="Amit Kumar">Amit Kumar</option>
+                      <option value="Ravi Sharma">Ravi Sharma</option>
+                      <option value="Neha Verma">Neha Verma</option>
+                      <option value="Priya Singh">Priya Singh</option>
+                      <option value="Arjun Mehta">Arjun Mehta</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Category</label>
-                    <input type="text" class="form-input" id="expense-category" placeholder="Travel" required>
+                    <select class="form-select" id="expense-category" required>
+                      <option value="Travel">Travel</option>
+                      <option value="Meals">Meals</option>
+                      <option value="Supplies">Supplies</option>
+                      <option value="Accommodation">Accommodation</option>
+                      <option value="Misc">Misc</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Amount (₹)</label>
@@ -1695,7 +1739,12 @@
                   <input type="hidden" id="costing-edit-index" value="">
                   <div>
                     <label class="form-label">Project</label>
-                    <input type="text" class="form-input" id="costing-project" placeholder="Apollo Towers" required>
+                    <select class="form-select" id="costing-project" required>
+                      <option value="Apollo Towers">Apollo Towers</option>
+                      <option value="Metro Plaza">Metro Plaza</option>
+                      <option value="Riverfront Mall">Riverfront Mall</option>
+                      <option value="Skyline Residency">Skyline Residency</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Cost Head</label>

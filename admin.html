@@ -788,11 +788,26 @@
                     </div>
                     <div>
                       <label class="form-label">Category</label>
-                      <input class="form-input" id="md-items-category" placeholder="Raw Materials" required>
+                      <select class="form-select" id="md-items-category" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Finishes">Finishes</option>
+                        <option value="MEP">MEP</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Services">Services</option>
+                      </select>
                     </div>
                     <div>
                       <label class="form-label">UOM</label>
-                      <input class="form-input" id="md-items-uom" placeholder="Bags" required>
+                      <select class="form-select" id="md-items-uom" required>
+                        <option value="Bags">Bags</option>
+                        <option value="Nos">Nos</option>
+                        <option value="Kg">Kg</option>
+                        <option value="Ton">Ton</option>
+                        <option value="Cum">Cum</option>
+                        <option value="Sqm">Sqm</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Liter">Liter</option>
+                      </select>
                     </div>
                     <div>
                       <label class="form-label">Status</label>
@@ -843,7 +858,14 @@
                     </div>
                     <div>
                       <label class="form-label">Category</label>
-                      <input class="form-input" id="md-cost-category" placeholder="Civil" required>
+                      <select class="form-select" id="md-cost-category" required>
+                        <option value="Civil">Civil</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Finishing">Finishing</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="HVAC">HVAC</option>
+                      </select>
                     </div>
                     <div>
                       <label class="form-label">Budget (₹)</label>
@@ -898,7 +920,13 @@
                     </div>
                     <div>
                       <label class="form-label">Type</label>
-                      <input class="form-input" id="md-uom-type" placeholder="Weight" required>
+                      <select class="form-select" id="md-uom-type" required>
+                        <option value="Weight">Weight</option>
+                        <option value="Volume">Volume</option>
+                        <option value="Length">Length</option>
+                        <option value="Area">Area</option>
+                        <option value="Count">Count</option>
+                      </select>
                     </div>
                     <div style="display: flex; gap: 8px;">
                       <button class="btn btn-primary" type="submit">Save</button>
@@ -1119,7 +1147,13 @@
                   </div>
                   <div>
                     <label class="form-label">Type</label>
-                    <input class="form-input" id="int-type" placeholder="Finance" required>
+                    <select class="form-select" id="int-type" required>
+                      <option value="Finance">Finance</option>
+                      <option value="HR">HR</option>
+                      <option value="CRM">CRM</option>
+                      <option value="Procurement">Procurement</option>
+                      <option value="Project">Project</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Provider</label>
@@ -1383,7 +1417,14 @@
                   </div>
                   <div>
                     <label class="form-label">Unit</label>
-                    <input class="form-input" id="analytics-unit" placeholder="ms / % / users" required>
+                    <select class="form-select" id="analytics-unit" required>
+                      <option value="ms">ms</option>
+                      <option value="%">%</option>
+                      <option value="users">users</option>
+                      <option value="requests">requests</option>
+                      <option value="GB">GB</option>
+                      <option value="₹">₹</option>
+                    </select>
                   </div>
                   <div>
                     <label class="form-label">Category</label>
@@ -1746,7 +1787,12 @@
                     </div>
                     <div class="form-group">
                       <label for="usage-unit">Unit</label>
-                      <input type="text" id="usage-unit" required placeholder="Users, GB">
+                      <select id="usage-unit" class="form-select" required>
+                        <option value="Users">Users</option>
+                        <option value="GB">GB</option>
+                        <option value="Projects">Projects</option>
+                        <option value="Transactions">Transactions</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="usage-status">Status</label>

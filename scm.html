@@ -855,7 +855,12 @@
                     </div>
                     <div class="form-group">
                       <label for="contract-vendor">Vendor</label>
-                      <input type="text" id="contract-vendor" required placeholder="ABC Supplies">
+                      <select id="contract-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="contract-type">Type</label>
@@ -928,7 +933,12 @@
                     </div>
                     <div class="form-group">
                       <label for="rate-vendor">Vendor</label>
-                      <input type="text" id="rate-vendor" required placeholder="ABC Supplies">
+                      <select id="rate-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="rate-price">Rate (₹)</label>
@@ -1012,7 +1022,12 @@
                     </div>
                     <div class="form-group">
                       <label for="bid-vendor">Vendor</label>
-                      <input type="text" id="bid-vendor" required placeholder="ABC Supplies">
+                      <select id="bid-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="bid-item">Item</label>
@@ -1138,7 +1153,12 @@
                     </div>
                     <div class="form-group">
                       <label for="subc-site">Site</label>
-                      <input type="text" id="subc-site" required placeholder="Apollo Site">
+                      <select id="subc-site" class="form-select" required>
+                        <option value="Apollo Site">Apollo Site</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="subc-value">WO Value (₹)</label>
@@ -1235,7 +1255,12 @@
                     <input type="hidden" id="perf-edit-index" value="">
                     <div class="form-group">
                       <label for="perf-vendor">Vendor</label>
-                      <input type="text" id="perf-vendor" required placeholder="ABC Supplies">
+                      <select id="perf-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="perf-otd">OTD (%)</label>
@@ -1343,7 +1368,12 @@
                     </div>
                     <div class="form-group">
                       <label for="exp-vendor">Vendor</label>
-                      <input type="text" id="exp-vendor" required placeholder="ABC Supplies">
+                      <select id="exp-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="exp-item">Item</label>
@@ -1452,7 +1482,12 @@
                     </div>
                     <div class="form-group">
                       <label for="log-vendor">Vendor</label>
-                      <input type="text" id="log-vendor" required placeholder="Global Freight Co">
+                      <select id="log-vendor" class="form-select" required>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="log-incoterm">INCOTERM</label>
@@ -1687,15 +1722,30 @@
                     <input type="hidden" id="spend-edit-index" value="">
                     <div class="form-group">
                       <label for="spend-category">Category</label>
-                      <input type="text" id="spend-category" required placeholder="Raw Materials">
+                      <select id="spend-category" class="form-select" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Services">Services</option>
+                        <option value="Subcontract">Subcontract</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="spend-vendor">Vendor</label>
-                      <input type="text" id="spend-vendor" required placeholder="ABC Supplies">
+                      <select id="spend-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="spend-project">Project</label>
-                      <input type="text" id="spend-project" required placeholder="Apollo Tower">
+                      <select id="spend-project" class="form-select" required>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="spend-budget">Budget (₹)</label>
@@ -1915,11 +1965,21 @@
                     </div>
                     <div class="form-group">
                       <label for="catalog-vendor">Vendor</label>
-                      <input type="text" id="catalog-vendor" required placeholder="ABC Supplies">
+                      <select id="catalog-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="catalog-category">Category</label>
-                      <input type="text" id="catalog-category" required placeholder="Raw Materials">
+                      <select id="catalog-category" class="form-select" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Services">Services</option>
+                        <option value="Subcontract">Subcontract</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="catalog-items">Items</label>
@@ -2025,11 +2085,21 @@
                     </div>
                     <div class="form-group">
                       <label for="tender-project">Project</label>
-                      <input type="text" id="tender-project" required placeholder="Metro Plaza">
+                      <select id="tender-project" class="form-select" required>
+                        <option value="Metro Plaza">Metro Plaza</option>
+                        <option value="Apollo Towers">Apollo Towers</option>
+                        <option value="Riverfront Mall">Riverfront Mall</option>
+                        <option value="Skyline Residency">Skyline Residency</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="tender-category">Category</label>
-                      <input type="text" id="tender-category" required placeholder="Raw Materials">
+                      <select id="tender-category" class="form-select" required>
+                        <option value="Raw Materials">Raw Materials</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Services">Services</option>
+                        <option value="Subcontract">Subcontract</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="tender-budget">Budget (₹)</label>
@@ -2145,7 +2215,12 @@
                     </div>
                     <div class="form-group">
                       <label for="claim-vendor">Vendor</label>
-                      <input type="text" id="claim-vendor" required placeholder="ABC Supplies">
+                      <select id="claim-vendor" class="form-select" required>
+                        <option value="ABC Supplies">ABC Supplies</option>
+                        <option value="BuildMart">BuildMart</option>
+                        <option value="Prime Steel">Prime Steel</option>
+                        <option value="Global Freight Co">Global Freight Co</option>
+                      </select>
                     </div>
                     <div class="form-group">
                       <label for="claim-type">Type</label>
