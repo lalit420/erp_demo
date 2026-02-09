@@ -35,39 +35,28 @@
               <li>
                 <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'warehouses')">Warehouses</button>
               </li>
-              <!-- <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockMovement')">Stock Movement</button>
-              </li> -->
-              
-              
-              
-              
-              
-              
-              
-              
-              
               <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockValuation')">Stock Valuation</button>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'reorderLevels')">Reorder Levels</button>
               </li>
               <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'toolCrib')">Tool Crib</button>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'materialRequests')">Material Requests</button>
               </li>
               <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'consumables')">Consumables</button>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'issueReturns')">Issue & Returns</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'grn')">GRN / Goods Receipt</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'qualityInspection')">Quality Inspection</button>
+              </li>
+              <li>
+                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'transferOrders')">Transfer Orders</button>
               </li>
               <li>
                 <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'expiryShelfLife')">Expiry & Shelf-life</button>
               </li>
-              <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'kitting')">Kitting / Bundling</button>
-              </li>
-              <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'binLocations')">Bin & Location</button>
-              </li>
-              <li>
-                <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'cycleCounts')">Cycle Counts</button>
-              </li>
+              <!-- Hidden: Stock Movement, Stock Adjustment, Batch Tracking, Serial Tracking, Stock Valuation, Tool Crib, Consumables, Kitting, Bin & Location, Cycle Counts -->
             </ul>
           </li>
           <li class="nav-item">
@@ -239,37 +228,34 @@
                     <th>Category</th>
                     <th>Warehouse</th>
                     <th>Current Stock</th>
-                    <th>Unit</th>
-                    <th>Min Level</th>
-                    <th>Unit Price</th>
-                    <th>Stock Value</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>ITM-001</strong></td>
-                    <td>Cement (OPC 53 Grade)</td>
-                    <td><span class="badge badge-info">Raw Materials</span></td>
-                    <td>Main Warehouse</td>
-                    <td><strong>850</strong></td>
-                    <td>Bags</td>
-                    <td>500</td>
-                    <td>₹450</td>
-                    <td><strong>₹3,82,500</strong></td>
-                    <td><span class="badge badge-success">In Stock</span></td>
-                    <td>
-                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="viewItemRow(this)">👁️</button>
-                      <button class="btn btn-secondary btn-icon" style="padding: 6px;" onclick="editItemRow(this)">📝</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>ITM-002</strong></td>
-                    <td>Steel TMT Bars</td>
-                    <td><span class="badge badge-info">Raw Materials</span></td>
-                    <td>Main Warehouse</td>
-                    <td><strong>45</strong></td>
+                    <li>
+                      <button class="nav-sublink active" type="button" onclick="switchStoreTab(event, 'inventory')">Inventory</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'warehouses')">Warehouses</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'reorderLevels')">Reorder Levels</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'materialRequests')">Material Requests</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'issueReturns')">Issue & Returns</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'grn')">GRN / Goods Receipt</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'qualityInspection')">Quality Inspection</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'transferOrders')">Transfer Orders</button>
+                    </li>
+                    <li>
+                      <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'expiryShelfLife')">Expiry & Shelf-life</button>
+                    </li>
+                    <!-- Hidden: Stock Movement, Stock Adjustment, Batch Tracking, Serial Tracking, Stock Valuation, Tool Crib, Consumables, Kitting, Bin & Location, Cycle Counts -->
                     <td>Tons</td>
                     <!-- <li>
                       <button class="nav-sublink" type="button" onclick="switchStoreTab(event, 'stockAdjustment')">Stock Adjustment</button>
@@ -1440,6 +1426,17 @@
               </div>
             </div>
           </div>
+
+          <!-- Transfer Orders Tab -->
+          <div id="transferOrders" class="tab-content">
+            <div style="padding-top: 20px;">
+              <h3 style="margin-bottom: 16px;">Transfer Orders</h3>
+              <p style="font-size: 13px; color: var(--text-secondary);">Move stock between warehouses and sites with in-transit visibility.</p>
+
+              <div class="grid grid-2 mt-3" style="gap: 20px;">
+                <div class="card" style="margin: 0;">
+                  <div class="card-header">
+                    <
 
           <!-- Transfer Orders Tab -->
           <div id="transferOrders" class="tab-content">
